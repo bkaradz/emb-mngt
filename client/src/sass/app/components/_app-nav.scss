@@ -1,0 +1,58 @@
+.navbar-menu {
+  grid-area: nav;
+  display: flex;
+  flex-direction: column;
+  background-color: getColor('dark');
+  .nav-brand {
+    padding: 1rem 0rem 1rem 1rem;
+    img {
+      height: 90px;
+    }
+  }
+
+  li {
+    width: 100%;
+    margin: 0.7rem 0 0.7rem 0;
+    padding-left: 0.4rem;
+  }
+
+  a {
+    padding-left: 1rem;
+    display: block;
+    color: getColor('white');
+    font-size: 1.1rem;
+
+    span:first-child {
+      font-size: 1.5rem;
+      padding-right: 1rem;
+    }
+
+    &.active {
+      background: getColor('gray');
+      color: getColor('blue');
+      padding-top: 0.6rem;
+      padding-bottom: 0.6rem;
+      border-radius: 10px 0px 0px 10px;
+    }
+    &:hover {
+      text-decoration: none;
+      color: getColor('primary');
+    }
+  }
+
+  .child {
+    li {
+      width: 100%;
+      // margin-bottom: 1rem;
+      padding-left: 3rem;
+
+      a {
+        display: block;
+        // color: getColor('white');
+        span {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

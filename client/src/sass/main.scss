@@ -1,0 +1,43 @@
+/* Admin dashboard for embroidery
+* Author: Brian Karadz
+*/
+
+// Bootstrap
+@import './vars';
+@import './custom-bootstrap';
+@import 'bootstrap/scss/bootstrap';
+
+// App Layout
+@import './app/components/app-nav';
+@import './app/components/app-header';
+// @import './app/components/app-sidebar';
+// @import './app/components/app-sidebar-mini';
+// @import './app/components/app-title';
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+  text-decoration: none;
+  // font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.App {
+  display: grid;
+  width: 100%;
+  height: 100vh;
+  background: #1d2124;
+  grid-template-areas:
+    'nav head'
+    'nav main';
+  grid-template-rows: 70px 1fr;
+  grid-template-columns: 220px 1fr;
+}
+
+.main {
+  grid-area: main;
+  background-color: getColor('gray');
+}
