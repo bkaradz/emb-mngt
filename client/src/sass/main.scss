@@ -23,6 +23,9 @@
   text-decoration: none;
   // font-size: 16px;
   font-family: 'Poppins', sans-serif;
+  a {
+    text-decoration: none;
+  }
 }
 
 .App {
@@ -40,4 +43,12 @@
 .main {
   grid-area: main;
   background-color: getColor('gray');
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  // $breadcrumb-divider: quote('>');
+  float: left;
+  padding-right: 0.5rem;
+  color: #6c757d;
+  content: var(--bs-breadcrumb-divider, '>') /* rtl: var(--bs-breadcrumb-divider, "/") */;
 }

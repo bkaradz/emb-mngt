@@ -22,6 +22,9 @@ $theme-colors: (
   'danger': #dc3545,
   'light': #f8f9fa,
   'dark': #343a40,
+  'dark2': #292d32,
+  'dark3': #343a40,
+  'dark4': #ededef,
 );
 
 @function getColor($color) {
