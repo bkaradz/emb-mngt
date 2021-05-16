@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../../img/logo.png';
 import { NavLink } from 'react-router-dom';
 import { links } from './nav-data'
-import { FaMap, } from "react-icons/fa";
+// import { FaMap, } from "react-icons/fa";
 
 const Nav = () => {
   // const hide = true

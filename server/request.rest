@@ -1,0 +1,20 @@
+GET http://localhost:4000/contacts
+
+###
+GET http://localhost:4000/contacts/view/60a1814c5cb92db8e0aa51cf
+
+###
+
+POST http://localhost:4000/contacts/create
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "isCompany": "false",
+  "email": "johndoe@gmail.com",
+  "phone": ["0759 251 281", "0784 887 038"],
+  "address": "222 New Magwegwe",
+  "balance": "100"
+}
+
+

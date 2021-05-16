@@ -5,7 +5,11 @@ import Header from './components/Header'
 import Nav from './components/Nav/Nav'
 import Sales from './components/Sales'
 import Dashboard from './components/Dashboard'
-import Contacts from './components/Contacts'
+import Contacts from './components/Main/Contacts/Contacts'
+import ContactsCreate from './components/Main/Contacts/ContactCreate'
+import ContactEdit from './components/Main/Contacts/ContactEdit'
+import ContactView from './components/Main/Contacts/ContactView'
+
 import Error from './components/Error'
 
 const App = () => {
@@ -22,6 +26,15 @@ const App = () => {
           </Route>
           <Route exact path='/contacts'>
             <Contacts />
+          </Route>
+          <Route exact path='/contacts/view'>
+            <ContactView />
+          </Route>
+          <Route exact path='/contacts/create'>
+            <ContactsCreate />
+          </Route>
+          <Route exact path='/contacts/edit'>
+            <ContactEdit />
           </Route>
           <Route exact path='/Sales'>
             <Sales />

@@ -1,5 +1,5 @@
 import React from "react";
-import { FaChartLine, FaRegAddressCard, FaCoins, FaMicrochip } from "react-icons/fa";
+import { FaChartLine, FaRegAddressCard, FaCoins } from "react-icons/fa";
 
 
 export const links = [

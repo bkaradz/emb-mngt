@@ -12,6 +12,10 @@ app.use(cors())
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
+app.use('/', require('./routes/api/contacts'))
+
+app.use('/', require('./routes/api/sales'))
+
 const port = process.env.PORT || 4000
 
 app.listen(port, () => {
