@@ -8,9 +8,9 @@ var contactsSchema = new mongoose.Schema({
     index: true,
   },
   isCompany: {
-    type: Boolean,
+    type: String,
     required: true,
-    default: false,
+    default: "Individual",
   },
   email: {
     type: String,

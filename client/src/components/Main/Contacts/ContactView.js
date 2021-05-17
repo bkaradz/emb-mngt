@@ -6,9 +6,9 @@ function ContactView() {
     <div className='main'>
       <MainHeader
         showSearch='false'
-        nameCreateBtn='Save'
+        nameCreateBtn='Go Back'
         nameImportBtn='Discard'
-        showImportBtn='true'
+        showImportBtn='false'
         showListOrCardItem='false'
         showPagination='false'
       />
@@ -53,7 +53,7 @@ function ContactView() {
               <textarea class='form-control' id='address' rows='3'></textarea>
             </div>
             <button type='submit' className='btn btn-primary'>
-              Save
+              Go Back
             </button>
           </form>
         </div>

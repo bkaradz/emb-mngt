@@ -1,7 +1,39 @@
 import MainHeader from '../Header/MainHeader'
 import logo from '../../../img/zahra-amiri-1q6LXasG1hY-unsplash1.jpg'
+import React, { useState } from 'react'
+import axios from 'axios'
 
 function ContactCreate(props) {
+  const [isCompany, setIsCompany] = useState('individual')
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [address, setAddress] = useState('')
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const contact = {
+      name,
+      isCompany,
+      phone: [phone],
+      email,
+      address,
+    }
+    try {
+      await axios.post('http://localhost:4000/contacts/create', contact)
+      console.log('Contact Created')
+      // Reset form
+      setIsCompany('individual')
+      setName('')
+      setPhone('')
+      setEmail('')
+      setAddress('')
+    } catch (err) {
+      console.error(err.message)
+      console.log('Server Error')
+    }
+  }
+
   return (
     <div className='main'>
       <MainHeader
@@ -14,16 +46,32 @@ function ContactCreate(props) {
       />
       <div className='main--content__create'>
         <div className='container'>
-          <form className='pt-5'>
+          <form className='pt-5' onSubmit={(e) => handleSubmit(e)}>
             <img src={logo} width='100px' className='img-thumbnail mb-3' alt='...'></img>
             <div className='form-check form-check-inline ms-3'>
-              <input className='form-check-input' type='radio' name='companyOrIndividualRadioOptions' id='individual' value='option1' checked />
+              <input
+                className='form-check-input'
+                type='radio'
+                name='companyOrIndividualRadioOptions'
+                id='individual'
+                value='individual'
+                checked={isCompany === 'individual'}
+                onClick={(e) => setIsCompany('individual')}
+              />
               <label className='form-check-label' htmlFor='individual'>
                 Individual
               </label>
             </div>
             <div className='form-check form-check-inline'>
-              <input className='form-check-input' type='radio' name='companyOrIndividualRadioOptions' id='company' value='option2' />
+              <input
+                className='form-check-input'
+                type='radio'
+                name='companyOrIndividualRadioOptions'
+                id='company'
+                value='company'
+                checked={isCompany === 'company'}
+                onChange={(e) => setIsCompany('company')}
+              />
               <label className='form-check-label' htmlFor='company'>
                 Company
               </label>
@@ -32,25 +80,46 @@ function ContactCreate(props) {
               <label htmlFor='name' className='form-label'>
                 Name
               </label>
-              <input type='text' className='form-control form-control-sm' id='name' aria-describedby='emailHelp' />
+              <input
+                type='text'
+                className='form-control form-control-sm'
+                id='name'
+                aria-describedby='emailHelp'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
             <div className='mb-3'>
               <label htmlFor='phone' className='form-label'>
                 Phone
               </label>
-              <input type='text' className='form-control form-control-sm' id='phone' aria-describedby='emailHelp' />
+              <input
+                type='text'
+                className='form-control form-control-sm'
+                id='phone'
+                aria-describedby='emailHelp'
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
             </div>
             <div className='mb-3'>
               <label htmlFor='email' className='form-label'>
                 Email address
               </label>
-              <input type='email' className='form-control form-control-sm' id='email' aria-describedby='emailHelp' />
+              <input
+                type='email'
+                className='form-control form-control-sm'
+                id='email'
+                aria-describedby='emailHelp'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div class='mb-3'>
               <label for='address' class='form-label'>
                 Address
               </label>
-              <textarea class='form-control' id='address' rows='3'></textarea>
+              <textarea class='form-control' id='address' rows='3' value={address} onChange={(e) => setAddress(e.target.value)}></textarea>
             </div>
             <button type='submit' className='btn btn-primary'>
               Save

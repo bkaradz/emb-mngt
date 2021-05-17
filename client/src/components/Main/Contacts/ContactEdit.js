@@ -6,7 +6,7 @@ function ContactEdit() {
     <div className='main'>
       <MainHeader
         showSearch='false'
-        nameCreateBtn='Save'
+        nameCreateBtn='Update'
         nameImportBtn='Discard'
         showImportBtn='true'
         showListOrCardItem='false'
@@ -53,7 +53,7 @@ function ContactEdit() {
               <textarea class='form-control' id='address' rows='3'></textarea>
             </div>
             <button type='submit' className='btn btn-primary'>
-              Save
+              Update
             </button>
           </form>
         </div>
