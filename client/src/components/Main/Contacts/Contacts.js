@@ -1,13 +1,31 @@
 import MainHeader from '../Header/MainHeader'
 import ContactsList from './ContactsList'
 import ContactsCards from './ContactsCards'
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useState, useEffect } from 'react'
 
 const Contacts = () => {
+  const [contactsData, setContactsData] = useState('')
   const [showList, setShowList] = useState(true)
+
+  const getData = async () => {
+    try {
+      const resp = await axios.get('http://localhost:4000/contacts')
+      setContactsData(resp.data)
+      // console.log(resp.data)
+    } catch (err) {
+      console.error(`Server Error: ${err.message}`)
+    }
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
   const showListFn = (value) => {
     setShowList(JSON.parse(value))
   }
+
   return (
     <div className='main'>
       <MainHeader
@@ -19,7 +37,7 @@ const Contacts = () => {
         showPagination='true'
         showListFn={showListFn}
       />
-      {showList ? <ContactsList /> : <ContactsCards />}
+      {showList ? <ContactsList contactsData={contactsData} /> : <ContactsCards contactsData={contactsData} />}
     </div>
   )
 }

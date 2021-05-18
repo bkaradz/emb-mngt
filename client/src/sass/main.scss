@@ -53,3 +53,7 @@
   color: #6c757d;
   content: var(--bs-breadcrumb-divider, '>') /* rtl: var(--bs-breadcrumb-divider, "/") */;
 }
+
+.text-left {
+  text-align: left !important;
+}

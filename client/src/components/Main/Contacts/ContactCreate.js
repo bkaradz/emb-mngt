@@ -55,7 +55,7 @@ function ContactCreate(props) {
                 name='companyOrIndividualRadioOptions'
                 id='individual'
                 value='individual'
-                checked={isCompany === 'individual'}
+                defaultChecked={isCompany === 'individual'}
                 onClick={(e) => setIsCompany('individual')}
               />
               <label className='form-check-label' htmlFor='individual'>
@@ -69,7 +69,7 @@ function ContactCreate(props) {
                 name='companyOrIndividualRadioOptions'
                 id='company'
                 value='company'
-                checked={isCompany === 'company'}
+                defaultChecked={isCompany === 'company'}
                 onChange={(e) => setIsCompany('company')}
               />
               <label className='form-check-label' htmlFor='company'>
@@ -115,11 +115,11 @@ function ContactCreate(props) {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div class='mb-3'>
-              <label for='address' class='form-label'>
+            <div className='mb-3'>
+              <label htmlFor='address' className='form-label'>
                 Address
               </label>
-              <textarea class='form-control' id='address' rows='3' value={address} onChange={(e) => setAddress(e.target.value)}></textarea>
+              <textarea className='form-control' id='address' rows='3' value={address} onChange={(e) => setAddress(e.target.value)}></textarea>
             </div>
             <button type='submit' className='btn btn-primary'>
               Save
