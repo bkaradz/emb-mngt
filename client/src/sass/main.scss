@@ -29,9 +29,9 @@
 }
 
 .App {
-  overflow: hidden;
+  // overflow: hidden;
   display: grid;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background: #1d2124;
   grid-template-areas:
@@ -52,8 +52,4 @@
   padding-right: 0.5rem;
   color: #6c757d;
   content: var(--bs-breadcrumb-divider, '>') /* rtl: var(--bs-breadcrumb-divider, "/") */;
-}
-
-.text-left {
-  text-align: left !important;
 }

@@ -24,7 +24,7 @@ function ContactsList({ contactsData }) {
               return (
                 <tr key={_id}>
                   <th scope='row'>{index + 1}</th>
-                  <td className=''>
+                  <td>
                     <NavLink exact to={`/contacts/view/${_id}`}>
                       {name}
                     </NavLink>

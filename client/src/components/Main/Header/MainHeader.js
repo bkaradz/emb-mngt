@@ -30,8 +30,8 @@ const MainHeader = (props) => {
   }, [props.nameImportBtn])
 
   return (
-    <div className='main--header'>
-      <div className='row'>
+    <div className='main--header .container-fluid'>
+      <div className='row gx-0'>
         <div className='col-6 '>
           <ol className='breadcrumb ps-3 pt-3 '>
             <li className='breadcrumb-item'>
@@ -79,7 +79,7 @@ const MainHeader = (props) => {
         </div>
       </div>
 
-      <div className='row'>
+      <div className='row gx-0'>
         <div className='col-3'>
           <button className='btn btn-primary btn-sm ms-3 mt-1 mb-3'>{nameCreateBtn}</button>
           <button className={`btn btn-secondary btn-sm ms-3 mt-1 mb-3 ${!showImportBtn ? 'd-none' : ''}`}>{nameImportBtn}</button>
