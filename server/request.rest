@@ -1,7 +1,7 @@
 GET http://localhost:4000/contacts
 
 ###
-GET http://localhost:4000/contacts/view/60a1814c5cb92db8e0aa51cf
+GET http://localhost:4000/contacts/view/60a9250e4b2aac11cc99ced2
 
 ###
 
@@ -17,4 +17,31 @@ Content-Type: application/json
   "balance": "100"
 }
 
+###
+post http://localhost:4000/contacts/edit/60a91ffa4b2aac11cc99ced1
+Content-Type: application/json
 
+{
+  "isCompany": "company",
+  "phone": ["0766562"],
+  "name": "Rockweed pvt ltd ffff",
+  "email": "test@gmail.com",
+  "address": "1277 Main Drive",
+  "balance": "200"
+}
+
+###
+post http://localhost:4000/users/create
+Content-Type: application/json
+
+{
+  "name": "Brian Karadzangare",
+  "role": "admin",
+  "email": "karadz@gmail.com",
+  "mobile": "0733 251 281, 0784 887 038",
+  "password": "karadz"
+}
+
+###
+get http://localhost:4000/auth
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBhYTYwNGE3MTE5NWIyYWViZGU5YTU5In0sImlhdCI6MTYyMTc3ODUwNiwiZXhwIjoxNjIyMTM4NTA2fQ.kqQUw-3h8-5u_cCB9XMVfb90YTjPJplrpc0Wyl-uZ0A

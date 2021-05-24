@@ -29,12 +29,11 @@ const App = () => {
             <Contacts />
           </Route>
           <Route path='/contacts/view/:id' children={<ContactView />}>
-
           </Route>
           <Route exact path='/contacts/create'>
             <ContactsCreate />
           </Route>
-          <Route exact path='/contacts/edit/:id'>
+          <Route path='/contacts/edit/:id' children={<ContactEdit />}>
             <ContactEdit />
           </Route>
           <Route exact path='/Sales'>

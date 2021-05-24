@@ -50,6 +50,29 @@
   // $breadcrumb-divider: quote('>');
   float: left;
   padding-right: 0.5rem;
+
   color: #6c757d;
+
   content: var(--bs-breadcrumb-divider, '>') /* rtl: var(--bs-breadcrumb-divider, "/") */;
+}
+
+ol {
+  .breadcrumb-item {
+    a {
+      color: getColor('primary');
+    }
+    &.active {
+      a {
+        color: #6c757d;
+      }
+    }
+  }
+}
+
+img,
+svg {
+  color: getColor('primary');
+}
+.user__icons {
+  font-size: 80px;
 }

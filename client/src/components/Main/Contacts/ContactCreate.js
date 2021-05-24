@@ -1,6 +1,9 @@
 import MainHeader from '../Header/MainHeader'
-import logo from '../../../img/zahra-amiri-1q6LXasG1hY-unsplash1.jpg'
-import React, { useState } from 'react'
+import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
+import { BiBuildings } from 'react-icons/bi'
+import building from '../../../img/bootstrap/building.svg'
+import person from '../../../img/bootstrap/person.svg'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 function ContactCreate(props) {
@@ -9,6 +12,21 @@ function ContactCreate(props) {
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [address, setAddress] = useState('')
+  const [alert, setAlert] = useState({ message: '', type: '', show: false })
+
+  const breadcrumb = {
+    link: [
+      { name: 'Home', url: '/' },
+      { name: 'Contacts', url: '/contacts' },
+      { name: 'Create', url: '#' },
+    ],
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAlert({ message: '', type: '', show: false })
+    }, 3000)
+  }, [alert.show])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -28,9 +46,11 @@ function ContactCreate(props) {
       setPhone('')
       setEmail('')
       setAddress('')
+      setAlert({ message: 'Contact Created', type: 'alert-success', show: true })
     } catch (err) {
       console.error(err.message)
       console.log('Server Error')
+      setAlert({ message: 'An Error Occurred', type: 'alert-danger', show: true })
     }
   }
 
@@ -43,11 +63,18 @@ function ContactCreate(props) {
         showImportBtn='true'
         showListOrCardItem='false'
         showPagination='false'
+        showBreadcrumbs={breadcrumb}
       />
       <div className='main--content__create'>
         <div className='container'>
           <form className='pt-5' onSubmit={(e) => handleSubmit(e)}>
-            <img src={logo} width='100px' className='img-thumbnail mb-3' alt='...'></img>
+            {alert.show && (
+              <div class={`alert ${alert.type}`} role='alert'>
+                {alert.message}
+              </div>
+            )}
+            {/* <img src={isCompany === 'company' ? <faBuilding /> : <faUser />} width='100px' className='img-thumbnail mb-3' alt='...'></img> */}
+            <span className='user__icons'>{isCompany === 'company' ? <FaBuilding /> : <FaUser />}</span>
             <div className='form-check form-check-inline ms-3'>
               <input
                 className='form-check-input'

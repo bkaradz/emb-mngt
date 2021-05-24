@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
 
 const MainHeader = (props) => {
-  // console.log(props)
-  const showListFn = props.showListFn
+  const showBreadcrumbs = props.showBreadcrumbs // Breadcrumbs links
+  // console.log(showBreadcrumbs)
+  const showListFn = props.showListFn // Show List or Cards Function
   const [showSearch, setShowSearch] = useState(false)
   const [nameCreateBtn, setNameBtnCreate] = useState('Create')
   const [nameImportBtn, setNameBtnImport] = useState('Import')
@@ -30,22 +32,26 @@ const MainHeader = (props) => {
   }, [props.nameImportBtn])
 
   return (
-    <div className='main--header .container-fluid'>
+    <div className='main--header container-fluid'>
       <div className='row gx-0'>
         <div className='col-6 '>
           <ol className='breadcrumb ps-3 pt-3 '>
-            <li className='breadcrumb-item'>
-              <a href='#' className='text-primary'>
-                Home
-              </a>
-            </li>
-            <li className='breadcrumb-item active' aria-current='page'>
-              Library
-            </li>
+            {showBreadcrumbs !== undefined
+              ? showBreadcrumbs.link.map((breadcrumb, index) => {
+                  const { name, url } = breadcrumb
+                  return (
+                    <li key={index} className={`breadcrumb-item ${url === '#' ? 'active' : ''}`}>
+                      <NavLink exact to={url}>
+                        {name}
+                      </NavLink>
+                    </li>
+                  )
+                })
+              : ''}
           </ol>
         </div>
         <div className='col-6'>
-          <div className={`input-group pe-3 py-3 input-group-sm ${!showSearch ? 'd-none' : ''}`}>
+          <div className={`dropdown input-group pe-3 py-3 input-group-sm ${!showSearch ? 'd-none' : ''}`}>
             <button className='btn btn-outline-secondary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
               Dropdown
             </button>

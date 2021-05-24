@@ -5,8 +5,15 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
 const Contacts = () => {
-  const [contactsData, setContactsData] = useState('')
+  const [contactsData, setContactsData] = useState(null)
   const [showList, setShowList] = useState(true)
+
+  const breadcrumb = {
+    link: [
+      { name: 'Home', url: '/' },
+      { name: 'Contacts', url: '#' },
+    ],
+  }
 
   const getData = async () => {
     try {
@@ -35,6 +42,7 @@ const Contacts = () => {
         showImportBtn='false'
         showListOrCardItem='true'
         showPagination='true'
+        showBreadcrumbs={breadcrumb}
         showListFn={showListFn}
       />
       {showList ? <ContactsList contactsData={contactsData} /> : <ContactsCards contactsData={contactsData} />}

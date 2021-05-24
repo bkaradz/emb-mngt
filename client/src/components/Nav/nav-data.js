@@ -1,6 +1,5 @@
-import React from "react";
-import { FaChartLine, FaRegAddressCard, FaCoins } from "react-icons/fa";
-
+import React from 'react'
+import { FaChartLine, FaRegAddressCard, FaCoins } from 'react-icons/fa'
 
 export const links = [
   {
@@ -8,14 +7,14 @@ export const links = [
     icon: <FaChartLine />,
     url: '/',
     text: 'Dashboard',
-    children: []
+    children: [],
   },
   {
     id: 2,
     icon: <FaRegAddressCard />,
     url: '/contacts',
     text: 'Contacts',
-    children: []
+    children: [],
   },
   {
     id: 3,
@@ -28,22 +27,22 @@ export const links = [
         icon: <FaChartLine />,
         url: '/sales/quotation',
         text: 'Quotation',
-        children: []
+        children: [],
       },
       {
         id: 31,
         icon: <FaChartLine />,
         url: '/sales/sales',
         text: 'Sales',
-        children: []
+        children: [],
       },
       {
         id: 32,
         icon: <FaChartLine />,
         url: '/sales/invoices',
         text: 'Invoices',
-        children: []
-      }
-    ]
-  }
+        children: [],
+      },
+    ],
+  },
 ]

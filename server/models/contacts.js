@@ -1,4 +1,4 @@
-const mongoose = require('mongoose'); // Erase if already required
+const mongoose = require('mongoose') // Erase if already required
 
 // Declare the Schema of the Mongo model
 var contactsSchema = new mongoose.Schema({
@@ -10,7 +10,7 @@ var contactsSchema = new mongoose.Schema({
   isCompany: {
     type: String,
     required: true,
-    default: "Individual",
+    default: 'Individual',
   },
   email: {
     type: String,
@@ -19,7 +19,7 @@ var contactsSchema = new mongoose.Schema({
     {
       type: String,
       required: true,
-    }
+    },
   ],
   address: {
     type: String,
@@ -39,7 +39,7 @@ var contactsSchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
-});
+})
 
 //Export the model
-module.exports = mongoose.model('Contacts', contactsSchema);
+module.exports = mongoose.model('Contacts', contactsSchema)

@@ -16,6 +16,10 @@ app.use('/', require('./routes/api/contacts'))
 
 app.use('/', require('./routes/api/sales'))
 
+app.use('/', require('./routes/api/users'))
+
+app.use('/', require('./routes/api/auth'))
+
 const port = process.env.PORT || 4000
 
 app.listen(port, () => {
