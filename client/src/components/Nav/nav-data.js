@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaChartLine, FaRegAddressCard, FaCoins } from 'react-icons/fa'
+import { BiChip } from 'react-icons/bi'
 
 export const links = [
   {
@@ -44,5 +45,12 @@ export const links = [
         children: [],
       },
     ],
+  },
+  {
+    id: 4,
+    icon: <BiChip />,
+    url: '/products',
+    text: 'Products',
+    children: [],
   },
 ]

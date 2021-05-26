@@ -1,8 +1,8 @@
 import MainHeader from '../Header/MainHeader'
 import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
-import { BiBuildings } from 'react-icons/bi'
-import building from '../../../img/bootstrap/building.svg'
-import person from '../../../img/bootstrap/person.svg'
+import { BiBuildings, BiUser, BiPerson } from 'react-icons/bi'
+// import building from '../../../img/bootstrap/building.svg'
+// import person from '../../../img/bootstrap/person.svg'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
@@ -74,7 +74,7 @@ function ContactCreate(props) {
               </div>
             )}
             {/* <img src={isCompany === 'company' ? <faBuilding /> : <faUser />} width='100px' className='img-thumbnail mb-3' alt='...'></img> */}
-            <span className='user__icons'>{isCompany === 'company' ? <FaBuilding /> : <FaUser />}</span>
+            <span className='user__icons'>{isCompany === 'company' ? <BiBuildings /> : <BiUser />}</span>
             <div className='form-check form-check-inline ms-3'>
               <input
                 className='form-check-input'

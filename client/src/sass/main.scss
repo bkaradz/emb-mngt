@@ -76,3 +76,11 @@ svg {
 .user__icons {
   font-size: 80px;
 }
+
+.nav-toggle {
+  $nav-size: 220px;
+}
+.nav-toggle:checked {
+  $nav-size: 70px;
+  background: red;
+}

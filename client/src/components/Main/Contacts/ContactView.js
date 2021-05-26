@@ -1,6 +1,8 @@
 import MainHeader from '../Header/MainHeader'
-import building from '../../../img/bootstrap/building.svg'
-import person from '../../../img/bootstrap/person.svg'
+import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
+import { BiBuildings, BiUser, BiPerson } from 'react-icons/bi'
+// import building from '../../../img/bootstrap/building.svg'
+// import person from '../../../img/bootstrap/person.svg'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
@@ -23,21 +25,20 @@ function ContactView(props) {
     ],
   }
 
-  const getData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4000/contacts/view/${id}`)
-
-      return setContactData(response.data)
-    } catch (err) {
-      console.error(err.message)
-      console.log('Server Error')
-    }
-  }
-
   useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4000/contacts/view/${id}`)
+
+        return setContactData(response.data)
+      } catch (err) {
+        console.error(err.message)
+        console.log('Server Error')
+      }
+    }
     // Update form
     getData()
-  }, [])
+  }, [id])
 
   useEffect(() => {
     // Update form
@@ -49,21 +50,6 @@ function ContactView(props) {
       setAddress(contactData.address)
     }
   }, [contactData])
-
-  if (contactData === null) {
-    ;<div className='main'>
-      <MainHeader
-        showSearch='false'
-        nameCreateBtn='Edit'
-        nameImportBtn='Discard'
-        showImportBtn='false'
-        showListOrCardItem='false'
-        showPagination='false'
-        showBreadcrumbs={breadcrumb}
-      />
-      <h1>Loading...</h1>
-    </div>
-  }
 
   if (contactData === null) {
     return (
@@ -96,7 +82,8 @@ function ContactView(props) {
       <div className='main--content__create'>
         <div className='container'>
           <form className='pt-5'>
-            <img src={isCompany === 'company' ? building : person} width='100px' className='img-thumbnail mb-3' alt='...'></img>
+            {/* <img src={isCompany === 'company' ? <BiBuildings /> : <BiUser />} width='100px' className='img-thumbnail mb-3' alt='...'></img> */}
+            <span className='user__icons'>{isCompany === 'company' ? <BiBuildings /> : <BiUser />}</span>
             <div className='form-check form-check-inline ms-3'>
               <input
                 className='form-check-input'

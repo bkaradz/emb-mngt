@@ -15,17 +15,16 @@ const Contacts = () => {
     ],
   }
 
-  const getData = async () => {
-    try {
-      const resp = await axios.get('http://localhost:4000/contacts')
-      setContactsData(resp.data)
-      // console.log(resp.data)
-    } catch (err) {
-      console.error(`Server Error: ${err.message}`)
-    }
-  }
-
   useEffect(() => {
+    const getData = async () => {
+      try {
+        const resp = await axios.get('http://localhost:4000/contacts')
+        setContactsData(resp.data)
+        // console.log(resp.data)
+      } catch (err) {
+        console.error(`Server Error: ${err.message}`)
+      }
+    }
     getData()
   }, [])
 

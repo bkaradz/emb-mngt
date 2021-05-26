@@ -2,6 +2,7 @@ import './sass/main.scss'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Header from './components/Header'
+import Login from './components/Login/Login'
 import Nav from './components/Nav/Nav'
 import Sales from './components/Sales'
 import Dashboard from './components/Dashboard'
@@ -12,13 +13,10 @@ import ContactView from './components/Main/Contacts/ContactView'
 
 import Error from './components/Error'
 
-
 const App = () => {
   return (
-    //
     <Router>
-      {/* style={{ gridTemplateColumns: '70px 1fr' }} */}
-      <div className='App'>
+      <div className='App' style={{ gridTemplateColumns: '220px 1fr' }}>
         <Header />
         <Nav />
         <Switch>
@@ -28,14 +26,11 @@ const App = () => {
           <Route exact path='/contacts'>
             <Contacts />
           </Route>
-          <Route path='/contacts/view/:id' children={<ContactView />}>
-          </Route>
+          <Route path='/contacts/view/:id' children={<ContactView />} />
           <Route exact path='/contacts/create'>
             <ContactsCreate />
           </Route>
-          <Route path='/contacts/edit/:id' children={<ContactEdit />}>
-            <ContactEdit />
-          </Route>
+          <Route path='/contacts/edit/:id' children={<ContactEdit />} />
           <Route exact path='/Sales'>
             <Sales />
           </Route>
