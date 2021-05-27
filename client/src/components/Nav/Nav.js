@@ -4,15 +4,15 @@ import { NavLink } from 'react-router-dom'
 import { links } from './nav-data'
 // import { FaMap, } from "react-icons/fa";
 
-const Nav = () => {
+const Nav = ({ bigNav }) => {
   // const hide = true
   return (
     <div className='navbar-menu'>
-      <div className='nav-brand_big'>
+      <div className={bigNav ? `nav-brand_big` : `nav-brand_small`}>
         {/* style={{ height: '20px' }}  */}
         <img src={logo} alt='The Embroidery Shop' />
       </div>
-      <div className='nav-list_menu'>
+      <div className={bigNav ? `nav-list_menu_big` : `nav-list_menu_small`}>
         <nav>
           <ul>
             {links.map((link) => {
@@ -22,7 +22,7 @@ const Nav = () => {
                   <li key={id}>
                     <NavLink exact to={url}>
                       <span>{icon}</span>
-                      <span className='nav--text'>{text}</span>
+                      <span className={bigNav ? `nav--text` : 'nav--text_none'}>{text}</span>
                     </NavLink>
                   </li>
                 )
@@ -32,7 +32,7 @@ const Nav = () => {
                   {/* {hide || text} */}
                   <NavLink exact to={url}>
                     <span>{icon}</span>
-                    <span className='nav--text'>{text}</span>
+                    <span className={bigNav ? `nav--text` : 'nav--text_none'}>{text}</span>
                   </NavLink>
                   <ul className='child'>
                     {children.map((child) => {
@@ -40,7 +40,8 @@ const Nav = () => {
                       return (
                         <li key={id}>
                           <NavLink exact to={url}>
-                            <span className='nav--text'>{text}</span>
+                            <span>{icon}</span>
+                            <span className={bigNav ? `nav--text` : 'nav--text_none'}>{text}</span>
                           </NavLink>
                         </li>
                       )

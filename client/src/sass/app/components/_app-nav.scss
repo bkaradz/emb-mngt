@@ -21,11 +21,45 @@
     position: fixed;
     margin-top: 170px;
     width: 220px;
+    .child {
+      li {
+        width: 100%;
+        // margin-bottom: 1rem;
+        padding-left: 3rem;
+
+        a {
+          display: block;
+          // color: getColor('white');
+          span {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
   }
   .nav-list_menu_small {
     position: fixed;
     margin-top: 170px;
     width: 70px;
+    .child {
+      li {
+        width: 100%;
+        // margin-bottom: 1rem;
+        // padding-left: 1rem;
+
+        a {
+          display: block;
+          // color: getColor('white');
+          span {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  .nav--text_none {
+    display: none;
   }
 
   ul {
@@ -60,22 +94,6 @@
     &:hover {
       text-decoration: none;
       color: getColor('blue');
-    }
-  }
-
-  .child {
-    li {
-      width: 100%;
-      // margin-bottom: 1rem;
-      padding-left: 3rem;
-
-      a {
-        display: block;
-        // color: getColor('white');
-        span {
-          font-size: 1rem;
-        }
-      }
     }
   }
 }

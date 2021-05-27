@@ -1,6 +1,6 @@
 import React from 'react'
-import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
-import { BiBuildings, BiUser, BiXCircle } from 'react-icons/bi'
+// import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
+import { BiBuildings, BiUser } from 'react-icons/bi'
 
 function ContactsCards({ contactsData }) {
   if (contactsData === null) {

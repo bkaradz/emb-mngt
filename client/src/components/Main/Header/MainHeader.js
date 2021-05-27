@@ -57,17 +57,17 @@ const MainHeader = (props) => {
             </button>
             <ul className='dropdown-menu'>
               <li>
-                <a className='dropdown-item' href='#'>
+                <a className='dropdown-item' href='!#'>
                   Action
                 </a>
               </li>
               <li>
-                <a className='dropdown-item' href='#'>
+                <a className='dropdown-item' href='!#'>
                   Another action
                 </a>
               </li>
               <li>
-                <a className='dropdown-item' href='#'>
+                <a className='dropdown-item' href='!#'>
                   Something else here
                 </a>
               </li>
@@ -75,7 +75,7 @@ const MainHeader = (props) => {
                 <hr className='dropdown-divider' />
               </li>
               <li>
-                <a className='dropdown-item' href='#'>
+                <a className='dropdown-item' href='!#'>
                   Separated link
                 </a>
               </li>
@@ -110,27 +110,27 @@ const MainHeader = (props) => {
         <div className={`col-2 ${!showPagination ? 'd-none' : ''}`}>
           <ul className='pagination float-end pe-3'>
             <li className='page-item'>
-              <a className='page-link' href='#' aria-label='Previous'>
+              <a className='page-link' href='!#' aria-label='Previous'>
                 <span aria-hidden='true'>&laquo;</span>
               </a>
             </li>
             <li className='page-item'>
-              <a className='page-link' href='#'>
+              <a className='page-link' href='!#'>
                 1
               </a>
             </li>
             <li className='page-item'>
-              <a className='page-link' href='#'>
+              <a className='page-link' href='!#'>
                 2
               </a>
             </li>
             <li className='page-item'>
-              <a className='page-link' href='#'>
+              <a className='page-link' href='!#'>
                 3
               </a>
             </li>
             <li className='page-item'>
-              <a className='page-link' href='#' aria-label='Next'>
+              <a className='page-link' href='!#' aria-label='Next'>
                 <span aria-hidden='true'>&raquo;</span>
               </a>
             </li>

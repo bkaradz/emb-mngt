@@ -1,6 +1,6 @@
 import MainHeader from '../Header/MainHeader'
-import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
-import { BiBuildings, BiUser, BiPerson } from 'react-icons/bi'
+// import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
+import { BiBuildings, BiUser } from 'react-icons/bi'
 // import building from '../../../img/bootstrap/building.svg'
 // import person from '../../../img/bootstrap/person.svg'
 import React, { useState, useEffect } from 'react'

@@ -1,6 +1,6 @@
 import MainHeader from '../Header/MainHeader'
-import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
-import { BiBuildings, BiUser, BiPerson } from 'react-icons/bi'
+// import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
+import { BiBuildings, BiUser } from 'react-icons/bi'
 // import building from '../../../img/bootstrap/building.svg'
 // import person from '../../../img/bootstrap/person.svg'
 import React, { useState, useEffect } from 'react'
@@ -17,22 +17,21 @@ function ContactView(props) {
   const [email, setEmail] = useState('')
   const [address, setAddress] = useState('')
 
-  const getData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4000/contacts/view/${id}`)
-
-      return setContactData(response.data)
-    } catch (err) {
-      console.error(err.message)
-      console.log('Server Error')
-    }
-  }
-
   useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4000/contacts/view/${id}`)
+
+        return setContactData(response.data)
+      } catch (err) {
+        console.error(err.message)
+        console.log('Server Error')
+      }
+    }
     // Update form
 
     getData()
-  }, [])
+  }, [id])
 
   useEffect(() => {
     // Update form
