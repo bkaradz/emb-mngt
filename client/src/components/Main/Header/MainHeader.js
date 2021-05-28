@@ -31,6 +31,18 @@ const MainHeader = (props) => {
     setNameBtnImport(props.nameImportBtn)
   }, [props.nameImportBtn])
 
+  const handleClick = (e) => {
+    const buttonState = e.target.innerHTML
+    console.log(buttonState)
+    if (buttonState.toLowerCase() === 'create') {
+      let editUrl = window.location.href
+      console.log(editUrl)
+      editUrl = editUrl.replace('contacts', 'contacts/create')
+      console.log(editUrl)
+      window.location.assign(editUrl)
+    }
+  }
+
   return (
     <div className='main--header container-fluid'>
       <div className='row gx-0'>
@@ -87,8 +99,12 @@ const MainHeader = (props) => {
 
       <div className='row gx-0'>
         <div className='col-3'>
-          <button className='btn btn-primary btn-sm ms-3 mt-1 mb-3'>{nameCreateBtn}</button>
-          <button className={`btn btn-secondary btn-sm ms-3 mt-1 mb-3 ${!showImportBtn ? 'd-none' : ''}`}>{nameImportBtn}</button>
+          <button className='btn btn-primary btn-sm ms-3 mt-1 mb-3' onClick={(e) => handleClick(e)}>
+            {nameCreateBtn}
+          </button>
+          <button onClick={(e) => handleClick(e)} className={`btn btn-secondary btn-sm ms-3 mt-1 mb-3 ${!showImportBtn ? 'd-none' : ''}`}>
+            {nameImportBtn}
+          </button>
         </div>
         <div className='col'></div>
         <div className={`d-flex col-1 justify-content-between pb-2 ${!showListOrCardItem ? 'd-none' : ''}`}>

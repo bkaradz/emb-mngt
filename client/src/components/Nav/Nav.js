@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../../img/logo.png'
 import { NavLink } from 'react-router-dom'
 import { links } from './nav-data'
 // import { FaMap, } from "react-icons/fa";
 
 const Nav = ({ bigNav }) => {
-  // const hide = true
+  const [activeUrl, setActiveUrl] = useState('')
+
   return (
     <div className='navbar-menu'>
       <div className={bigNav ? `nav-brand_big` : `nav-brand_small`}>
@@ -17,12 +18,13 @@ const Nav = ({ bigNav }) => {
           <ul>
             {links.map((link) => {
               const { id, icon, url, text, children } = link
+              const parentText = text
               if (children.length === 0) {
                 return (
                   <li key={id}>
-                    <NavLink exact to={url}>
+                    <NavLink exact to={url} onClick={() => setActiveUrl(parentText)}>
                       <span>{icon}</span>
-                      <span className={bigNav ? `nav--text` : 'nav--text_none'}>{text}</span>
+                      <span className={bigNav ? `nav--text` : 'd-none'}>{text}</span>
                     </NavLink>
                   </li>
                 )
@@ -30,18 +32,18 @@ const Nav = ({ bigNav }) => {
               return (
                 <li key={id}>
                   {/* {hide || text} */}
-                  <NavLink exact to={url}>
+                  <NavLink exact to={url} onClick={() => setActiveUrl(parentText)}>
                     <span>{icon}</span>
-                    <span className={bigNav ? `nav--text` : 'nav--text_none'}>{text}</span>
+                    <span className={bigNav ? `nav--text` : 'd-none'}>{text}</span>
                   </NavLink>
-                  <ul className='child'>
+                  <ul className={activeUrl === text ? `child` : `child d-none`}>
                     {children.map((child) => {
-                      const { id, url, text } = child
+                      const { id, url, icon, text } = child
                       return (
                         <li key={id}>
-                          <NavLink exact to={url}>
+                          <NavLink exact to={url} onClick={() => setActiveUrl(parentText)}>
                             <span>{icon}</span>
-                            <span className={bigNav ? `nav--text` : 'nav--text_none'}>{text}</span>
+                            <span className={bigNav ? `nav--text` : 'd-none'}>{text}</span>
                           </NavLink>
                         </li>
                       )

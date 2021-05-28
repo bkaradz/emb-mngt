@@ -68,6 +68,15 @@ function ContactView(props) {
     )
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    let editUrl = window.location.href
+    // console.log(editUrl)
+    editUrl = editUrl.replace('view', 'edit')
+    // console.log(editUrl)
+    window.location.assign(editUrl)
+  }
+
   return (
     <div className='main'>
       <MainHeader
@@ -167,7 +176,7 @@ function ContactView(props) {
                 readOnly={true}
               ></textarea>
             </div>
-            <button type='submit' className='btn btn-primary'>
+            <button type='submit' className='btn btn-primary' onClick={(e) => handleSubmit(e)}>
               Edit
             </button>
           </form>
