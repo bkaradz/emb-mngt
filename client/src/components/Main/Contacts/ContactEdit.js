@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 
-function ContactView(props) {
+function ContactEdit(props) {
   const { id } = useParams()
 
   const [contactData, setContactData] = useState(null)
@@ -16,6 +16,14 @@ function ContactView(props) {
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [address, setAddress] = useState('')
+  const [alert, setAlert] = useState({ message: '', type: '', show: false })
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setAlert({ message: '', type: '', show: false })
+    }, 3000)
+    return () => clearTimeout(timeout)
+  }, [alert.show])
 
   useEffect(() => {
     const getData = async () => {
@@ -28,8 +36,6 @@ function ContactView(props) {
         console.log('Server Error')
       }
     }
-    // Update form
-
     getData()
   }, [id])
 
@@ -38,27 +44,52 @@ function ContactView(props) {
     if (contactData !== null) {
       setIsCompany(contactData.isCompany)
       setName(contactData.name)
-
       setPhone(contactData.phone)
-
       setEmail(contactData.email)
-
       setAddress(contactData.address)
     }
   }, [contactData])
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const contact = {
+      name,
+      isCompany,
+      phone: [phone],
+      email,
+      address,
+    }
+    try {
+      await axios.post('http://localhost:4000/contacts/edit', contact)
+      console.log('Contact Created')
+      // Reset form
+      setIsCompany('individual')
+      setName('')
+      setPhone('')
+      setEmail('')
+      setAddress('')
+      setAlert({ message: 'Contact Updated', type: 'alert-success', show: true })
+    } catch (err) {
+      console.error(err.message)
+      console.log('Server Error')
+      setAlert({ message: 'An Error Occurred', type: 'alert-danger', show: true })
+    }
+  }
+
   if (contactData === null) {
-    ;<div className='main'>
-      <MainHeader
-        showSearch='false'
-        nameCreateBtn='Update'
-        nameImportBtn='Discard'
-        showImportBtn='false'
-        showListOrCardItem='false'
-        showPagination='false'
-      />
-      <h1>Loading...</h1>
-    </div>
+    return (
+      <div className='main'>
+        <MainHeader
+          showSearch='false'
+          nameCreateBtn='Update'
+          nameImportBtn='Discard'
+          showImportBtn='false'
+          showListOrCardItem='false'
+          showPagination='false'
+        />
+        <h1>Loading...</h1>
+      </div>
+    )
   }
 
   return (
@@ -73,7 +104,12 @@ function ContactView(props) {
       />
       <div className='main--content__create'>
         <div className='container'>
-          <form className='pt-5'>
+          <form className='pt-5' onSubmit={(e) => handleSubmit(e)}>
+            {alert.show && (
+              <div className={`alert ${alert.type}`} role='alert'>
+                {alert.message}
+              </div>
+            )}
             {/* <img src={isCompany === 'company' ? <FaBuilding /> : <FaUser />} width='100px' className='img-thumbnail mb-3' alt='...'></img> */}
             <span className='user__icons'>{isCompany === 'company' ? <BiBuildings /> : <BiUser />}</span>
             <div className='form-check form-check-inline ms-3'>
@@ -157,4 +193,4 @@ function ContactView(props) {
   )
 }
 
-export default ContactView
+export default ContactEdit

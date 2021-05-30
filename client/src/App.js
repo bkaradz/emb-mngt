@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Header from './components/Header'
-// import Login from './components/Login/Login'
+import Login from './components/Login/Login'
 import Nav from './components/Nav/Nav'
 import Sales from './components/Sales'
 import Dashboard from './components/Dashboard'
@@ -32,6 +32,9 @@ const App = () => {
         <Switch>
           <Route exact path='/'>
             <Dashboard />
+          </Route>
+          <Route exact path='/login'>
+            <Login />
           </Route>
           <Route exact path='/contacts'>
             <Contacts />

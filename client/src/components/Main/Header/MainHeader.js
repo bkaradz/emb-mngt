@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
+import { InputGroup, DropdownButton, Dropdown, FormControl, Button } from 'react-bootstrap-v5'
+import { BiSearch } from 'react-icons/bi'
 
 const MainHeader = (props) => {
+  const history = useHistory()
   const showBreadcrumbs = props.showBreadcrumbs // Breadcrumbs links
   // console.log(showBreadcrumbs)
   const showListFn = props.showListFn // Show List or Cards Function
@@ -33,13 +36,22 @@ const MainHeader = (props) => {
 
   const handleClick = (e) => {
     const buttonState = e.target.innerHTML
-    console.log(buttonState)
+    // console.log(buttonState)
     if (buttonState.toLowerCase() === 'create') {
-      let editUrl = window.location.href
-      console.log(editUrl)
+      let editUrl = window.location.pathname
+      // console.log(editUrl)
       editUrl = editUrl.replace('contacts', 'contacts/create')
-      console.log(editUrl)
-      window.location.assign(editUrl)
+      // console.log(editUrl)
+      // window.location.assign(editUrl)
+      history.push(editUrl)
+    }
+    if (buttonState.toLowerCase() === 'edit') {
+      let editUrl = window.location.pathname
+      // console.log(editUrl)
+      editUrl = editUrl.replace('view', 'edit')
+      // console.log(editUrl)
+      // window.location.assign(editUrl)
+      history.push(editUrl)
     }
   }
 
@@ -63,43 +75,26 @@ const MainHeader = (props) => {
           </ol>
         </div>
         <div className='col-6'>
-          <div className={`dropdown input-group pe-3 py-3 input-group-sm ${!showSearch ? 'd-none' : ''}`}>
-            <button className='btn btn-outline-secondary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
-              Dropdown
-            </button>
-            <ul className='dropdown-menu'>
-              <li>
-                <a className='dropdown-item' href='!#'>
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className='dropdown-item' href='!#'>
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className='dropdown-item' href='!#'>
-                  Something else here
-                </a>
-              </li>
-              <li>
-                <hr className='dropdown-divider' />
-              </li>
-              <li>
-                <a className='dropdown-item' href='!#'>
-                  Separated link
-                </a>
-              </li>
-            </ul>
-            <input type='text' className='form-control' aria-label='Text input with dropdown button' />
-          </div>
+          <InputGroup className={`input-group-sm pe-3 py-3 ${!showSearch ? 'd-none' : ''}`}>
+            <DropdownButton variant='outline-primary' title='Dropdown' id='input-group-dropdown-3'>
+              <Dropdown.Item href='#'>Action</Dropdown.Item>
+              <Dropdown.Item href='#'>Another action</Dropdown.Item>
+              <Dropdown.Item href='#'>Something else here</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item href='#'>Separated link</Dropdown.Item>
+            </DropdownButton>
+            <FormControl aria-label='Text input with 2 dropdown buttons' />
+            <Button type='button' className='btn btn-outline-secondary btn-secondary px-3' id='input-group-dropdown-4' align='end'>
+              {' '}
+              <BiSearch />{' '}
+            </Button>
+          </InputGroup>
         </div>
       </div>
 
       <div className='row gx-0'>
         <div className='col-3'>
-          <button className='btn btn-primary btn-sm ms-3 mt-1 mb-3' onClick={(e) => handleClick(e)}>
+          <button onClick={(e) => handleClick(e)} className='btn btn-primary btn-sm ms-3 mt-1 mb-3'>
             {nameCreateBtn}
           </button>
           <button onClick={(e) => handleClick(e)} className={`btn btn-secondary btn-sm ms-3 mt-1 mb-3 ${!showImportBtn ? 'd-none' : ''}`}>

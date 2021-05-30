@@ -1,11 +1,29 @@
 import React from 'react'
+import MainHeader from '../Header/MainHeader'
 // import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
 import { BiBuildings, BiUser } from 'react-icons/bi'
 
 function ContactsCards({ contactsData }) {
+  const breadcrumb = {
+    link: [
+      { name: 'Home', url: '/' },
+      { name: 'Contacts', url: '/contacts' },
+      { name: 'View', url: '#' },
+    ],
+  }
+
   if (contactsData === null) {
     return (
       <div className='main--content__Cards container-fluid'>
+        <MainHeader
+          showSearch='false'
+          nameCreateBtn='Edit'
+          nameImportBtn='Discard'
+          showImportBtn='false'
+          showListOrCardItem='false'
+          showPagination='false'
+          showBreadcrumbs={breadcrumb}
+        />
         <h1>Loading...</h1>
       </div>
     )

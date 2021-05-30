@@ -1,7 +1,7 @@
 const mongoose = require('mongoose') // Erase if already required
 
 // Declare the Schema of the Mongo model
-var productsSchema = new mongoose.Schema({
+var ProductsSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -25,4 +25,4 @@ var productsSchema = new mongoose.Schema({
 })
 
 //Export the model
-module.exports = mongoose.model('User', productsSchema)
+module.exports = mongoose.model('User', ProductsSchema)

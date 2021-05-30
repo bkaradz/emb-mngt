@@ -1,7 +1,7 @@
 const mongoose = require('mongoose') // Erase if already required
 
 // Declare the Schema of the Mongo model
-var contactsSchema = new mongoose.Schema({
+var ContactsSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -25,7 +25,7 @@ var contactsSchema = new mongoose.Schema({
     type: String,
   },
   balance: {
-    type: Number, // TODO: fix for currency
+    type: mongoose.Schema.Types.Decimal128, // TODO: fix for currency
     required: true,
     default: 0,
   },
@@ -42,4 +42,4 @@ var contactsSchema = new mongoose.Schema({
 })
 
 //Export the model
-module.exports = mongoose.model('Contacts', contactsSchema)
+module.exports = mongoose.model('Contacts', ContactsSchema)

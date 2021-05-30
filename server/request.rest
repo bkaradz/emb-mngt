@@ -1,11 +1,11 @@
-GET http://localhost:4000/contacts
+GET http://localhost:4000/api/contacts
 
 ###
-GET http://localhost:4000/contacts/view/60a9250e4b2aac11cc99ced2
+GET http://localhost:4000/api/contacts/view/60a9250e4b2aac11cc99ced2
 
 ###
 
-POST http://localhost:4000/contacts/create
+POST http://localhost:4000/api/contacts/create
 Content-Type: application/json
 
 {
@@ -18,7 +18,7 @@ Content-Type: application/json
 }
 
 ###
-post http://localhost:4000/contacts/edit/60a91ffa4b2aac11cc99ced1
+post http://localhost:4000/api/contacts/edit/60a91ffa4b2aac11cc99ced1
 Content-Type: application/json
 
 {
@@ -31,7 +31,8 @@ Content-Type: application/json
 }
 
 ###
-post http://localhost:4000/users/create
+# Register User
+post http://localhost:4000/api/users
 Content-Type: application/json
 
 {
@@ -39,9 +40,38 @@ Content-Type: application/json
   "role": "admin",
   "email": "karadz@gmail.com",
   "mobile": "0733 251 281, 0784 887 038",
-  "password": "karadz"
+  "password": "karadz123456",
+  "passwordConfirmation": "karadz123456"
 }
 
 ###
-get http://localhost:4000/auth
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBhYTYwNGE3MTE5NWIyYWViZGU5YTU5In0sImlhdCI6MTYyMTc3ODUwNiwiZXhwIjoxNjIyMTM4NTA2fQ.kqQUw-3h8-5u_cCB9XMVfb90YTjPJplrpc0Wyl-uZ0A
+# Register User
+post http://localhost:4000/api/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "role": "admin",
+  "email": "jdoe@gmail.com",
+  "mobile": "0733 251 281, 0784 887 038",
+  "password": "karadz123456",
+  "passwordConfirmation": "karadz123456"
+}
+
+
+
+###
+# Get auth user
+get http://localhost:4000/api/auth
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBiMmEwZmE3YTljMTNiZDc1OTQyNjBjIn0sImlhdCI6MTYyMjMxOTM1NCwiZXhwIjoxNjIyMzE5NzE0fQ.nYHT0Z4d6E0EWSJw51aaKVG70ZNxRCq0HAgI3vJmtCk
+
+
+###
+# Login User
+post http://localhost:4000/api/auth
+Content-Type: application/json
+
+{
+  "email": "karadz@gmail.com",
+  "password": "karadz123456"
+}

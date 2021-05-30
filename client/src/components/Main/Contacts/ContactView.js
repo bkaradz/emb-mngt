@@ -5,10 +5,11 @@ import { BiBuildings, BiUser } from 'react-icons/bi'
 // import person from '../../../img/bootstrap/person.svg'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 function ContactView(props) {
   const { id } = useParams()
+  const history = useHistory()
 
   const [contactData, setContactData] = useState(null)
   const [isCompany, setIsCompany] = useState('')
@@ -51,6 +52,16 @@ function ContactView(props) {
     }
   }, [contactData])
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    let editUrl = window.location.pathname
+    // console.log(editUrl)
+    editUrl = editUrl.replace('view', 'edit')
+    // console.log(editUrl)
+    // window.location.assign(editUrl)
+    history.push(editUrl)
+  }
+
   if (contactData === null) {
     return (
       <div className='main'>
@@ -66,15 +77,6 @@ function ContactView(props) {
         <h1>Loading...</h1>
       </div>
     )
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    let editUrl = window.location.href
-    // console.log(editUrl)
-    editUrl = editUrl.replace('view', 'edit')
-    // console.log(editUrl)
-    window.location.assign(editUrl)
   }
 
   return (

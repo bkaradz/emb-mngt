@@ -23,9 +23,10 @@ function ContactCreate(props) {
   }
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setAlert({ message: '', type: '', show: false })
     }, 3000)
+    return () => clearTimeout(timeout)
   }, [alert.show])
 
   const handleSubmit = async (e) => {
@@ -39,7 +40,7 @@ function ContactCreate(props) {
     }
     try {
       await axios.post('http://localhost:4000/contacts/create', contact)
-      console.log('Contact Created')
+      // console.log('Contact Created')
       // Reset form
       setIsCompany('individual')
       setName('')
@@ -69,7 +70,7 @@ function ContactCreate(props) {
         <div className='container'>
           <form className='pt-5' onSubmit={(e) => handleSubmit(e)}>
             {alert.show && (
-              <div class={`alert ${alert.type}`} role='alert'>
+              <div className={`alert ${alert.type}`} role='alert'>
                 {alert.message}
               </div>
             )}
