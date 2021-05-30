@@ -28,6 +28,10 @@
   }
 }
 
+.App_Login {
+  display: flex;
+}
+
 .App {
   // overflow: hidden;
   display: grid;
@@ -84,4 +88,8 @@ svg {
 .nav-toggle:checked {
   $nav-size: 70px;
   background: red;
+}
+
+body.modal-open .bg {
+  filter: blur(6px);
 }

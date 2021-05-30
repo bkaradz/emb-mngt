@@ -75,4 +75,20 @@ export const links = [
       },
     ],
   },
+
+  {
+    id: 5,
+    icon: <BiChip />,
+    url: '/settings',
+    text: 'settings',
+    children: [
+      {
+        id: 30,
+        icon: <FaChartLine />,
+        url: '/settings/users',
+        text: 'Users',
+        children: [],
+      },
+    ],
+  },
 ]

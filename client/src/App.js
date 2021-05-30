@@ -15,6 +15,7 @@ import ContactView from './components/Main/Contacts/ContactView'
 import Error from './components/Error'
 
 const App = () => {
+  const [notLoggedIn, setIsLoggedIn] = useState(true)
   const [bigNav, setBigNav] = useState(true)
   const handleClick = (e) => {
     if (bigNav === true) {
@@ -23,10 +24,18 @@ const App = () => {
       setBigNav(true)
     }
   }
+  if (notLoggedIn) {
+    return (
+      <div className='App_Login'>
+        <Router>
+          <Login />
+        </Router>
+      </div>
+    )
+  }
   return (
     <Router>
-      {/* style={{ gridTemplateColumns: '220px 1fr' }} */}
-      <div className='App' style={bigNav ? { gridTemplateColumns: '220px 1fr' } : { gridTemplateColumns: '70px 1fr' }}>
+      <div className='App bg' style={bigNav ? { gridTemplateColumns: '220px 1fr' } : { gridTemplateColumns: '70px 1fr' }}>
         <Header handleClick={handleClick} bigNav={bigNav} />
         <Nav bigNav={bigNav} />
         <Switch>
