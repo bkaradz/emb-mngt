@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Header from './components/Header'
-import Login from './components/Login/Login'
+import Login from './components/Auth/Login'
 import Nav from './components/Nav/Nav'
 import Sales from './components/Sales'
 import Dashboard from './components/Dashboard'
@@ -15,7 +15,7 @@ import ContactView from './components/Main/Contacts/ContactView'
 import Error from './components/Error'
 
 const App = () => {
-  const [notLoggedIn, setIsLoggedIn] = useState(true)
+  const [notLoggedIn, setNotLoggedIn] = useState(false)
   const [bigNav, setBigNav] = useState(true)
   const handleClick = (e) => {
     if (bigNav === true) {
@@ -28,7 +28,7 @@ const App = () => {
     return (
       <div className='App_Login'>
         <Router>
-          <Login />
+          <Login setNotLoggedIn={setNotLoggedIn} />
         </Router>
       </div>
     )
