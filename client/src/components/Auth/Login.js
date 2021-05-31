@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import axios from 'axios'
 import { Modal, Button } from 'react-bootstrap-v5'
 // import { BiUser } from 'react-icons/bi'
@@ -8,6 +8,8 @@ function Login({ setNotLoggedIn }) {
   const [userToken, setUserToken] = useState(null)
   const refEmail = useRef(null)
   const refPassword = useRef(null)
+
+  console.log(userToken)
 
   const handleSubmit = (e) => {
     e.preventDefault()

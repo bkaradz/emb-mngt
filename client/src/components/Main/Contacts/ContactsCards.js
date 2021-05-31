@@ -3,14 +3,6 @@ import React from 'react'
 import { BiBuildings, BiUser } from 'react-icons/bi'
 
 function ContactsCards({ contactsData }) {
-  const breadcrumb = {
-    link: [
-      { name: 'Home', url: '/' },
-      { name: 'Contacts', url: '/contacts' },
-      { name: 'View', url: '#' },
-    ],
-  }
-
   if (contactsData === null) {
     return (
       <div className='main--content__Cards container-fluid'>
