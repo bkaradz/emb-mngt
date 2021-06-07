@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import logo from '../../img/logo.png'
 import { NavLink } from 'react-router-dom'
 import { links } from './nav-data'
-// import { FaMap, } from "react-icons/fa";
+import { BsChevronDown, BsChevronUp } from 'react-icons/bs'
 
 const Nav = ({ bigNav }) => {
   const [activeUrl, setActiveUrl] = useState('')
+  const [toggleMenu, setToggleMenu] = useState(false)
 
   return (
     <div className='navbar-menu'>
@@ -32,11 +33,20 @@ const Nav = ({ bigNav }) => {
               return (
                 <li key={id}>
                   {/* {hide || text} */}
-                  <NavLink exact to={url} onClick={() => setActiveUrl(parentText)}>
+                  <NavLink
+                    exact
+                    to={url}
+                    onClick={() => {
+                      setActiveUrl(parentText)
+                      setToggleMenu(!toggleMenu)
+                    }}
+                    className='d-flex align-items-center'
+                  >
                     <span>{icon}</span>
                     <span className={bigNav ? `nav--text` : 'd-none'}>{text}</span>
+                    <span className={bigNav ? `ms-auto me-3` : `d-none`}>{activeUrl === text && toggleMenu ? <BsChevronDown /> : <BsChevronUp />}</span>
                   </NavLink>
-                  <ul className={activeUrl === text ? `child` : `child d-none`}>
+                  <ul className={activeUrl === text && toggleMenu ? `child` : `child d-none`}>
                     {children.map((child) => {
                       const { id, url, icon, text } = child
                       return (

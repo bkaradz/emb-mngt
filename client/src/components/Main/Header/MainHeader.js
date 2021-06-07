@@ -75,7 +75,7 @@ const MainHeader = (props) => {
           </ol>
         </div>
         <div className='col-6'>
-          <InputGroup className={`input-group-sm pe-3 py-3 ${!showSearch ? 'd-none' : ''}`}>
+          <InputGroup size='sm' className={`input-group-sm pe-3 py-3 ${!showSearch ? 'd-none' : ''}`}>
             <DropdownButton variant='outline-primary' title='Dropdown' id='input-group-dropdown-3'>
               <Dropdown.Item href='#'>Action</Dropdown.Item>
               <Dropdown.Item href='#'>Another action</Dropdown.Item>

@@ -1,4 +1,5 @@
 import MainHeader from './Main/Header/MainHeader'
+import { InputGroup, FormControl } from 'react-bootstrap-v5'
 
 const Dashboard = (props) => {
   const breadcrumb = {
@@ -19,7 +20,15 @@ const Dashboard = (props) => {
         showPagination='false'
         showBreadcrumbs={breadcrumb}
       />
-      <h1>Loading...</h1>
+      <div>
+        <InputGroup size='sm' className='mb-3'>
+          <InputGroup.Prepend>
+            <InputGroup.Text id='inputGroup-sizing-sm'>Small</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl aria-label='Small' aria-describedby='inputGroup-sizing-sm' />
+        </InputGroup>
+        <br />
+      </div>
     </div>
   )
 }
