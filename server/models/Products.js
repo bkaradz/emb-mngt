@@ -1,28 +1,56 @@
 const mongoose = require('mongoose') // Erase if already required
 
 // Declare the Schema of the Mongo model
-var ProductsSchema = new mongoose.Schema({
+var productsSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
   name: {
     type: String,
     required: true,
     unique: true,
     index: true,
   },
-  email: {
+  productID: {
     type: String,
     required: true,
     unique: true,
+    index: true,
   },
-  mobile: {
+  title: {
     type: String,
-    required: true,
-    unique: true,
   },
-  password: {
+  description: {
     type: String,
+  },
+  image: {
+    type: String,
+  },
+  price: {
+    type: mongoose.Types.Decimal128,
+  },
+  category: {
+    type: String,
+    default: 'emb_logo',
+    enum: {
+      value: ['emb_logo', 'shirt', 'threads', 'backing', 'other'],
+      message: '{VALUE} is not supported',
+    },
     required: true,
+  },
+  stitches: {
+    type: String,
+    required: function () {
+      return this.category === 'emb_logo'
+    },
+  },
+  date: {
+    type: Date,
+    default: Date.now,
   },
 })
 
 //Export the model
-module.exports = mongoose.model('User', ProductsSchema)
+module.exports = mongoose.model('Products', productsSchema)

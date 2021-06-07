@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 })
 
 // @route   GET api/contacts/:id
-// @desc    Create one contact by id
+// @desc    Get one contact contact by id
 // @access  Private
 router.get('/view/:id', async (req, res) => {
   try {
