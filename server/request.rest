@@ -4,17 +4,18 @@ GET http://localhost:4000/api/contacts
 GET http://localhost:4000/api/contacts/view/60a9250e4b2aac11cc99ced2
 
 ###
-
+# Create contact
 POST http://localhost:4000/api/contacts/create
 Content-Type: application/json
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBiZjRkZTc2ZTEyZmMyZGQwNDJmYjQyIn0sImlhdCI6MTYyMzE1NzAzOCwiZXhwIjoxNjIzNzYxODM4fQ.pUMCUckO4n3-xwh_bKZmCavu4xQjEElr6SaQKupkw7I
 
 {
-  "name": "John Doe",
+  "name": "John Smith",
   "isCompany": "false",
-  "email": "johndoe@gmail.com",
+  "email": "johnsmith@gmail.com",
   "phone": ["0759 251 281", "0784 887 038"],
-  "address": "222 New Magwegwe",
-  "balance": "100"
+  "address": "delo delo",
+  "balance": "1"
 }
 
 ###
@@ -63,7 +64,7 @@ Content-Type: application/json
 ###
 # Get auth user
 get http://localhost:4000/api/auth
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBiMmEwZmE3YTljMTNiZDc1OTQyNjBjIn0sImlhdCI6MTYyMjMxOTM1NCwiZXhwIjoxNjIyMzE5NzE0fQ.nYHT0Z4d6E0EWSJw51aaKVG70ZNxRCq0HAgI3vJmtCk
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBiZjRkZTc2ZTEyZmMyZGQwNDJmYjQyIn0sImlhdCI6MTYyMzE1NzAzOCwiZXhwIjoxNjIzNzYxODM4fQ.pUMCUckO4n3-xwh_bKZmCavu4xQjEElr6SaQKupkw7I
 
 
 ###

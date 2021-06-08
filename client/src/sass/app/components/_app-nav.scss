@@ -85,7 +85,8 @@
       padding-top: 0.6rem;
       padding-bottom: 0.6rem;
       border-radius: 10px 0px 0px 10px;
-      border-right: getColor('primary') 5px solid;
+      // border-right: getColor('primary') 5px solid;
+      box-shadow: inset 5px 1px getColor('primary');
     }
     &:hover {
       text-decoration: none;

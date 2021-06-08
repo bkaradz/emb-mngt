@@ -45,6 +45,9 @@ const Nav = ({ bigNav }) => {
                     <span>{icon}</span>
                     <span className={bigNav ? `nav--text` : 'd-none'}>{text}</span>
                     <span className={bigNav ? `ms-auto me-3` : `d-none`}>{activeUrl === text && toggleMenu ? <BsChevronDown /> : <BsChevronUp />}</span>
+                    {/* <span className={bigNav ? `position-absolute top-50 start-100 translate-middle` : `d-none`}>
+                      {activeUrl === text && toggleMenu ? <BsChevronDown /> : <BsChevronUp />}
+                    </span> */}
                   </NavLink>
                   <ul className={activeUrl === text && toggleMenu ? `child` : `child d-none`}>
                     {children.map((child) => {
