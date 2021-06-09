@@ -1,8 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const router = express.Router()
+const Joi = require('joi')
 const Contacts = require('../../models/Contacts')
-const { check, validationResult } = require('express-validator')
+
 const auth = require('../../middleware/auth')
 
 // @route   GET api/contacts
@@ -34,115 +35,96 @@ router.get('/:id', async (req, res) => {
 // @route   POST api/contacts/create
 // @desc    Create contact
 // @access  Private
-router.post(
-  '/create',
-  [
-    auth,
-    [
-      check('name').not().isEmpty().withMessage('Name is required'),
-      check('isCompany').not().isEmpty().withMessage('Company or Individual is required'),
-      check('phone').not().isEmpty().withMessage('Phone Number is required'), // TODO: To fix the regex validation of phone numbers
-    ],
-  ],
-  async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
-    }
-    try {
-      const contact = new Contacts({
-        user: req.user.id,
-        name: req.body.name,
-        isCompany: req.body.isCompany,
-        email: req.body.email,
-        phone: req.body.phone,
-        address: req.body.address,
-        balance: req.body.balance,
-      })
+router.post('/create', auth, async (req, res) => {
+  // Validation
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    vatBpNo: Joi.string(),
+    isCompany: Joi.string().required().valid('Individual', 'company'),
+    email: Joi.string().email(),
+    mobile: Joi.array().items(Joi.string().required()),
+    address: Joi.string().required(),
+    balance: Joi.number().required(),
+  })
 
-      const post = await contact.save()
-
-      res.json(post)
-    } catch (err) {
-      console.error(err.message)
-      res.status(500).send('Sever Error')
-    }
+  const { error, value } = schema.validateAsync(req.body)
+  if (error !== undefined) {
+    return res.status(400).json(error)
   }
-)
+  try {
+    const contact = new Contacts({
+      user: req.user.id,
+      name: req.body.name,
+      vatBpNo: req.body.vatBpNo,
+      isCompany: req.body.isCompany,
+      email: req.body.email,
+      phone: req.body.phone,
+      address: req.body.address,
+      balance: req.body.balance,
+    })
+
+    const post = await contact.save()
+
+    res.json(post)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('Sever Error')
+  }
+})
 
 // @route   POST api/contacts/Edit/:id
 // @desc    Edit contact
 // @access  Private
-router.put(
-  '/:id',
-  [
-    auth,
-    [
-      check('name').not().isEmpty().withMessage('Name is required'),
-      check('isCompany').not().isEmpty().withMessage('Company or Individual is required'),
-      check('phone').not().isEmpty().withMessage('Phone Number is required'), // TODO: To fix the regex validation of phone numbers
-    ],
-  ],
-  async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
-    }
-    try {
-      const contact = {
-        name: req.body.name,
-        isCompany: req.body.isCompany,
-        email: req.body.email,
-        phone: req.body.phone,
-        address: req.body.address,
-        balance: req.body.balance,
-      }
+router.put('/:id', auth, async (req, res) => {
+  // Validation
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    isCompany: Joi.string().required().valid('Individual', 'company'),
+    vatBpNo: Joi.string(),
+    email: Joi.string().email(),
+    mobile: Joi.array().items(Joi.string().required()),
+    address: Joi.string().required(),
+    balance: Joi.number().required(),
+  })
 
-      const update = await Contacts.findByIdAndUpdate(req.params.id, contact)
-      // const update = await Contacts.findOneAndUpdate(req.params.id, contact)
+  const { error, value } = schema.validateAsync(req.body)
 
-      res.json('Contact Updated')
-    } catch (err) {
-      console.error(err.message)
-      res.status(500).send('Sever Error')
-    }
+  if (error !== undefined) {
+    return res.status(400).json(error)
   }
-)
+  try {
+    const contact = {
+      name: req.body.name,
+      vatBpNo: req.body.vatBpNo,
+      isCompany: req.body.isCompany,
+      email: req.body.email,
+      phone: req.body.phone,
+      address: req.body.address,
+      balance: req.body.balance,
+    }
+
+    const update = await Contacts.Update({ _id: req.params.id }, { $set: { contact } })
+
+    res.json(update)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('Sever Error')
+  }
+})
+
 // @route   POST api/contacts/Delete/:id
 // @desc    Delete contact
 // @access  Private
-router.post(
-  '/delete/:id',
-  [
-    check('name').not().isEmpty().withMessage('Name is required'),
-    check('isCompany').not().isEmpty().withMessage('Company or Individual is required'),
-    check('phone').not().isEmpty().withMessage('Phone Number is required'), // TODO: To fix the regex validation of phone numbers
-  ],
-  async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
-    }
-    try {
-      const contact = {
-        name: req.body.name,
-        isCompany: req.body.isCompany,
-        email: req.body.email,
-        phone: req.body.phone,
-        address: req.body.address,
-        balance: req.body.balance,
-        deleted: true,
-      }
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const update = await Contacts.Update({ _id: req.params.id }, { $set: { deleted: true } })
+    // const update = await Contacts.findOneAndUpdate(req.params.id, contact)
 
-      const update = await Contacts.findByIdAndUpdate(req.params.id, contact)
-      // const update = await Contacts.findOneAndUpdate(req.params.id, contact)
-
-      res.json('Contact Deleted')
-    } catch (err) {
-      console.error(err.message)
-      res.status(500).send('Sever Error')
-    }
+    res.json(update)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('Sever Error')
   }
-)
+})
 
 module.exports = router

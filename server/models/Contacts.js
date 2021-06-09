@@ -12,10 +12,14 @@ var ContactsSchema = new mongoose.Schema({
     required: true,
     index: true,
   },
+  vatBpNo: {
+    type: String,
+  },
   isCompany: {
     type: String,
     required: true,
     default: 'Individual',
+    enum: ['Individual', 'company'],
   },
   email: {
     type: String,
@@ -30,7 +34,7 @@ var ContactsSchema = new mongoose.Schema({
     type: String,
   },
   balance: {
-    type: mongoose.Schema.Types.Decimal128, // TODO: fix for currency
+    type: Number, // TODO: fix for currency
     required: true,
     default: 0,
   },

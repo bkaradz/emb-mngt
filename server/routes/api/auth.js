@@ -6,7 +6,6 @@ const bcrypt = require('bcryptjs')
 const Joi = require('joi')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
-const { check, validationResult } = require('express-validator')
 
 // @route   POST api/auth
 // @desc    Authenticate user & Get token
@@ -18,7 +17,7 @@ router.post('/', async (req, res) => {
     password: Joi.string().required(),
   })
 
-  const { error, value } = schema.validate(req.body)
+  const { error, value } = schema.validateAsync(req.body)
 
   if (error !== undefined) {
     return res.status(400).json(error)
@@ -77,5 +76,3 @@ router.get('/', auth, async (req, res) => {
 })
 
 module.exports = router
-
-// [check('email', 'Email is required').isEmail(), check('password', 'Password is required').not().isEmpty()],

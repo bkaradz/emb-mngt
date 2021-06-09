@@ -1,5 +1,4 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const router = express.Router()
 const Users = require('../../models/Users')
 const auth = require('../../middleware/auth')
@@ -7,7 +6,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const Joi = require('joi')
-// const { check, validationResult } = require('express-validator')
 
 // @route   POST api/users/create
 // @desc    Register user
@@ -24,7 +22,7 @@ router.post('/', async (req, res) => {
     password2: Joi.ref('password'),
   })
 
-  const { error, value } = schema.validate(req.body)
+  const { error, value } = schema.validateAsync(req.body)
   // console.log(`error: ${error}, value: ${value}`)
   if (error !== undefined) {
     return res.status(400).json(error)

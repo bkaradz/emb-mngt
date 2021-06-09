@@ -14,7 +14,7 @@ var productsSchema = new mongoose.Schema({
     index: true,
   },
   productID: {
-    type: String,
+    type: Number,
     required: true,
     unique: true,
     index: true,
@@ -44,10 +44,15 @@ var productsSchema = new mongoose.Schema({
     required: true,
   },
   stitches: {
-    type: String,
+    type: Number,
     required: function () {
       return this.category === 'emb_logo'
     },
+  },
+  deleted: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
   date: {
     type: Date,

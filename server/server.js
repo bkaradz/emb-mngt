@@ -17,6 +17,7 @@ app.use('/api/contacts', require('./routes/api/contacts'))
 app.use('/api/sales', require('./routes/api/sales'))
 app.use('/api/users', require('./routes/api/users'))
 app.use('/api/auth', require('./routes/api/auth'))
+app.use('/api/products', require('./routes/api/products'))
 
 // Define Ports
 const port = process.env.PORT || 4000
