@@ -42,7 +42,7 @@ Content-Type: application/json
   "email": "karadz@gmail.com",
   "mobile": "0733 251 281, 0784 887 038",
   "password": "karadz123456",
-  "passwordConfirmation": "karadz123456"
+  "password2": "karadz123456"
 }
 
 ###
@@ -52,7 +52,7 @@ Content-Type: application/json
 
 {
   "name": "John Doe",
-  "role": "admin",
+  "role": "user",
   "email": "jdoe@gmail.com",
   "mobile": "0733 251 281, 0784 887 038",
   "password": "karadz123456",
@@ -64,7 +64,7 @@ Content-Type: application/json
 ###
 # Get auth user
 get http://localhost:4000/api/auth
-x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBiZjRkZTc2ZTEyZmMyZGQwNDJmYjQyIn0sImlhdCI6MTYyMzE1NzAzOCwiZXhwIjoxNjIzNzYxODM4fQ.pUMCUckO4n3-xwh_bKZmCavu4xQjEElr6SaQKupkw7I
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBjMGQ0YTBhYWY1MDMyYjdjYmY2MDg5In0sImlhdCI6MTYyMzI1MDA4MCwiZXhwIjoxNjIzODU0ODgwfQ.sS2JLGnTZxKhNMq9iFQYGJQ3bxANRAWv2EYy6k8lv0A
 
 
 ###

@@ -9,6 +9,11 @@ var UsersSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
+    default: 'other',
+    enum: {
+      values: ['admin', 'sales', 'production', 'trimming', 'other'],
+      message: '{VALUE} is not supported',
+    },
   },
   email: {
     type: String,

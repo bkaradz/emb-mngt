@@ -28,14 +28,17 @@ var productsSchema = new mongoose.Schema({
   image: {
     type: String,
   },
-  price: {
-    type: mongoose.Types.Decimal128,
+  sales_price: {
+    type: Number,
+    required: function () {
+      return this.category !== 'emb_logo'
+    },
   },
   category: {
     type: String,
     default: 'emb_logo',
     enum: {
-      value: ['emb_logo', 'shirt', 'threads', 'backing', 'other'],
+      values: ['emb_logo', 'shirt', 'threads', 'backing', 'other'],
       message: '{VALUE} is not supported',
     },
     required: true,

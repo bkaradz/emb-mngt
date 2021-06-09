@@ -3,30 +3,25 @@ const router = express.Router()
 const auth = require('../../middleware/auth')
 const Users = require('../../models/Users')
 const bcrypt = require('bcryptjs')
+const Joi = require('joi')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const { check, validationResult } = require('express-validator')
 
-// @route   GET api/users
-// @desc    Get all users
-// @access  Private
-router.get('/', auth, async (req, res) => {
-  try {
-    const user = await Users.findById(req.user.id).select('-password -mobile')
-    res.json(user)
-  } catch (err) {
-    console.error(err.message)
-    res.status(500).json('Server Error')
-  }
-})
-
 // @route   POST api/auth
 // @desc    Authenticate user & Get token
 // @access  Public
-router.post('/', [check('email', 'Email is required').isEmail(), check('password', 'Password is required').not().isEmpty()], async (req, res) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
+router.post('/', async (req, res) => {
+  // Validation
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    password: Joi.string().required(),
+  })
+
+  const { error, value } = schema.validate(req.body)
+
+  if (error !== undefined) {
+    return res.status(400).json(error)
   }
   try {
     // Destructor req.body
@@ -68,4 +63,19 @@ router.post('/', [check('email', 'Email is required').isEmail(), check('password
   }
 })
 
+// @route   GET api/users
+// @desc    Get Auth user
+// @access  Private
+router.get('/', auth, async (req, res) => {
+  try {
+    const user = await Users.findById(req.user.id).select('-password -mobile')
+    res.json(user)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).json('Server Error')
+  }
+})
+
 module.exports = router
+
+// [check('email', 'Email is required').isEmail(), check('password', 'Password is required').not().isEmpty()],
