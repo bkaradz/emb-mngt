@@ -12,7 +12,7 @@ const auth = require('../../middleware/auth')
 router.get('/', async (req, res) => {
   try {
     const allContacts = await Contacts.find({ deleted: false }).sort({ name: 1 })
-    res.json(allContacts)
+    res.status(200).json(allContacts)
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const oneContacts = await Contacts.findById(req.params.id)
-    res.json(oneContacts)
+    res.status(200).json(oneContacts)
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')
@@ -40,9 +40,9 @@ router.post('/create', auth, async (req, res) => {
   const schema = Joi.object({
     name: Joi.string().required(),
     vatBpNo: Joi.string(),
-    isCompany: Joi.string().required().valid('Individual', 'company'),
+    isCompany: Joi.string().required().valid('individual', 'company'),
     email: Joi.string().email(),
-    mobile: Joi.array().items(Joi.string().required()),
+    phone: Joi.array().items(Joi.string().required()),
     address: Joi.string().required(),
     balance: Joi.number().required(),
   })
@@ -65,7 +65,7 @@ router.post('/create', auth, async (req, res) => {
 
     const post = await contact.save()
 
-    res.json(post)
+    res.status(200).json(post)
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')
@@ -105,7 +105,7 @@ router.put('/:id', auth, async (req, res) => {
 
     const update = await Contacts.Update({ _id: req.params.id }, { $set: { contact } })
 
-    res.json(update)
+    res.status(200).json(update)
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')
@@ -120,7 +120,7 @@ router.delete('/:id', auth, async (req, res) => {
     const update = await Contacts.Update({ _id: req.params.id }, { $set: { deleted: true } })
     // const update = await Contacts.findOneAndUpdate(req.params.id, contact)
 
-    res.json(update)
+    res.status(200).json(update)
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')

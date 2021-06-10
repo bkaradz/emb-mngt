@@ -11,7 +11,7 @@ x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBiZjRkZT
 
 {
   "name": "John Smith",
-  "isCompany": "false",
+  "isCompany": "individual",
   "email": "johnsmith@gmail.com",
   "phone": ["0759 251 281", "0784 887 038"],
   "address": "delo delo",
@@ -76,3 +76,17 @@ Content-Type: application/json
   "email": "karadz@gmail.com",
   "password": "karadz123456"
 }
+
+###
+# Create Product
+POST http://localhost:4000/api/products
+Content-Type: application/json
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBiZjRkZTc2ZTEyZmMyZGQwNDJmYjQyIn0sImlhdCI6MTYyMzE1NzAzOCwiZXhwIjoxNjIzNzYxODM4fQ.pUMCUckO4n3-xwh_bKZmCavu4xQjEElr6SaQKupkw7I
+
+{
+  "name": "logo",
+  "productID": "xxx-xxxx-xxxx",
+  "category": "emb_logo",
+  "stitches": 2546
+}
+

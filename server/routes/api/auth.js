@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
       if (err) throw err
       res.json({ token })
     })
-
+    res.status(200).json({ msg: 'User Logged In' })
     console.log('User is Logged In')
   } catch (err) {
     console.error(err.message)

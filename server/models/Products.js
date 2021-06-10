@@ -14,7 +14,7 @@ var productsSchema = new mongoose.Schema({
     index: true,
   },
   productID: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
     index: true,

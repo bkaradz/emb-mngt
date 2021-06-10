@@ -19,7 +19,7 @@ var ContactsSchema = new mongoose.Schema({
     type: String,
     required: true,
     default: 'Individual',
-    enum: ['Individual', 'company'],
+    enum: ['individual', 'company'],
   },
   email: {
     type: String,
