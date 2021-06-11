@@ -47,11 +47,11 @@ router.post('/create', auth, async (req, res) => {
     balance: Joi.number().required(),
   })
 
-  const { error, value } = schema.validateAsync(req.body)
-  if (error !== undefined) {
-    return res.status(400).json(error)
-  }
   try {
+    const { error, value } = await schema.validate(req.body)
+    if (error !== undefined) {
+      return res.status(400).json(error)
+    }
     const contact = new Contacts({
       user: req.user.id,
       name: req.body.name,
@@ -87,12 +87,12 @@ router.put('/:id', auth, async (req, res) => {
     balance: Joi.number().required(),
   })
 
-  const { error, value } = schema.validateAsync(req.body)
-
-  if (error !== undefined) {
-    return res.status(400).json(error)
-  }
   try {
+    const { error, value } = await schema.validate(req.body)
+
+    if (error !== undefined) {
+      return res.status(400).json(error)
+    }
     const contact = {
       name: req.body.name,
       vatBpNo: req.body.vatBpNo,

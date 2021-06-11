@@ -19,7 +19,7 @@ x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBiZjRkZT
 }
 
 ###
-post http://localhost:4000/api/contacts/edit/60a91ffa4b2aac11cc99ced1
+put http://localhost:4000/api/contacts/60a91ffa4b2aac11cc99ced1
 Content-Type: application/json
 
 {
