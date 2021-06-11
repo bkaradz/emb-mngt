@@ -7,9 +7,11 @@ const Joi = require('joi')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
-// @route   POST api/auth
-// @desc    Authenticate user & Get token
-// @access  Public
+/**
+ * @route   POST api/auth
+ * @desc    Authenticate user & Get token
+ * @access  Public
+ */
 router.post('/', async (req, res) => {
   // Validation
   const schema = Joi.object({
@@ -62,9 +64,11 @@ router.post('/', async (req, res) => {
   }
 })
 
-// @route   GET api/users
-// @desc    Get Auth user
-// @access  Private
+/**
+ * @route   GET api/users
+ * @desc    Get Auth user
+ * @access  Private
+ */
 router.get('/', auth, async (req, res) => {
   try {
     const user = await Users.findById(req.user.id).select('-password -mobile')

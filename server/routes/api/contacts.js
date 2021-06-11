@@ -6,9 +6,11 @@ const Contacts = require('../../models/Contacts')
 
 const auth = require('../../middleware/auth')
 
-// @route   GET api/contacts
-// @desc    Get all contacts
-// @access  Private
+/**
+ * @route   GET api/contacts
+ * @desc    Get all contacts
+ * @access  Private
+ */
 router.get('/', async (req, res) => {
   try {
     const allContacts = await Contacts.find({ deleted: false }).sort({ name: 1 })
@@ -19,9 +21,11 @@ router.get('/', async (req, res) => {
   }
 })
 
-// @route   GET api/contacts/:id
-// @desc    Get one contact contact by id
-// @access  Private
+/**
+ * @route   GET api/contacts/:id
+ * @desc    Get one contact contact by id
+ * @access  Private
+ */
 router.get('/:id', async (req, res) => {
   try {
     const oneContacts = await Contacts.findById(req.params.id)
@@ -32,10 +36,12 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-// @route   POST api/contacts/create
-// @desc    Create contact
-// @access  Private
-router.post('/create', auth, async (req, res) => {
+/**
+ * @route   POST api/contacts/create
+ * @desc    Create contact
+ * @access  Private
+ */
+router.post('/', auth, async (req, res) => {
   // Validation
   const schema = Joi.object({
     name: Joi.string().required(),
@@ -72,9 +78,11 @@ router.post('/create', auth, async (req, res) => {
   }
 })
 
-// @route   POST api/contacts/Edit/:id
-// @desc    Edit contact
-// @access  Private
+/**
+ * @route   POST api/contacts/Edit/:id
+ * @desc    Edit contact
+ * @access  Private
+ */
 router.put('/:id', auth, async (req, res) => {
   // Validation
   const schema = Joi.object({
@@ -112,13 +120,14 @@ router.put('/:id', auth, async (req, res) => {
   }
 })
 
-// @route   POST api/contacts/Delete/:id
-// @desc    Delete contact
-// @access  Private
+/**
+ *   @route   POST api/contacts/Delete/:id
+ *   @desc    Delete contact
+ *   @access  Private
+ */
 router.delete('/:id', auth, async (req, res) => {
   try {
     const update = await Contacts.Update({ _id: req.params.id }, { $set: { deleted: true } })
-    // const update = await Contacts.findOneAndUpdate(req.params.id, contact)
 
     res.status(200).json(update)
   } catch (err) {
