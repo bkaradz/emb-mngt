@@ -3,18 +3,13 @@ const mongoose = require('mongoose')
 const router = express.Router()
 const Joi = require('joi')
 const Products = require('../../models/Products')
+const csv = require('csvtojson')
+const _ = require('lodash')
 
 // File upload
 const multer = require('multer')
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads')
-  },
-  filename: function (req, file, cb) {
-    cb(null, 'logos.csv')
-  },
-})
+let storage = multer.memoryStorage()
 
 var upload = multer({ storage: storage })
 
@@ -47,7 +42,7 @@ router.post('/', auth, async (req, res) => {
     // Product creation
     const { name, productID, title, description, image, sales_price, category, stitches } = req.body
     const product = new Products({
-      user: req.user.id,
+      user_id: req.user.id,
       name,
       productID,
       title,
@@ -94,7 +89,7 @@ router.put('/:id', auth, async (req, res) => {
     // Product creation
     const { name, productID, title, description, image, sales_price, category, stitches } = req.body
     const product = new Products({
-      user: req.user.id,
+      user_id: req.user.id,
       name,
       productID,
       title,
@@ -115,13 +110,18 @@ router.put('/:id', auth, async (req, res) => {
 })
 
 /**
- *    @route   GET api/products
- *    @desc    Get all products
+ *    @route   GET api/products?page=1&pageSize=10
+ *    @desc    Get all products with pagination as params
  *    @access  Private
  */
 router.get('/', auth, async (req, res) => {
+  const { page = 1, pageSize = 10 } = req.body
   try {
-    const products = await Products.find()
+    const products = await Products.find({ isDeleted: false })
+      .limit(pageSize * 1)
+      .skip((page - 1) * pageSize)
+      .sort({ name: 1 })
+      .exec()
     res.status(200).json(products)
   } catch (err) {
     console.error(err.message)
@@ -152,7 +152,7 @@ router.get('/:id', auth, async (req, res) => {
  */
 router.delete('/:id', auth, async (req, res) => {
   try {
-    const products = await Products.Update({ _id: req.params.id }, { $set: { deleted: true } })
+    const products = await Products.Update({ _id: req.params.id }, { $set: { isDeleted: true } })
 
     res.status(200).json(products)
   } catch (err) {
@@ -162,14 +162,65 @@ router.delete('/:id', auth, async (req, res) => {
 })
 
 /**
- *    @route   DELETE api/products/:id
- *    @desc    Delete product by id
+ *    @route   POST api/products/upload
+ *    @desc    Create many product
  *    @access  Private
  */
 router.post('/upload', [auth, upload.single('csv_file')], async (req, res) => {
-  console.log("I don't know: ", req.file)
   try {
-    res.status(200).send(req.file)
+    const products = await Products.find({}).sort({ _id: -1 }).limit(1).select('productID')
+    let productID = ''
+
+    if (products.length === 0) {
+      // set the productID to the initial Value xxx-xxx-xxxx (xxyxxyxxxx)
+      productID = '100-000-0000'
+    } else {
+      productID = products.productID
+    }
+
+    let csvString = req.file.buffer.toString()
+    const jsonArray = await csv().fromString(csvString)
+
+    const newArray = jsonArray.map((array) => {
+      const { Name, Title, Stitches } = array
+      productID = incProductID(productID)
+      return { user_id: req.user.id, name: Name, title: Title, stitches: parseInt(Stitches), category: 'emb_logo', productID }
+    })
+    const resp = await Products.insertMany(newArray)
+    res.status(200).send(resp)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('Sever Error')
+  }
+})
+
+const incProductID = (productID) => {
+  oldProductID = productID.replaceAll('-', '') // remove - from string
+  strProductID = (parseInt(oldProductID) + 1).toString() // convert to int and add one then covert to string
+  productID = `${strProductID.slice(0, 3)}-${strProductID.slice(3, 6)}-${strProductID.slice(6)}`
+
+  return productID
+}
+
+/**
+ *    @route   PUT api/products/update
+ *    @desc    Edit multiple product
+ *    @access  Private
+ *    TODO:    Test this route
+ */
+router.put('/update', [auth, upload.single('csv_file')], async (req, res) => {
+  try {
+    let csvString = req.file.buffer.toString()
+    const jsonArray = await csv().fromString(csvString)
+
+    const newArray = jsonArray.map(async (array) => {
+      const { Name, Title, Stitches } = array
+      productID = incProductID(productID)
+      const resp = await Products.Update({ name: Name }, { $set: { user: req.user.id, name: Name, title: Title, stitches: parseInt(Stitches) } })
+      return resp
+    })
+
+    res.status(200).send(newArray)
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')

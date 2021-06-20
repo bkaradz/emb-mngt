@@ -2,10 +2,10 @@ const mongoose = require('mongoose') // Erase if already required
 
 // Declare the Schema of the Mongo model
 var productsSchema = new mongoose.Schema({
-  user: {
+  user_id: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'User',
+    ref: 'Users',
   },
   name: {
     type: String,
@@ -14,7 +14,9 @@ var productsSchema = new mongoose.Schema({
     index: true,
   },
   productID: {
+    // of the form xxx-xxx-xxxx /^([0-9]{3}-){2}[0-9]{4}/gm
     type: String,
+    match: /^([0-9]{3}-){2}[0-9]{4}/gm,
     required: true,
     unique: true,
     index: true,
@@ -49,7 +51,7 @@ var productsSchema = new mongoose.Schema({
       return this.category === 'emb_logo'
     },
   },
-  deleted: {
+  isDeleted: {
     type: Boolean,
     required: true,
     default: false,

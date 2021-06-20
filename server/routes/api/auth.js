@@ -15,16 +15,15 @@ require('dotenv').config()
 router.post('/', async (req, res) => {
   // Validation
   const schema = Joi.object({
-    name: Joi.string().required(),
+    email: Joi.string().required(),
     password: Joi.string().required(),
   })
-
-  const { error, value } = schema.validateAsync(req.body)
-
-  if (error !== undefined) {
-    return res.status(400).json(error)
-  }
   try {
+    const { error, value } = await schema.validate(req.body)
+
+    if (error !== undefined) {
+      return res.status(400).json(error)
+    }
     // Destructor req.body
     const { email, password } = req.body
 
@@ -54,10 +53,10 @@ router.post('/', async (req, res) => {
     // TODO Change expiration time in production
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRATION_TIME }, (err, token) => {
       if (err) throw err
-      res.json({ token })
+      return res.json({ token })
     })
-    res.status(200).json({ msg: 'User Logged In' })
-    console.log('User is Logged In')
+    // res.status(200).json({ msg: 'User Logged In' })
+    // console.log('User is Logged In')
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')

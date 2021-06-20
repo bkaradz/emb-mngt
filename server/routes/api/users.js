@@ -79,24 +79,3 @@ router.post('/', async (req, res) => {
 router.post('/delete/:id', (req, res) => {})
 
 module.exports = router
-
-// express-validation
-//  [
-//     check('name', 'Name is required').not().isEmpty(),
-//     check('role', 'Role is required').not().isEmpty(),
-//     check('email', 'Email is required').isEmail(),
-//     check('mobile', 'Mobile number is required and must be like {eg 0773-123-456, 0296-123-789}')
-//       .exists()
-//       .custom((value, { req }) => {
-//         // const valueArray = value.split(',').filter((value) => value.trim().match(/\d{4}-\d{3}-\d{3}/))
-//         const valueArray = value.match(/(?:\d{3,5}|\(\d{3,5}\)){0,1}(?:[-\s]){0,1}\d{3,4}([-\s])\d{3}\1\d{3}/g)
-//         // console.log(valueArray)
-//         // console.log(req.body.mobile.split(','))
-//         return valueArray.length === req.body.mobile.split(',').length
-//       }),
-//     check('password', 'Please enter a password with 8 or more characters').isLength({ min: 8 }),
-//     check('passwordConfirmation', 'Confirmation Password field must match password field')
-//       .exists()
-//       .custom((value, { req }) => value === req.body.password),
-//   ],
-//  const errors = validationResult(req)

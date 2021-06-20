@@ -1,3 +1,9 @@
+
+@xAuthToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBjMjYxNjA0NTI3OGIzOTZhYzMxM2EyIn0sImlhdCI6MTYyNDA5MzYwNiwiZXhwIjoxNjI0Njk4NDA2fQ.s0OWFq3pUptijnmlXlsfmZ23J53-1CgbQeVNh3RuMEM
+
+
+
+
 GET http://localhost:4000/api/contacts
 
 ###
@@ -7,8 +13,7 @@ GET http://localhost:4000/api/contacts/view/60a9250e4b2aac11cc99ced2
 # Create contact
 POST http://localhost:4000/api/contacts/create
 Content-Type: application/json
-x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBiZjRkZTc2ZTEyZmMyZGQwNDJmYjQyIn0sImlhdCI6MTYyMzE1NzAzOCwiZXhwIjoxNjIzNzYxODM4fQ.pUMCUckO4n3-xwh_bKZmCavu4xQjEElr6SaQKupkw7I
-
+x-auth-token: {{xAuthToken}}
 {
   "name": "John Smith",
   "isCompany": "individual",
@@ -64,8 +69,7 @@ Content-Type: application/json
 ###
 # Get auth user
 get http://localhost:4000/api/auth
-x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBjMGQ0YTBhYWY1MDMyYjdjYmY2MDg5In0sImlhdCI6MTYyMzI1MDA4MCwiZXhwIjoxNjIzODU0ODgwfQ.sS2JLGnTZxKhNMq9iFQYGJQ3bxANRAWv2EYy6k8lv0A
-
+x-auth-token: {{xAuthToken}}
 
 ###
 # Login User
@@ -81,12 +85,26 @@ Content-Type: application/json
 # Create Product
 POST http://localhost:4000/api/products
 Content-Type: application/json
-x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBiZjRkZTc2ZTEyZmMyZGQwNDJmYjQyIn0sImlhdCI6MTYyMzE1NzAzOCwiZXhwIjoxNjIzNzYxODM4fQ.pUMCUckO4n3-xwh_bKZmCavu4xQjEElr6SaQKupkw7I
+x-auth-token: {{xAuthToken}}
 
 {
-  "name": "logo",
-  "productID": "xxx-xxxx-xxxx",
+  "name": "logo1",
+  "productID": "xxx-xxxx-xxxy",
   "category": "emb_logo",
   "stitches": 2546
 }
+###
+# Get Products
+GET http://localhost:4000/api/products
+Content-Type: application/json
+x-auth-token: {{xAuthToken}}
+
+{
+  "page": 1, 
+  "pageSize": 5
+}
+
+
+
+
 

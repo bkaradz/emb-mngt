@@ -2,19 +2,19 @@ const express = require('express')
 const mongoose = require('mongoose')
 const router = express.Router()
 const Joi = require('joi')
-const Contacts = require('../../models/Contacts')
+const Customers = require('../../models/Customers')
 
 const auth = require('../../middleware/auth')
 
 /**
- * @route   GET api/contacts
- * @desc    Get all contacts
+ * @route   GET api/customers
+ * @desc    Get all customers
  * @access  Private
  */
 router.get('/', async (req, res) => {
   try {
-    const allContacts = await Contacts.find({ deleted: false }).sort({ name: 1 })
-    res.status(200).json(allContacts)
+    const allCustomers = await Customers.find({ isDeleted: false }).sort({ name: 1 })
+    res.status(200).json(allCustomers)
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')
@@ -22,14 +22,14 @@ router.get('/', async (req, res) => {
 })
 
 /**
- * @route   GET api/contacts/:id
- * @desc    Get one contact contact by id
+ * @route   GET api/customers/:id
+ * @desc    Get one customer by id
  * @access  Private
  */
 router.get('/:id', async (req, res) => {
   try {
-    const oneContacts = await Contacts.findById(req.params.id)
-    res.status(200).json(oneContacts)
+    const oneCustomers = await Customers.findById(req.params.id)
+    res.status(200).json(oneCustomers)
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')
@@ -37,8 +37,8 @@ router.get('/:id', async (req, res) => {
 })
 
 /**
- * @route   POST api/contacts/create
- * @desc    Create contact
+ * @route   POST api/customers
+ * @desc    Create customer
  * @access  Private
  */
 router.post('/', auth, async (req, res) => {
@@ -58,8 +58,8 @@ router.post('/', auth, async (req, res) => {
     if (error !== undefined) {
       return res.status(400).json(error)
     }
-    const contact = new Contacts({
-      user: req.user.id,
+    const customer = new Customers({
+      user_id: req.user.id,
       name: req.body.name,
       vatBpNo: req.body.vatBpNo,
       isCompany: req.body.isCompany,
@@ -69,7 +69,7 @@ router.post('/', auth, async (req, res) => {
       balance: req.body.balance,
     })
 
-    const post = await contact.save()
+    const post = await customer.save()
 
     res.status(200).json(post)
   } catch (err) {
@@ -79,8 +79,8 @@ router.post('/', auth, async (req, res) => {
 })
 
 /**
- * @route   POST api/contacts/Edit/:id
- * @desc    Edit contact
+ * @route   PUT api/customers/:id
+ * @desc    Edit customer
  * @access  Private
  */
 router.put('/:id', auth, async (req, res) => {
@@ -101,7 +101,7 @@ router.put('/:id', auth, async (req, res) => {
     if (error !== undefined) {
       return res.status(400).json(error)
     }
-    const contact = {
+    const customer = {
       name: req.body.name,
       vatBpNo: req.body.vatBpNo,
       isCompany: req.body.isCompany,
@@ -111,7 +111,7 @@ router.put('/:id', auth, async (req, res) => {
       balance: req.body.balance,
     }
 
-    const update = await Contacts.Update({ _id: req.params.id }, { $set: { contact } })
+    const update = await Customers.Update({ _id: req.params.id }, { $set: { customer } })
 
     res.status(200).json(update)
   } catch (err) {
@@ -121,13 +121,13 @@ router.put('/:id', auth, async (req, res) => {
 })
 
 /**
- *   @route   POST api/contacts/Delete/:id
- *   @desc    Delete contact
+ *   @route   DELETE api/customers/:id
+ *   @desc    Delete customer
  *   @access  Private
  */
 router.delete('/:id', auth, async (req, res) => {
   try {
-    const update = await Contacts.Update({ _id: req.params.id }, { $set: { deleted: true } })
+    const update = await Customers.Update({ _id: req.params.id }, { $set: { isDeleted: true } })
 
     res.status(200).json(update)
   } catch (err) {
