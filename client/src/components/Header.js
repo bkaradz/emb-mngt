@@ -1,6 +1,6 @@
 import React from 'react'
 import { AccountCircle, Mail as MailIcon, MenuOpen as MenuOpenIcon, Notifications as NotificationsIcon, Menu as MenuIcon } from '@material-ui/icons'
-import { IconButton, Menu, MenuItem } from '@material-ui/core'
+import { IconButton, Menu, MenuItem, Badge } from '@material-ui/core'
 
 const Header = ({ handleClick, bigNav }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -21,13 +21,21 @@ const Header = ({ handleClick, bigNav }) => {
         </button>
       </div>
       <div className='right-head'>
-        <div className='icon'>
-          <MailIcon />
+        <div>
+          <IconButton>
+            <Badge badgeContent={2} color='secondary'>
+              <MailIcon />
+            </Badge>
+          </IconButton>
         </div>
-        <div className='icon'>
-          <NotificationsIcon />
+        <div>
+          <IconButton>
+            <Badge badgeContent={4} color='secondary'>
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
         </div>
-        <div className='icon'>
+        <div>
           <IconButton aria-controls='simple-menu' aria-haspopup='true' onClick={handleClicked}>
             <AccountCircle />
           </IconButton>
