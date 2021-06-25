@@ -15,7 +15,7 @@ import ContactView from './components/Main/Contacts/ContactView'
 import Error from './components/Error'
 
 const App = () => {
-  const [notLoggedIn, setNotLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [bigNav, setBigNav] = useState(true)
   const handleClick = (e) => {
     if (bigNav === true) {
@@ -24,11 +24,11 @@ const App = () => {
       setBigNav(true)
     }
   }
-  if (notLoggedIn) {
+  if (!isLoggedIn) {
     return (
       <div className='App_Login'>
         <Router>
-          <Login setNotLoggedIn={setNotLoggedIn} />
+          <Login setIsLoggedIn={setIsLoggedIn} />
         </Router>
       </div>
     )

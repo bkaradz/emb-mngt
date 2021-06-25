@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Modal, Button } from 'react-bootstrap-v5'
 // import { BiUser } from 'react-icons/bi'
 
-function Login({ setNotLoggedIn }) {
+function Login({ setIsLoggedIn }) {
   const [modalShow, setModalShow] = useState(true)
   const [userToken, setUserToken] = useState(null)
   const refEmail = useRef(null)
@@ -20,12 +20,12 @@ function Login({ setNotLoggedIn }) {
       }
       console.log(credentials)
       try {
-        const response = await axios.post('http://localhost:4000/api/auth', credentials)
+        const response = await axios.post('/api/auth', credentials)
 
         console.log(response.data)
         setUserToken(response.data)
         setModalShow(false)
-        setNotLoggedIn(false)
+        setIsLoggedIn(true)
       } catch (err) {
         console.error(err.message)
         console.log('Server Error')

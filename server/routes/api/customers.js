@@ -11,7 +11,7 @@ const auth = require('../../middleware/auth')
  * @desc    Get all customers
  * @access  Private
  */
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const allCustomers = await Customers.find({ isDeleted: false }).sort({ name: 1 })
     res.status(200).json(allCustomers)
@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
  * @desc    Get one customer by id
  * @access  Private
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
     const oneCustomers = await Customers.findById(req.params.id)
     res.status(200).json(oneCustomers)

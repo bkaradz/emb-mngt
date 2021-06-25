@@ -1,17 +1,20 @@
 
-@xAuthToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBjMjYxNjA0NTI3OGIzOTZhYzMxM2EyIn0sImlhdCI6MTYyNDA5MzYwNiwiZXhwIjoxNjI0Njk4NDA2fQ.s0OWFq3pUptijnmlXlsfmZ23J53-1CgbQeVNh3RuMEM
+@xAuthToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBjMGQ0YTBhYWY1MDMyYjdjYmY2MDg5In0sImlhdCI6MTYyNDYxMzUxMSwiZXhwIjoxNjI1MjE4MzExfQ.qhOpoZHVN7_3p6eLEPiUuWs6SZSuzF1XnEyoGvp9RmY
 
 
 
-
-GET http://localhost:4000/api/contacts
-
-###
-GET http://localhost:4000/api/contacts/view/60a9250e4b2aac11cc99ced2
+# Get all Customers
+GET http://localhost:4000/api/customers
+x-auth-token: {{xAuthToken}}
 
 ###
-# Create contact
-POST http://localhost:4000/api/contacts/create
+# Get customer by ID
+GET http://localhost:4000/api/customers/view/60a9250e4b2aac11cc99ced2
+x-auth-token: {{xAuthToken}}
+
+###
+# Create cutomer
+POST http://localhost:4000/api/customers
 Content-Type: application/json
 x-auth-token: {{xAuthToken}}
 {
@@ -24,7 +27,8 @@ x-auth-token: {{xAuthToken}}
 }
 
 ###
-put http://localhost:4000/api/contacts/60a91ffa4b2aac11cc99ced1
+# Edit cutomer by ID
+put http://localhost:4000/api/customers/60a91ffa4b2aac11cc99ced1
 Content-Type: application/json
 
 {
