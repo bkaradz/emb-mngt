@@ -183,6 +183,7 @@ router.post('/upload', [auth, upload.single('csv_file')], async (req, res) => {
 
     const newArray = jsonArray.map((array) => {
       const { Name, Title, Stitches } = array
+      // console.log(productID)
       productID = incProductID(productID)
       return { user_id: req.user.id, name: Name, title: Title, stitches: parseInt(Stitches), category: 'emb_logo', productID }
     })
@@ -195,7 +196,10 @@ router.post('/upload', [auth, upload.single('csv_file')], async (req, res) => {
 })
 
 const incProductID = (productID) => {
-  oldProductID = productID.replaceAll('-', '') // remove - from string
+  // console.log(productID)
+  // console.log(typeof productID)
+  oldProductID = productID.replace(/-/g, '') // remove - from string
+  // oldProductID = productID.replaceAll('-', '') // remove - from string
   strProductID = (parseInt(oldProductID) + 1).toString() // convert to int and add one then covert to string
   productID = `${strProductID.slice(0, 3)}-${strProductID.slice(3, 6)}-${strProductID.slice(6)}`
 

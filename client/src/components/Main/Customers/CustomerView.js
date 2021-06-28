@@ -29,11 +29,12 @@ function ContactView(props) {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/contacts/view/${id}`)
+        axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwt')
+        const response = await axios.get(`/api/customers/${id}`)
 
         return setContactData(response.data)
       } catch (err) {
-        console.error(err.message)
+        console.error(err.response)
         console.log('Server Error')
       }
     }

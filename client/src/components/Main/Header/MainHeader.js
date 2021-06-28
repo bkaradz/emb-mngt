@@ -1,32 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
-import { InputGroup, DropdownButton, Dropdown, FormControl, Button } from 'react-bootstrap-v5'
-import { BiSearch } from 'react-icons/bi'
 
 const MainHeader = (props) => {
   const history = useHistory()
   const showBreadcrumbs = props.showBreadcrumbs // Breadcrumbs links
   // console.log(showBreadcrumbs)
   const showListFn = props.showListFn // Show List or Cards Function
-  const [showSearch, setShowSearch] = useState(false)
+
   const [nameCreateBtn, setNameBtnCreate] = useState('Create')
   const [nameImportBtn, setNameBtnImport] = useState('Import')
   const [showImportBtn, setShowImportBtn] = useState(false)
   const [showListOrCardItem, setShowListOrCardItem] = useState(false)
-  const [showPagination, setShowPagination] = useState(false)
 
-  useEffect(() => {
-    setShowSearch(JSON.parse(props.showSearch))
-  }, [props.showSearch])
   useEffect(() => {
     setShowImportBtn(JSON.parse(props.showImportBtn))
   }, [props.showImportBtn])
   useEffect(() => {
     setShowListOrCardItem(JSON.parse(props.showListOrCardItem))
   }, [props.showListOrCardItem])
-  useEffect(() => {
-    setShowPagination(JSON.parse(props.showPagination))
-  }, [props.showPagination])
+
   useEffect(() => {
     setNameBtnCreate(props.nameCreateBtn)
   }, [props.nameCreateBtn])
@@ -74,25 +66,6 @@ const MainHeader = (props) => {
               : ''}
           </ol>
         </div>
-        <div className='col-6'>
-          <InputGroup size='sm' className={`input-group-sm pe-3 py-3 ${!showSearch ? 'd-none' : ''}`}>
-            <DropdownButton variant='outline-primary' title='Dropdown' id='input-group-dropdown-3'>
-              <Dropdown.Item href='#'>Action</Dropdown.Item>
-              <Dropdown.Item href='#'>Another action</Dropdown.Item>
-              <Dropdown.Item href='#'>Something else here</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item href='#'>Separated link</Dropdown.Item>
-            </DropdownButton>
-            <FormControl aria-label='Text input with 2 dropdown buttons' />
-            <Button type='button' className='btn btn-outline-secondary btn-secondary px-3' id='input-group-dropdown-4' align='end'>
-              {' '}
-              <BiSearch />{' '}
-            </Button>
-          </InputGroup>
-        </div>
-      </div>
-
-      <div className='row gx-0'>
         <div className='col-3'>
           <button onClick={(e) => handleClick(e)} className='btn btn-primary btn-sm ms-3 mt-1 mb-3'>
             {nameCreateBtn}
@@ -101,7 +74,6 @@ const MainHeader = (props) => {
             {nameImportBtn}
           </button>
         </div>
-        <div className='col'></div>
         <div className={`d-flex col-1 justify-content-between pb-2 ${!showListOrCardItem ? 'd-none' : ''}`}>
           <button className='btn btn-sm m-0 p-0 text-primary' onClick={() => showListFn('true')}>
             <svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='currentColor' className='bi bi-list' viewBox='0 0 16 16'>
@@ -118,35 +90,10 @@ const MainHeader = (props) => {
             </svg>
           </button>
         </div>
-        <div className={`col-2 ${!showPagination ? 'd-none' : ''}`}>
-          <ul className='pagination float-end pe-3'>
-            <li className='page-item'>
-              <a className='page-link' href='!#' aria-label='Previous'>
-                <span aria-hidden='true'>&laquo;</span>
-              </a>
-            </li>
-            <li className='page-item'>
-              <a className='page-link' href='!#'>
-                1
-              </a>
-            </li>
-            <li className='page-item'>
-              <a className='page-link' href='!#'>
-                2
-              </a>
-            </li>
-            <li className='page-item'>
-              <a className='page-link' href='!#'>
-                3
-              </a>
-            </li>
-            <li className='page-item'>
-              <a className='page-link' href='!#' aria-label='Next'>
-                <span aria-hidden='true'>&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </div>
+      </div>
+
+      <div className='row gx-0'>
+        <div className='col'></div>
       </div>
       <hr className='bg-primary border-2 border-top border-primary m-0 p-0' />
     </div>

@@ -1,7 +1,25 @@
 import { NavLink } from 'react-router-dom'
+import { DataGrid } from '@material-ui/data-grid'
+import EditIcon from '@material-ui/icons/Edit'
+import VisibilityIcon from '@material-ui/icons/Visibility'
+import { IconButton, Paper } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+    height: '89%',
+    elevation: 3,
+  },
+}))
 
 function CustomersList({ customersData }) {
   // console.log(customersData)
+  const classes = useStyles()
+
   if (customersData === null) {
     return (
       <div className='main--content__List'>
@@ -10,50 +28,96 @@ function CustomersList({ customersData }) {
     )
   }
 
+  const columns = [
+    {
+      field: '_id',
+      headerName: 'ID',
+      width: 150,
+      editable: false,
+      hide: true,
+    },
+    {
+      field: 'name',
+      headerName: 'Name',
+      width: 300,
+      editable: false,
+    },
+    {
+      field: 'phone',
+      headerName: 'Phone',
+      width: 300,
+      editable: false,
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      width: 300,
+      editable: false,
+    },
+    {
+      field: 'balance',
+      headerName: 'Balance',
+      type: 'number',
+      width: 140,
+      editable: false,
+    },
+    {
+      field: 'address',
+      headerName: 'Address',
+      width: 300,
+      editable: false,
+    },
+    {
+      field: 'view',
+      headerName: 'View',
+      sortable: false,
+      width: 90,
+      disableClickEventBubbling: true,
+      renderCell: (params) => {
+        // console.log(params.id)
+        return (
+          <IconButton>
+            <NavLink exact to={`/customer/view/${params.id}`}>
+              <VisibilityIcon />
+            </NavLink>
+          </IconButton>
+        )
+      },
+    },
+    {
+      field: 'edit',
+      headerName: 'Edit',
+      sortable: false,
+      width: 80,
+      disableClickEventBubbling: true,
+      renderCell: (params) => {
+        // console.log(params.id)
+        return (
+          <IconButton>
+            <NavLink exact to={`/customer/edit/${params.id}`}>
+              <EditIcon />
+            </NavLink>
+          </IconButton>
+        )
+      },
+    },
+  ]
+
+  const rows = customersData
+
   return (
-    <div className='main--content__List'>
-      <table className='table table-striped table-bordered table-sm table-hover table-responsive'>
-        <thead className='table-dark'>
-          <tr>
-            <th scope='col'>#</th>
-            <th scope='col'>Name</th>
-            <th scope='col'>Phone #</th>
-            <th scope='col'>Email</th>
-            <th scope='col'>Balance</th>
-            <th scope='col'>Address</th>
-            <th scope='col'>Edit</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {customersData.map((customer, index) => {
-            const { _id, name, email, phone, address, balance } = customer
-
-            return (
-              <tr key={_id}>
-                <th scope='row'>{index + 1}</th>
-                <td>
-                  <NavLink exact to={`/customers/view/${_id}`}>
-                    {name}
-                  </NavLink>
-                </td>
-                <td>{phone}</td>
-                <td>{email}</td>
-                <td>{balance}</td>
-                <td>{address}</td>
-                <td>
-                  <NavLink exact to={`/customers/edit/${_id}`}>
-                    <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' className='bi bi-pencil' viewBox='0 0 16 16'>
-                      <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z' />
-                    </svg>
-                  </NavLink>
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
+    // style={{ height: 840, width: '100%' }}
+    <Paper className={classes.paper}>
+      <DataGrid
+        size='small'
+        getRowId={(row) => row._id}
+        rows={rows}
+        columns={columns}
+        autoPageSize={true}
+        checkboxSelection
+        disableSelectionOnClick
+      />
+    </Paper>
   )
 }
 

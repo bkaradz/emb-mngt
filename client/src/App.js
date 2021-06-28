@@ -24,10 +24,10 @@ const App = () => {
     // console.log(typeof jwt)
     // console.log(jwt)
     if (jwt) {
-      console.log(jwt)
+      // console.log(jwt)
       // check that the jwt is still valid
       const getAuth = async () => {
-        console.log('Test')
+        // console.log('Test')
         try {
           // console.log('Test2')
           axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwt')

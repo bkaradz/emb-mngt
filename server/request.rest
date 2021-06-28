@@ -1,5 +1,5 @@
 
-@xAuthToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBjMjYxNjA0NTI3OGIzOTZhYzMxM2EyIn0sImlhdCI6MTYyNDY1MDg1OCwiZXhwIjoxNjI1MjU1NjU4fQ.SRKCpCP_obCBCyb8BS_8pvwLYQIqjt2p2A7s_xMtXLc
+@xAuthToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBjMGQ0YTBhYWY1MDMyYjdjYmY2MDg5In0sImlhdCI6MTYyNDg2ODUxNiwiZXhwIjoxNjI1NDczMzE2fQ.i-wbU77_jhPrgYHeZoI2AH4-TbCbS6lyCX0PoreLNi0
 
 
 
@@ -9,7 +9,7 @@ x-auth-token: {{xAuthToken}}
 
 ###
 # Get customer by ID
-GET http://localhost:4000/api/customers/view/60a9250e4b2aac11cc99ced2
+GET http://localhost:4000/api/customers/60d993d5d220911c24c47b4a
 x-auth-token: {{xAuthToken}}
 
 ###
@@ -109,10 +109,17 @@ x-auth-token: {{xAuthToken}}
   "pageSize": 5
 }
 ###
-# Get Customers
-GET http://localhost:4000/api/customers
-Content-Disposition: form-data; name="file"; filename="/home/karadz/Downloads/contacts.csv"
+# POST Many Customers
+POST http://localhost:4000/api/customers/upload
 x-auth-token: {{xAuthToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="csv_file"; filename="../../contacts.csv"
+Content-Type: text/csv
+
+(data)
+----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 
 

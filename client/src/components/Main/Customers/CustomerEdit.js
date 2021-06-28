@@ -28,11 +28,12 @@ function CustomerEdit(props) {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(`/customers/${id}`)
+        axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwt')
+        const response = await axios.get(`/api/customers/${id}`)
 
         return setCustomerData(response.data)
       } catch (err) {
-        console.error(err.message)
+        console.error(err.response.data)
         console.log('Server Error')
       }
     }
