@@ -1,30 +1,35 @@
-import React, { useState, useRef } from 'react'
+// Bootstrap removed
+import React, { useState } from 'react'
+import { Button, TextField, Dialog, Typography } from '@material-ui/core'
+import MuiDialogTitle from '@material-ui/core/DialogTitle'
+import MuiDialogContent from '@material-ui/core/DialogContent'
+import MuiDialogActions from '@material-ui/core/DialogActions'
 import axios from 'axios'
-import { Modal, Button } from 'react-bootstrap-v5'
-// import { BiUser } from 'react-icons/bi'
 
 function Login({ setIsLoggedIn }) {
-  const [modalShow, setModalShow] = useState(true)
-  const [userToken, setUserToken] = useState(null)
-  const refEmail = useRef(null)
-  const refPassword = useRef(null)
+  const [open, setOpen] = useState(true)
+  // const [jwt, setJwt] = useState(null)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  console.log(userToken)
+  // console.log(jwt)
 
-  const handleSubmit = (e) => {
+  const handleClose = (e) => {
     e.preventDefault()
     const getData = async () => {
       const credentials = {
-        email: refEmail.current.value,
-        password: refPassword.current.value,
+        email,
+        password,
       }
-      console.log(credentials)
+      // console.log(credentials)
       try {
         const response = await axios.post('/api/auth', credentials)
 
-        console.log(response.data)
-        setUserToken(response.data)
-        setModalShow(false)
+        // console.log(response.data)
+        // setJwt(response.data.token)
+        // console.log(jwt)
+        localStorage.setItem('jwt', response.data.token)
+        setOpen(false)
         setIsLoggedIn(true)
       } catch (err) {
         console.error(err.message)
@@ -35,35 +40,44 @@ function Login({ setIsLoggedIn }) {
   }
 
   return (
-    <div className='main'>
-      {/* <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(true)} /> */}
-      <Modal show={modalShow} className='modal-open' size='lg' aria-labelledby='login-modal' centered>
-        <Modal.Header>
-          <Modal.Title className='text-primary' id='login-modal'>
-            Login
-          </Modal.Title>
-        </Modal.Header>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <Modal.Body>
-            <h4>Sign In</h4>
-            <div className='mb-3'>
-              <label htmlFor='exampleInputEmail1' className='form-label'>
-                Email address
-              </label>
-              <input ref={refEmail} type='email' className='form-control' id='exampleInputEmail1' aria-describedby='emailHelp' />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor='exampleInputPassword1' className='form-label'>
-                Password
-              </label>
-              <input ref={refPassword} type='password' className='form-control' id='exampleInputPassword1' />
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button type='submit'>Login</Button>
-          </Modal.Footer>
+    <div>
+      <Dialog aria-labelledby='customized-dialog-title' open={open} disableBackdropClick>
+        <MuiDialogTitle disableTypography>
+          <Typography variant='h6'>Sign In</Typography>
+        </MuiDialogTitle>
+        <form onSubmit={handleClose}>
+          <MuiDialogContent dividers>
+            <TextField
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              variant='filled'
+              autoFocus
+              margin='dense'
+              id='email'
+              label='Email'
+              type='email'
+              fullWidth
+            />
+            <TextField
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              variant='filled'
+              autoFocus
+              id='password'
+              label='Password'
+              type='password'
+              fullWidth
+            />
+          </MuiDialogContent>
+          <MuiDialogActions>
+            <Button type='submit' color='primary'>
+              Login
+            </Button>
+          </MuiDialogActions>
         </form>
-      </Modal>
+      </Dialog>
     </div>
   )
 }

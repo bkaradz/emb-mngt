@@ -3,6 +3,14 @@ const mongoose = require('mongoose')
 const router = express.Router()
 const Joi = require('joi')
 const Customers = require('../../models/Customers')
+const csv = require('csvtojson')
+
+// File upload
+const multer = require('multer')
+
+let storage = multer.memoryStorage()
+
+var upload = multer({ storage: storage })
 
 const auth = require('../../middleware/auth')
 
@@ -130,6 +138,30 @@ router.delete('/:id', auth, async (req, res) => {
     const update = await Customers.Update({ _id: req.params.id }, { $set: { isDeleted: true } })
 
     res.status(200).json(update)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('Sever Error')
+  }
+})
+
+/**
+ *    @route   POST api/customers/upload
+ *    @desc    Create many customers
+ *    @access  Private
+ */
+router.post('/upload', [auth, upload.single('csv_file')], async (req, res) => {
+  try {
+    let csvString = req.file.buffer.toString()
+    console.log(csvString)
+    const jsonArray = await csv().fromString(csvString)
+    console.log(jsonArray)
+
+    const newArray = jsonArray.map((array) => {
+      const { Name, Email, Phone, Organization } = array
+      return { user_id: req.user.id, name: Name, phone: Phone, organization: Organization, email: Email }
+    })
+    const resp = await Customers.insertMany(newArray)
+    res.status(200).send(resp)
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')

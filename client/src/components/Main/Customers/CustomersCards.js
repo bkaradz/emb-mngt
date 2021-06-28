@@ -2,8 +2,8 @@ import React from 'react'
 // import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
 import { BiBuildings, BiUser } from 'react-icons/bi'
 
-function ContactsCards({ contactsData }) {
-  if (contactsData === null) {
+function CustomersCards({ customersData }) {
+  if (customersData === null) {
     return (
       <div className='main--content__Cards container-fluid'>
         <h1>Loading...</h1>
@@ -13,8 +13,8 @@ function ContactsCards({ contactsData }) {
   return (
     <div className='main--content__Cards container-fluid'>
       <div className='row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4'>
-        {contactsData.map((contact) => {
-          const { _id, isCompany, name, email, phone, balance } = contact
+        {customersData.map((customer) => {
+          const { _id, isCompany, name, email, phone, balance } = customer
           return (
             <div className='col text-end' key={_id}>
               <div className='card mt-4' style={{ maxWidth: '450px' }}>
@@ -46,4 +46,4 @@ function ContactsCards({ contactsData }) {
   )
 }
 
-export default ContactsCards
+export default CustomersCards

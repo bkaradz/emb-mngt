@@ -13,8 +13,8 @@ export const links = [
   {
     id: 2,
     icon: <FaRegAddressCard />,
-    url: '/contacts',
-    text: 'Contacts',
+    url: '/customers',
+    text: 'Customers',
     children: [],
   },
   {

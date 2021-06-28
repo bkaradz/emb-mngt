@@ -1,28 +1,30 @@
 import MainHeader from '../Header/MainHeader'
-import ContactsList from './ContactsList'
-import ContactsCards from './ContactsCards'
+import CustomersList from './CustomersList'
+import CustomersCards from './CustomersCards'
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
-const Contacts = () => {
-  const [contactsData, setContactsData] = useState(null)
+const Customers = () => {
+  const [customersData, setCustomersData] = useState([])
   const [showList, setShowList] = useState(true)
 
   const breadcrumb = {
     link: [
       { name: 'Home', url: '/' },
-      { name: 'Contacts', url: '#' },
+      { name: 'Customers', url: '#' },
     ],
   }
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const resp = await axios.get('http://localhost:4000/contacts')
-        setContactsData(resp.data)
+        axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwt')
+        const resp = await axios.get('/api/customers')
+        setCustomersData(resp.data)
         // console.log(resp.data)
       } catch (err) {
-        console.error(`Server Error: ${err.message}`)
+        console.error(err.response.data)
+        // console.error(`Server Error: ${err.response.data}`)
       }
     }
     getData()
@@ -44,9 +46,9 @@ const Contacts = () => {
         showBreadcrumbs={breadcrumb}
         showListFn={showListFn}
       />
-      {showList ? <ContactsList contactsData={contactsData} /> : <ContactsCards contactsData={contactsData} />}
+      {showList ? <CustomersList customersData={customersData} /> : <CustomersCards customersData={customersData} />}
     </div>
   )
 }
 
-export default Contacts
+export default Customers

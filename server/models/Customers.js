@@ -18,7 +18,7 @@ var customersSchema = new mongoose.Schema({
   isCompany: {
     type: String,
     required: true,
-    default: 'Individual',
+    default: 'individual',
     enum: ['individual', 'company'],
   },
   email: {
@@ -31,6 +31,9 @@ var customersSchema = new mongoose.Schema({
     },
   ],
   address: {
+    type: String,
+  },
+  organization: {
     type: String,
   },
   balance: {

@@ -1,5 +1,5 @@
 
-@xAuthToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBjMGQ0YTBhYWY1MDMyYjdjYmY2MDg5In0sImlhdCI6MTYyNDYxMzUxMSwiZXhwIjoxNjI1MjE4MzExfQ.qhOpoZHVN7_3p6eLEPiUuWs6SZSuzF1XnEyoGvp9RmY
+@xAuthToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBjMjYxNjA0NTI3OGIzOTZhYzMxM2EyIn0sImlhdCI6MTYyNDY1MDg1OCwiZXhwIjoxNjI1MjU1NjU4fQ.SRKCpCP_obCBCyb8BS_8pvwLYQIqjt2p2A7s_xMtXLc
 
 
 
@@ -17,6 +17,7 @@ x-auth-token: {{xAuthToken}}
 POST http://localhost:4000/api/customers
 Content-Type: application/json
 x-auth-token: {{xAuthToken}}
+
 {
   "name": "John Smith",
   "isCompany": "individual",
@@ -107,7 +108,11 @@ x-auth-token: {{xAuthToken}}
   "page": 1, 
   "pageSize": 5
 }
-
+###
+# Get Customers
+GET http://localhost:4000/api/customers
+Content-Disposition: form-data; name="file"; filename="/home/karadz/Downloads/contacts.csv"
+x-auth-token: {{xAuthToken}}
 
 
 

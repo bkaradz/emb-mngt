@@ -1,22 +1,23 @@
 import MainHeader from '../Header/MainHeader'
-// import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
 import { BiBuildings, BiUser } from 'react-icons/bi'
-// import building from '../../../img/bootstrap/building.svg'
-// import person from '../../../img/bootstrap/person.svg'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
 
-function ContactEdit(props) {
-  const { id } = useParams()
-
-  const [contactData, setContactData] = useState(null)
-  const [isCompany, setIsCompany] = useState('')
+function CustomerCreate(props) {
+  const [isCompany, setIsCompany] = useState('individual')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [address, setAddress] = useState('')
   const [alert, setAlert] = useState({ message: '', type: '', show: false })
+
+  const breadcrumb = {
+    link: [
+      { name: 'Home', url: '/' },
+      { name: 'Customers', url: '/customer' },
+      { name: 'Create', url: '#' },
+    ],
+  }
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -24,31 +25,6 @@ function ContactEdit(props) {
     }, 3000)
     return () => clearTimeout(timeout)
   }, [alert.show])
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:4000/contacts/view/${id}`)
-
-        return setContactData(response.data)
-      } catch (err) {
-        console.error(err.message)
-        console.log('Server Error')
-      }
-    }
-    getData()
-  }, [id])
-
-  useEffect(() => {
-    // Update form
-    if (contactData !== null) {
-      setIsCompany(contactData.isCompany)
-      setName(contactData.name)
-      setPhone(contactData.phone)
-      setEmail(contactData.email)
-      setAddress(contactData.address)
-    }
-  }, [contactData])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -60,15 +36,15 @@ function ContactEdit(props) {
       address,
     }
     try {
-      await axios.post('http://localhost:4000/contacts/edit', contact)
-      console.log('Contact Created')
+      await axios.post('/customer', contact)
+      // console.log('Customer Created')
       // Reset form
       setIsCompany('individual')
       setName('')
       setPhone('')
       setEmail('')
       setAddress('')
-      setAlert({ message: 'Contact Updated', type: 'alert-success', show: true })
+      setAlert({ message: 'Customer Created', type: 'alert-success', show: true })
     } catch (err) {
       console.error(err.message)
       console.log('Server Error')
@@ -76,31 +52,16 @@ function ContactEdit(props) {
     }
   }
 
-  if (contactData === null) {
-    return (
-      <div className='main'>
-        <MainHeader
-          showSearch='false'
-          nameCreateBtn='Update'
-          nameImportBtn='Discard'
-          showImportBtn='false'
-          showListOrCardItem='false'
-          showPagination='false'
-        />
-        <h1>Loading...</h1>
-      </div>
-    )
-  }
-
   return (
     <div className='main'>
       <MainHeader
         showSearch='false'
-        nameCreateBtn='Update'
+        nameCreateBtn='Save'
         nameImportBtn='Discard'
-        showImportBtn='false'
+        showImportBtn='true'
         showListOrCardItem='false'
         showPagination='false'
+        showBreadcrumbs={breadcrumb}
       />
       <div className='main--content__create'>
         <div className='container'>
@@ -110,7 +71,7 @@ function ContactEdit(props) {
                 {alert.message}
               </div>
             )}
-            {/* <img src={isCompany === 'company' ? <FaBuilding /> : <FaUser />} width='100px' className='img-thumbnail mb-3' alt='...'></img> */}
+            {/* <img src={isCompany === 'company' ? <faBuilding /> : <faUser />} width='100px' className='img-thumbnail mb-3' alt='...'></img> */}
             <span className='user__icons'>{isCompany === 'company' ? <BiBuildings /> : <BiUser />}</span>
             <div className='form-check form-check-inline ms-3'>
               <input
@@ -120,6 +81,7 @@ function ContactEdit(props) {
                 id='individual'
                 value='individual'
                 defaultChecked={isCompany === 'individual'}
+                onClick={(e) => setIsCompany('individual')}
               />
               <label className='form-check-label' htmlFor='individual'>
                 Individual
@@ -133,6 +95,7 @@ function ContactEdit(props) {
                 id='company'
                 value='company'
                 defaultChecked={isCompany === 'company'}
+                onChange={(e) => setIsCompany('company')}
               />
               <label className='form-check-label' htmlFor='company'>
                 Company
@@ -184,7 +147,7 @@ function ContactEdit(props) {
               <textarea className='form-control' id='address' rows='3' value={address} onChange={(e) => setAddress(e.target.value)}></textarea>
             </div>
             <button type='submit' className='btn btn-primary'>
-              Update
+              Save
             </button>
           </form>
         </div>
@@ -193,4 +156,4 @@ function ContactEdit(props) {
   )
 }
 
-export default ContactEdit
+export default CustomerCreate
