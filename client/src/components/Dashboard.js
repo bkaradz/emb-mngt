@@ -1,7 +1,15 @@
 import MainHeader from './Main/Header/MainHeader'
-// import { InputGroup, FormControl } from 'react-bootstrap-v5'
+// import Notification from '../components/Notification/Notification'
+// import React, { useEffect } from 'react'
+import Button from '@material-ui/core/Button'
+import { createAlert, deleteAlert } from '../store/features/alerts/alertsSlice'
+import Alert from '@material-ui/lab/Alert'
+import { useSelector, useDispatch } from 'react-redux'
 
 const Dashboard = (props) => {
+  const dispatch = useDispatch()
+  const allAlerts = useSelector((state) => state.alerts)
+  let setId = ''
   const breadcrumb = {
     link: [
       { name: 'Home', url: '/' },
@@ -9,6 +17,11 @@ const Dashboard = (props) => {
       { name: 'View', url: '#' },
     ],
   }
+
+  const clickHandler = (e) => {
+    dispatch(createAlert({ msg: 'This is an error alert', type: 'error' }))
+  }
+
   return (
     <div className='main'>
       <MainHeader
@@ -21,13 +34,21 @@ const Dashboard = (props) => {
         showBreadcrumbs={breadcrumb}
       />
       <div>
-        {/* <InputGroup size='sm' className='mb-3'>
-          <InputGroup.Prepend>
-            <InputGroup.Text id='inputGroup-sizing-sm'>Small</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl aria-label='Small' aria-describedby='inputGroup-sizing-sm' />
-        </InputGroup>
-        <br /> */}
+        {/* <Notification /> */}
+        <div>
+          {allAlerts.map((alt) => {
+            const { id, msg, type } = alt
+            setId = id
+            return (
+              <Alert key={id} severity={type}>
+                {msg}
+              </Alert>
+            )
+          })}
+        </div>
+        <Button variant='contained' onClick={clickHandler}>
+          Default
+        </Button>
       </div>
     </div>
   )
