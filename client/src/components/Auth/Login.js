@@ -1,12 +1,16 @@
 // Bootstrap removed
 import React, { useState } from 'react'
 import { Button, TextField, Dialog, Typography } from '@material-ui/core'
+import Notification from '../Notification/Notification'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import MuiDialogContent from '@material-ui/core/DialogContent'
 import MuiDialogActions from '@material-ui/core/DialogActions'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { createAlert } from '../../store/features/alerts/alertsSlice'
 
 function Login({ setIsLoggedIn }) {
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(true)
   // const [jwt, setJwt] = useState(null)
   const [email, setEmail] = useState('')
@@ -16,6 +20,9 @@ function Login({ setIsLoggedIn }) {
 
   const handleClose = (e) => {
     e.preventDefault()
+
+    // dispatch(createAlert({ msg: 'This is an error alert', type: 'error' }))
+
     const getData = async () => {
       const credentials = {
         email,
@@ -25,7 +32,7 @@ function Login({ setIsLoggedIn }) {
       try {
         const response = await axios.post('/api/auth', credentials)
 
-        // console.log(response.data)
+        console.log(response.data)
         // setJwt(response.data.token)
         // console.log(jwt)
         localStorage.setItem('jwt', response.data.token)
@@ -45,7 +52,8 @@ function Login({ setIsLoggedIn }) {
         <MuiDialogTitle disableTypography>
           <Typography variant='h6'>Sign In</Typography>
         </MuiDialogTitle>
-        <form onSubmit={handleClose}>
+        {/* <Notification /> */}
+        <form onSubmit={(e) => handleClose()}>
           <MuiDialogContent dividers>
             <TextField
               value={email}
