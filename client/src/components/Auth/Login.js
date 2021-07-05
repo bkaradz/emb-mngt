@@ -1,16 +1,16 @@
 // Bootstrap removed
 import React, { useState } from 'react'
 import { Button, TextField, Dialog, Typography } from '@material-ui/core'
-import Notification from '../Notification/Notification'
+// import Notification from '../Notification/Notification'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import MuiDialogContent from '@material-ui/core/DialogContent'
 import MuiDialogActions from '@material-ui/core/DialogActions'
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
-import { createAlert } from '../../store/features/alerts/alertsSlice'
+// import { useDispatch } from 'react-redux'
+// import { createAlert } from '../../store/features/alerts/alertsSlice'
 
 function Login({ setIsLoggedIn }) {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const [open, setOpen] = useState(true)
   // const [jwt, setJwt] = useState(null)
   const [email, setEmail] = useState('')

@@ -16,7 +16,7 @@ import CustomerView from './components/Main/Customers/CustomerView'
 import Error from './components/Error'
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  // const [isLoggedIn, setIsLoggedIn] = useState(true)
   const [bigNav, setBigNav] = useState(true)
   const [jwt, setJwt] = useState(localStorage.getItem('jwt') || '')
 
@@ -34,7 +34,7 @@ const App = () => {
           await axios.get('/api/auth')
           // console.log('Test3')
           // console.log(response.data)
-          setIsLoggedIn(true)
+          // setIsLoggedIn(true)
         } catch (err) {
           console.error(err.message)
         }
@@ -43,7 +43,7 @@ const App = () => {
     } else {
       localStorage.setItem('jwt', '')
       setJwt('')
-      setIsLoggedIn(false)
+      // setIsLoggedIn(false)
     }
   }, [jwt])
 
@@ -54,15 +54,15 @@ const App = () => {
       setBigNav(true)
     }
   }
-  if (!isLoggedIn) {
-    return (
-      <div className='App_Login'>
-        <Router>
-          <Login setIsLoggedIn={setIsLoggedIn} />
-        </Router>
-      </div>
-    )
-  }
+  // if (!isLoggedIn) {
+  //   return (
+  //     <div className='App_Login'>
+  //       <Router>
+  //         <Login setIsLoggedIn={setIsLoggedIn} />
+  //       </Router>
+  //     </div>
+  //   )
+  // }
   return (
     <Router>
       <div className='App bg' style={bigNav ? { gridTemplateColumns: '220px 1fr' } : { gridTemplateColumns: '70px 1fr' }}>
