@@ -8,7 +8,9 @@ export const customersSlice = createSlice({
 
   reducers: {
     getAllCustomers: (state, { payload }) => {
-      state.customers.push(...payload)
+      // console.log(payload)
+      state.customers = []
+      state.customers = payload
     },
     getCustomerById: (state, { payload }) => {
       state.customers.push(payload)

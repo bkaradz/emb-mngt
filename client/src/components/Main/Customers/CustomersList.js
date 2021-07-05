@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-    height: '89%',
+    height: '90%',
     elevation: 3,
   },
 }))
@@ -76,9 +76,9 @@ function CustomersList({ customersData }) {
       renderCell: (params) => {
         // console.log(params.id)
         return (
-          <IconButton>
+          <IconButton size='small'>
             <NavLink exact to={`/customer/view/${params.id}`}>
-              <VisibilityIcon />
+              <VisibilityIcon fontSize='small' /> Show
             </NavLink>
           </IconButton>
         )
@@ -93,9 +93,9 @@ function CustomersList({ customersData }) {
       renderCell: (params) => {
         // console.log(params.id)
         return (
-          <IconButton>
+          <IconButton size='small'>
             <NavLink exact to={`/customer/edit/${params.id}`}>
-              <EditIcon />
+              <EditIcon fontSize='small' /> Edit
             </NavLink>
           </IconButton>
         )

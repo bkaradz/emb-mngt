@@ -8,9 +8,8 @@ import { getAllCustomers } from '../../../store/features/customers/customersSlic
 
 const Customers = () => {
   const dispatch = useDispatch()
-  const state = useSelector((state) => state.customers.customers)
-  console.log(state)
-  const [customersData, setCustomersData] = useState([])
+  const customersData = useSelector((state) => state.customers.customers)
+  // const [customersData, setCustomersData] = useState(state)
   const [showList, setShowList] = useState(true)
 
   const breadcrumb = {
@@ -20,21 +19,21 @@ const Customers = () => {
     ],
   }
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwt')
-        const resp = await axios.get('/api/customers')
-        // setCustomersData(resp.data)
-        dispatch(getAllCustomers(resp.data))
-        // setCustomersData(state)
-        // console.log(resp.data)
-      } catch (err) {
-        console.error(err.response.data)
-        // console.error(`Server Error: ${err.response.data}`)
-      }
+  const getData = async () => {
+    try {
+      axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwt')
+      const resp = await axios.get('/api/customers')
+
+      dispatch(getAllCustomers(resp.data))
+    } catch (err) {
+      console.error(err.response.data)
+      // console.error(`Server Error: ${err.response.data}`)
     }
+  }
+
+  useEffect(() => {
     getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const showListFn = (value) => {

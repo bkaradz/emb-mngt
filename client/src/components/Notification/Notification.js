@@ -17,17 +17,17 @@ function Notification() {
   const allAlerts = useSelector((state) => state.alerts)
   const dispatch = useDispatch()
 
-  // const removeAlert = (id) => {
-  //   setTimeout(() => {
-  //     dispatch(deleteAlert({ id }))
-  //   }, 3000)
-  // }
+  const removeAlert = (id) => {
+    setTimeout(() => {
+      dispatch(deleteAlert({ id }))
+    }, 3000)
+  }
 
   return (
     <div className={classes.root}>
       {allAlerts.alerts.map((alt) => {
         const { id, msg, type } = alt
-        // removeAlert(id)
+        removeAlert(id)
         return (
           <Alert key={id} severity={type}>
             {msg}
