@@ -12,6 +12,7 @@ import Customers from './components/Main/Customers/Customers'
 import CustomerCreate from './components/Main/Customers/CustomerCreate'
 import CustomerEdit from './components/Main/Customers/CustomerEdit'
 import CustomerView from './components/Main/Customers/CustomerView'
+import Products from './components/Main/Products/Products'
 
 import Error from './components/Error'
 
@@ -77,6 +78,9 @@ const App = () => {
           </Route>
           <Route exact path='/customers'>
             <Customers />
+          </Route>
+          <Route exact path='/products'>
+            <Products />
           </Route>
           <Route path='/customer/view/:id' children={<CustomerView />} />
           <Route exact path='/customer/create'>

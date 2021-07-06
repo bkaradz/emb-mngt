@@ -4,6 +4,8 @@ export const customersSlice = createSlice({
   name: 'customers',
   initialState: {
     customers: [],
+    loading: false,
+    lastFetch: null,
   },
 
   reducers: {

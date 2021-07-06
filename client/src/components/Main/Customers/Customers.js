@@ -8,7 +8,7 @@ import { getAllCustomers } from '../../../store/features/customers/customersSlic
 
 const Customers = () => {
   const dispatch = useDispatch()
-  const customersData = useSelector((state) => state.customers.customers)
+  const customersData = useSelector((state) => state.entities.customers.customers)
   // const [customersData, setCustomersData] = useState(state)
   const [showList, setShowList] = useState(true)
 

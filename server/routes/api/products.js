@@ -115,13 +115,13 @@ router.put('/:id', auth, async (req, res) => {
  *    @access  Private
  */
 router.get('/', auth, async (req, res) => {
-  const { page = 1, pageSize = 10 } = req.body
+  // const { page = 1, pageSize = 10 } = req.body
   try {
     const products = await Products.find({ isDeleted: false })
-      .limit(pageSize * 1)
-      .skip((page - 1) * pageSize)
-      .sort({ name: 1 })
-      .exec()
+    // .limit(pageSize * 1)
+    // .skip((page - 1) * pageSize)
+    // .sort({ name: 1 })
+    // .exec()
     res.status(200).json(products)
   } catch (err) {
     console.error(err.message)

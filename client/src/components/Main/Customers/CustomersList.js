@@ -1,9 +1,8 @@
 import { NavLink } from 'react-router-dom'
 import { DataGrid } from '@material-ui/data-grid'
-import EditIcon from '@material-ui/icons/Edit'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import { IconButton, Paper } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Visibility as VisibilityIcon, Edit as EditIcon } from '@material-ui/icons'
+import { IconButton, Paper, makeStyles } from '@material-ui/core'
+// import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
