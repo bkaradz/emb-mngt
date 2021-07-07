@@ -13,6 +13,8 @@ import CustomerCreate from './components/Main/Customers/CustomerCreate'
 import CustomerEdit from './components/Main/Customers/CustomerEdit'
 import CustomerView from './components/Main/Customers/CustomerView'
 import Products from './components/Main/Products/Products'
+import Users from './components/Main/Users/Users'
+import Messages from './components/Main/Messages/Messages'
 
 import Error from './components/Error'
 
@@ -82,12 +84,18 @@ const App = () => {
           <Route exact path='/products'>
             <Products />
           </Route>
+          <Route exact path='/settings/users'>
+            <Users />
+          </Route>
+          <Route exact path='/messages'>
+            <Messages />
+          </Route>
           <Route path='/customer/view/:id' children={<CustomerView />} />
           <Route exact path='/customer/create'>
             <CustomerCreate />
           </Route>
           <Route path='/customer/edit/:id' children={<CustomerEdit />} />
-          <Route exact path='/Sales'>
+          <Route exact path='/sales'>
             <Sales />
           </Route>
           <Route exact path='*'>

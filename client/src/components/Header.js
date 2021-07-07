@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AccountCircle, Mail as MailIcon, MenuOpen as MenuOpenIcon, Notifications as NotificationsIcon, Menu as MenuIcon } from '@material-ui/icons'
 import { IconButton, Menu, MenuItem, Badge } from '@material-ui/core'
+import Login from './Auth/Login'
 
 const Header = ({ handleClick, bigNav }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [showLogin, setShowLogin] = useState(false)
 
   const handleClicked = (event) => {
     setAnchorEl(event.currentTarget)
@@ -15,6 +17,7 @@ const Header = ({ handleClick, bigNav }) => {
 
   return (
     <div className='head'>
+      {showLogin && <Login />}
       <div className='left-head'>
         <button className='nav-toggle' onClick={(e) => handleClick(e)}>
           {bigNav ? <MenuIcon /> : <MenuOpenIcon />}
