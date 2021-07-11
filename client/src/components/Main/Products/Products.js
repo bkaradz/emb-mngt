@@ -26,7 +26,6 @@ function Products() {
 
   const getData = async () => {
     try {
-      axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwt')
       const resp = await axios.get('/api/products')
 
       dispatch(getAllProducts(resp.data))

@@ -15,14 +15,14 @@ require('dotenv').config()
 router.post('/', async (req, res) => {
   // Validation
   const schema = Joi.object({
-    email: Joi.string().required(),
-    password: Joi.string().required(),
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(6).max(50),
   })
   try {
     const { error, value } = await schema.validate(req.body)
 
     if (error !== undefined) {
-      return res.status(400).json(error)
+      return res.status(400).json({ errors: [{ msg: error.details[0].message }] })
     }
     // Destructor req.body
     const { email, password } = req.body
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
 
     // Email does not exist
     if (!user) {
-      return res.status(400).json({ error: [{ msg: 'Invalid Credentials' }] })
+      return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] })
     }
 
     // Match password
@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 
     // No match
     if (!isMatch) {
-      return res.status(400).json({ error: [{ msg: 'Invalid Credentials' }] })
+      return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] })
     }
 
     // Return jsonwebtoken
@@ -55,8 +55,6 @@ router.post('/', async (req, res) => {
       if (err) throw err
       return res.json({ token })
     })
-    // res.status(200).json({ msg: 'User Logged In' })
-    // console.log('User is Logged In')
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Sever Error')

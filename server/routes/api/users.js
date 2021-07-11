@@ -76,6 +76,19 @@ router.post('/', async (req, res) => {
 // @route   DELETE api/users/edit/:id
 // @desc    Delete all users
 // @access  Private
-router.post('/delete/:id', (req, res) => {})
+router.post('/delete/:id', auth, (req, res) => {})
+
+// @route   GET api/users/
+// @desc    GET all users
+// @access  Private
+router.get('/', auth, async (req, res) => {
+  try {
+    const allUsers = await Users.find().sort({ name: 1 }).select('-password')
+    res.status(200).json(allUsers)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('Sever Error')
+  }
+})
 
 module.exports = router

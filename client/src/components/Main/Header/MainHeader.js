@@ -33,15 +33,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.grey[300],
     padding: theme.spacing(1),
     display: 'flex',
-    overflow: 'auto',
+    // overflow: 'auto',
     flexDirection: 'column',
-    margin: theme.spacing(1),
-    // height: '89%',
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     elevation: 3,
   },
 }))
 
-const MainHeader = (props) => {
+const MainHeader = () => {
   const classes = useStyles()
   // const history = useHistory()
 

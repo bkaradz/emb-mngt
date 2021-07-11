@@ -1,191 +1,189 @@
 import MainHeader from '../Header/MainHeader'
-// import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
-import { BiBuildings, BiUser } from 'react-icons/bi'
-// import building from '../../../img/bootstrap/building.svg'
-// import person from '../../../img/bootstrap/person.svg'
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { useParams, useHistory } from 'react-router-dom'
+// import { BiBuildings, BiUser } from 'react-icons/bi'
+import React, { useEffect, useState } from 'react'
+// import axios from 'axios'
+import { useParams } from 'react-router-dom'
+// import { useParams, useHistory } from 'react-router-dom'
+import { Grid, TextField, Paper, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Avatar, Button } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
+import { deepOrange } from '@material-ui/core/colors'
+import avatarImage from '../../../assets/avatar.png'
+import { useSelector } from 'react-redux'
+// import { Radio } from '@material-ui/icons'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    // display: 'flex',
+    flexDirection: 'column',
+    '& .MuiFormControl-root': {
+      width: '95%',
+      margin: theme.spacing(1),
+    },
+    '& .MuiButton-root': {
+      width: '95%',
+      margin: theme.spacing(1),
+    },
+  },
+  paper: {
+    padding: theme.spacing(2),
+    margin: theme.spacing(2),
+
+    display: 'flex',
+    // overflow: 'auto',
+    // flexDirection: 'row',
+    // width: '100%',
+    height: '100%',
+    elevation: 3,
+  },
+  large: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    // padding: theme.spacing(7),
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+    // borderColor: deepOrange[500],
+  },
+  orange: {
+    color: theme.palette.getContrastText(deepOrange[500]),
+    backgroundColor: deepOrange[500],
+  },
+}))
 
 function ContactView(props) {
+  const classes = useStyles()
   const { id } = useParams()
-  const history = useHistory()
+  // console.log(id)
+  // console.log(useSelector((state) => state.entities.customers.customers.filter((customer) => customer._id === id))[0])
+  const user = useSelector((state) => state.entities.customers.customers.filter((customer) => customer._id === id))[0]
+  // const history = useHistory()
 
-  const [contactData, setContactData] = useState(null)
-  const [isCompany, setIsCompany] = useState('')
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
-  const [email, setEmail] = useState('')
-  const [address, setAddress] = useState('')
-
-  const breadcrumb = {
-    link: [
-      { name: 'Home', url: '/' },
-      { name: 'Contacts', url: '/contacts' },
-      { name: 'View', url: '#' },
-    ],
+  const initialValues = {
+    isCompany: '',
+    vatOrBpNo: '',
+    name: '',
+    organization: '',
+    phone: '',
+    email: '',
+    address: '',
+    balance: '',
+    rating: '',
   }
 
+  const [values, setValues] = useState(initialValues)
   useEffect(() => {
-    const getData = async () => {
-      try {
-        axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwt')
-        const response = await axios.get(`/api/customers/${id}`)
-
-        return setContactData(response.data)
-      } catch (err) {
-        console.error(err.response)
-        console.log('Server Error')
-      }
+    if (user) {
+      setValues({
+        ...values,
+        isCompany: user.isCompany,
+        vatOrBpNo: user.vatOrBpNo,
+        name: user.name,
+        organization: user.organization,
+        phone: user.phone,
+        email: user.email,
+        address: user.address,
+        balance: user.balance,
+        rating: user.rating,
+      })
     }
-    // Update form
-    getData()
-  }, [id])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
+  console.log(values)
 
-  useEffect(() => {
-    // Update form
-    if (contactData !== null) {
-      setIsCompany(contactData.isCompany)
-      setName(contactData.name)
-      setPhone(contactData.phone)
-      setEmail(contactData.email)
-      setAddress(contactData.address)
-    }
-  }, [contactData])
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    let editUrl = window.location.pathname
-    // console.log(editUrl)
-    editUrl = editUrl.replace('view', 'edit')
-    // console.log(editUrl)
-    // window.location.assign(editUrl)
-    history.push(editUrl)
-  }
-
-  if (contactData === null) {
-    return (
-      <div className='main'>
-        <MainHeader
-          showSearch='false'
-          nameCreateBtn='Edit'
-          nameImportBtn='Discard'
-          showImportBtn='false'
-          showListOrCardItem='false'
-          showPagination='false'
-          showBreadcrumbs={breadcrumb}
-        />
-        <h1>Loading...</h1>
-      </div>
-    )
+  const handleInputChange = (e) => {
+    // console.log(e.target)
+    const { name, value } = e.target
+    // console.log(`name: ${name} value: ${value}`)
+    setValues({ ...values, [name]: value })
   }
 
   return (
-    <div className='main'>
-      <MainHeader
-        showSearch='false'
-        nameCreateBtn='Edit'
-        nameImportBtn='Discard'
-        showImportBtn='false'
-        showListOrCardItem='false'
-        showPagination='false'
-        showBreadcrumbs={breadcrumb}
-      />
-      <div className='main--content__create'>
-        <div className='container'>
-          <form className='pt-5'>
-            {/* <img src={isCompany === 'company' ? <BiBuildings /> : <BiUser />} width='100px' className='img-thumbnail mb-3' alt='...'></img> */}
-            <span className='user__icons'>{isCompany === 'company' ? <BiBuildings /> : <BiUser />}</span>
-            <div className='form-check form-check-inline ms-3'>
-              <input
-                className='form-check-input'
-                type='radio'
-                name='companyOrIndividualRadioOptions'
-                id='individual'
-                value='individual'
-                defaultChecked={isCompany === 'individual'}
-                readOnly={true}
-              />
-              <label className='form-check-label' htmlFor='individual'>
-                Individual
-              </label>
-            </div>
-            <div className='form-check form-check-inline'>
-              <input
-                className='form-check-input'
-                type='radio'
-                name='companyOrIndividualRadioOptions'
-                id='company'
-                value='company'
-                defaultChecked={isCompany === 'company'}
-                readOnly={true}
-              />
-              <label className='form-check-label' htmlFor='company'>
-                Company
-              </label>
-            </div>
-            <div className='mb-3'>
-              <label htmlFor='name' className='form-label'>
-                Name
-              </label>
-              <input
-                type='text'
-                className='form-control form-control-sm'
-                id='name'
-                aria-describedby='emailHelp'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                readOnly={true}
-              />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor='phone' className='form-label'>
-                Phone
-              </label>
-              <input
-                type='text'
-                className='form-control form-control-sm'
-                id='phone'
-                aria-describedby='emailHelp'
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                readOnly={true}
-              />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor='email' className='form-label'>
-                Email address
-              </label>
-              <input
-                type='email'
-                className='form-control form-control-sm'
-                id='email'
-                aria-describedby='emailHelp'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                readOnly={true}
-              />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor='address' className='form-label'>
-                Address
-              </label>
-              <textarea
-                className='form-control'
-                id='address'
-                rows='3'
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                readOnly={true}
-              ></textarea>
-            </div>
-            <button type='submit' className='btn btn-primary' onClick={(e) => handleSubmit(e)}>
-              Edit
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+    <Grid container className={classes.root} direction='column'>
+      <MainHeader />
+      <form>
+        <Paper className={classes.paper}>
+          <Grid item xs={6}>
+            <Grid container justify='flex-start' alignItems='center'>
+              <Grid item>
+                <Avatar alt='Brian Karadz' src={avatarImage} className={`${classes.orange} ${classes.large}`} />
+              </Grid>
+              <Grid item>
+                <FormControl>
+                  <FormLabel>Customer Type</FormLabel>
+                  <RadioGroup aria-label='Company or Individual' name='isCompany' value={values.isCompany} onChange={handleInputChange}>
+                    <FormControlLabel value='individual' control={<Radio />} label='Individual' />
+                    <FormControlLabel value='company' control={<Radio />} label='Company' />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid item>
+                <TextField
+                  value={values.rating}
+                  id='rating'
+                  name='rating'
+                  label='Rating'
+                  variant='filled'
+                  size='small'
+                  onChange={handleInputChange}
+                />
+              </Grid>
+            </Grid>
+
+            <TextField value={values.name} id='name' name='name' label='Name' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField value={values.email} id='email' name='email' label='Email' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField
+              value={values.balance}
+              id='balance'
+              name='balance'
+              label='Balance'
+              variant='filled'
+              size='small'
+              onChange={handleInputChange}
+            />
+            <Grid container justify='flex-start' alignItems='center'>
+              <Button variant='contained'>Edit</Button>
+            </Grid>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              value={values.vatOrBpNo}
+              id='vatOrBpNo'
+              name='vatOrBpNo'
+              label='Vat or Bp Number'
+              variant='filled'
+              size='small'
+              onChange={handleInputChange}
+            />
+            <TextField value={values.phone} id='phone' name='phone' label='Phone' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField
+              value={values.notes}
+              id='notes'
+              name='notes'
+              label='Notes'
+              variant='filled'
+              multiline
+              rows={2}
+              size='small'
+              onChange={handleInputChange}
+            />
+            <TextField
+              value={values.address}
+              id='address'
+              name='address'
+              label='Address'
+              variant='filled'
+              multiline
+              rows={3}
+              size='small'
+              onChange={handleInputChange}
+            />
+            <Grid container justify='flex-start' alignItems='center'>
+              <Button variant='contained'>Return</Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      </form>
+    </Grid>
   )
 }
 

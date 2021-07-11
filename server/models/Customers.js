@@ -12,8 +12,12 @@ var customersSchema = new mongoose.Schema({
     required: true,
     index: true,
   },
-  vatBpNo: {
+  notes: {
     type: String,
+  },
+  vatOrBpNo: {
+    type: String,
+    default: '',
   },
   isCompany: {
     type: String,
@@ -38,6 +42,11 @@ var customersSchema = new mongoose.Schema({
   },
   balance: {
     type: Number, // TODO: fix for currency
+    required: true,
+    default: 0,
+  },
+  rating: {
+    type: Number,
     required: true,
     default: 0,
   },

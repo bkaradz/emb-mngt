@@ -2,10 +2,21 @@ import React, { useState } from 'react'
 import { AccountCircle, Mail as MailIcon, MenuOpen as MenuOpenIcon, Notifications as NotificationsIcon, Menu as MenuIcon } from '@material-ui/icons'
 import { IconButton, Menu, MenuItem, Badge } from '@material-ui/core'
 import Login from './Auth/Login'
+import { useSelector, useDispatch } from 'react-redux'
+import { loginFailed } from '../store/features/auth/authSlice'
 
 const Header = ({ handleClick, bigNav }) => {
+  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
-  const [showLogin, setShowLogin] = useState(false)
+  let name = ''
+  // let _id = ''
+  let showLogin = !useSelector((state) => state.auth.isLoggedIn)
+  const user = useSelector((state) => state.auth.user)
+  if (user) {
+    name = user.name
+    // _id = user._id
+    // console.log(_id)
+  }
 
   const handleClicked = (event) => {
     setAnchorEl(event.currentTarget)
@@ -13,6 +24,10 @@ const Header = ({ handleClick, bigNav }) => {
 
   const handleClose = () => {
     setAnchorEl(null)
+  }
+  const handleLogout = () => {
+    setAnchorEl(null)
+    dispatch(loginFailed())
   }
 
   return (
@@ -40,12 +55,13 @@ const Header = ({ handleClick, bigNav }) => {
         </div>
         <div>
           <IconButton aria-controls='simple-menu' aria-haspopup='true' onClick={handleClicked}>
+            {/* Todo Added avatar */}
             <AccountCircle />
           </IconButton>
           <Menu id='simple-menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem>{name}</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </div>
       </div>

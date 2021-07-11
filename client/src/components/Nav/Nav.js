@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import logo from '../../img/logo.png'
+import logo from '../../assets/logo.png'
 import { NavLink } from 'react-router-dom'
 import { links } from './nav-data'
-import { BsChevronDown, BsChevronUp } from 'react-icons/bs'
+import ExpandLessIcon from '@material-ui/icons/ExpandLess'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 const Nav = ({ bigNav }) => {
   const [activeUrl, setActiveUrl] = useState('')
@@ -11,7 +12,6 @@ const Nav = ({ bigNav }) => {
   return (
     <div className='navbar-menu'>
       <div className={bigNav ? `nav-brand_big` : `nav-brand_small`}>
-        {/* style={{ height: '20px' }}  */}
         <img src={logo} alt='The Embroidery Shop' />
       </div>
       <div className={bigNav ? `nav-list_menu_big` : `nav-list_menu_small`}>
@@ -32,7 +32,6 @@ const Nav = ({ bigNav }) => {
               }
               return (
                 <li key={id}>
-                  {/* {hide || text} */}
                   <NavLink
                     exact
                     to={url}
@@ -44,10 +43,9 @@ const Nav = ({ bigNav }) => {
                   >
                     <span>{icon}</span>
                     <span className={bigNav ? `nav--text` : 'd-none'}>{text}</span>
-                    <span className={bigNav ? `ms-auto me-3` : `d-none`}>{activeUrl === text && toggleMenu ? <BsChevronDown /> : <BsChevronUp />}</span>
-                    {/* <span className={bigNav ? `position-absolute top-50 start-100 translate-middle` : `d-none`}>
-                      {activeUrl === text && toggleMenu ? <BsChevronDown /> : <BsChevronUp />}
-                    </span> */}
+                    <span className={bigNav ? `ms-auto me-3` : `d-none`}>
+                      {activeUrl === text && toggleMenu ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    </span>
                   </NavLink>
                   <ul className={activeUrl === text && toggleMenu ? `child` : `child d-none`}>
                     {children.map((child) => {

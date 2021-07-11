@@ -21,7 +21,6 @@ const Customers = () => {
 
   const getData = async () => {
     try {
-      axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwt')
       const resp = await axios.get('/api/customers')
 
       dispatch(getAllCustomers(resp.data))

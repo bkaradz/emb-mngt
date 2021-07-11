@@ -37,7 +37,7 @@
   display: grid;
   width: 100vw;
   height: 100vh;
-  background: #1d2124;
+  background: #3e8383;
   grid-template-areas:
     'nav head'
     'nav main';
@@ -48,7 +48,7 @@
 .main {
   padding: 0 1rem;
   grid-area: main;
-  background-color: getColor('gray');
+  background-color: #2d2f30;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {

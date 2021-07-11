@@ -15,7 +15,7 @@ export const usersSlice = createSlice({
     },
     getAllUsers: (state, { payload }) => {
       // User jwt to get user info
-      state.user = payload
+      state.users = payload
     },
     deleteUser: (state, { payload }) => {
       state.isLoggedIn = payload

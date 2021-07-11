@@ -15,40 +15,34 @@ import CustomerView from './components/Main/Customers/CustomerView'
 import Products from './components/Main/Products/Products'
 import Users from './components/Main/Users/Users'
 import Messages from './components/Main/Messages/Messages'
+import { loadUser, userAuthFailed, userAuthSuccess } from './store/features/auth/authSlice'
 
 import Error from './components/Error'
+import { useDispatch } from 'react-redux'
+import setAuthToken from './utils/setAuthToken'
 
 const App = () => {
-  // const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const dispatch = useDispatch()
   const [bigNav, setBigNav] = useState(true)
-  const [jwt, setJwt] = useState(localStorage.getItem('jwt') || '')
+
+  setAuthToken(localStorage.token)
 
   useEffect(() => {
-    // console.log(typeof jwt)
-    // console.log(jwt)
-    if (jwt) {
-      // console.log(jwt)
-      // check that the jwt is still valid
-      const getAuth = async () => {
-        // console.log('Test')
-        try {
-          // console.log('Test2')
-          axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('jwt')
-          await axios.get('/api/auth')
-          // console.log('Test3')
-          // console.log(response.data)
-          // setIsLoggedIn(true)
-        } catch (err) {
-          console.error(err.message)
-        }
+    const getData = async () => {
+      try {
+        // Load User
+        const loadUserRes = await axios.get('/api/auth')
+        dispatch(loadUser(loadUserRes.data))
+        dispatch(userAuthSuccess(localStorage.token))
+      } catch (err) {
+        console.error(err.response.data.msg)
+        dispatch(userAuthFailed())
+        localStorage.removeItem('token')
       }
-      getAuth()
-    } else {
-      localStorage.setItem('jwt', '')
-      setJwt('')
-      // setIsLoggedIn(false)
     }
-  }, [jwt])
+    getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleClick = (e) => {
     if (bigNav === true) {
@@ -57,15 +51,7 @@ const App = () => {
       setBigNav(true)
     }
   }
-  // if (!isLoggedIn) {
-  //   return (
-  //     <div className='App_Login'>
-  //       <Router>
-  //         <Login setIsLoggedIn={setIsLoggedIn} />
-  //       </Router>
-  //     </div>
-  //   )
-  // }
+
   return (
     <Router>
       <div className='App bg' style={bigNav ? { gridTemplateColumns: '220px 1fr' } : { gridTemplateColumns: '70px 1fr' }}>

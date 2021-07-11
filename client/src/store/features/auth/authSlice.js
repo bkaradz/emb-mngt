@@ -4,25 +4,35 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    jwt: null,
+    token: null,
     isLoggedIn: false,
   },
 
   reducers: {
-    authUser: (state, { payload }) => {
+    userAuthSuccess: (state, { payload }) => {
       // Authenticate user & Get token
-      state.jwt = payload
+      state.token = payload
     },
-    getAuthUser: (state, { payload }) => {
-      // User jwt to get user info
+    userAuthFailed: (state, { payload }) => {
+      // Authenticate user & Get token
+      state.token = null
+      state.user = null
+      state.isLoggedIn = false
+    },
+    loginFailed: (state, { payload }) => {
+      // Authenticate user & Get token
+      state.token = null
+      state.user = null
+      state.isLoggedIn = false
+    },
+    loadUser: (state, { payload }) => {
+      // User token to get user info
       state.user = payload
-    },
-    setLoggedIn: (state, { payload }) => {
-      state.isLoggedIn = payload
+      state.isLoggedIn = true
     },
   },
 })
 
-export const { authUser, getAuthUser, setLoggedIn } = authSlice.actions
+export const { userAuthSuccess, userAuthFailed, loginFailed, loadUser } = authSlice.actions
 
 export default authSlice.reducer
