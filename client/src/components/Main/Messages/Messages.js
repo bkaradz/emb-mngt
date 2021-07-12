@@ -1,10 +1,10 @@
 import React from 'react'
-import MainHeader from '../Header/MainHeader'
+import PageHeader from '../PageHeader/PageHeader'
 
 function Messages() {
   return (
     <div className='main'>
-      <MainHeader />
+      <PageHeader />
       <h1>Messages</h1>
     </div>
   )

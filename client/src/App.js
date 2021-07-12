@@ -9,6 +9,7 @@ import Nav from './components/Nav/Nav'
 import Sales from './components/Sales'
 import Dashboard from './components/Dashboard'
 import Customers from './components/Main/Customers/Customers'
+import Customer from './components/Main/Customers/Customer'
 import CustomerCreate from './components/Main/Customers/CustomerCreate'
 import CustomerEdit from './components/Main/Customers/CustomerEdit'
 import CustomerView from './components/Main/Customers/CustomerView'
@@ -66,6 +67,9 @@ const App = () => {
           </Route>
           <Route exact path='/customers'>
             <Customers />
+          </Route>
+          <Route exact path='/customer'>
+            <Customer />
           </Route>
           <Route exact path='/products'>
             <Products />

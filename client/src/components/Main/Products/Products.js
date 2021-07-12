@@ -1,6 +1,6 @@
 // import React from 'react'
 import React, { useEffect } from 'react'
-import MainHeader from '../Header/MainHeader'
+import PageHeader from '../PageHeader/PageHeader'
 import { IconButton, Paper, makeStyles } from '@material-ui/core'
 import { Visibility as VisibilityIcon, Edit as EditIcon } from '@material-ui/icons'
 import { DataGrid } from '@material-ui/data-grid'
@@ -114,7 +114,7 @@ function Products() {
 
   return (
     <div className='main'>
-      <MainHeader />
+      <PageHeader />
       <Paper className={classes.paper}>
         <DataGrid
           size='small'

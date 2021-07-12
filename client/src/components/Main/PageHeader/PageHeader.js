@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const MainHeader = () => {
+const PageHeader = () => {
   const classes = useStyles()
   // const history = useHistory()
 
@@ -95,4 +95,4 @@ const MainHeader = () => {
   )
 }
 
-export default MainHeader
+export default PageHeader

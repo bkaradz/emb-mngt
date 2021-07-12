@@ -1,4 +1,4 @@
-import MainHeader from './Main/Header/MainHeader'
+import PageHeader from './Main/PageHeader/PageHeader'
 import Notification from '../components/Notification/Notification'
 
 import Button from '@material-ui/core/Button'
@@ -22,7 +22,7 @@ const Dashboard = (props) => {
 
   return (
     <div className='main'>
-      <MainHeader
+      <PageHeader
         showSearch='false'
         nameCreateBtn='Edit'
         nameImportBtn='Discard'

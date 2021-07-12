@@ -1,4 +1,4 @@
-import MainHeader from '../Header/MainHeader'
+import PageHeader from '../PageHeader/PageHeader'
 import CustomersList from './CustomersList'
 import CustomersCards from './CustomersCards'
 import axios from 'axios'
@@ -41,7 +41,7 @@ const Customers = () => {
 
   return (
     <div className='main'>
-      <MainHeader
+      <PageHeader
         showSearch='true'
         nameCreateBtn='Create'
         nameImportBtn='Import'

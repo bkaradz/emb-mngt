@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import MainHeader from '../Header/MainHeader'
+import PageHeader from '../PageHeader/PageHeader'
 import { IconButton, Paper, makeStyles } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
@@ -118,7 +118,7 @@ function Users() {
 
   return (
     <div className='main'>
-      <MainHeader />
+      <PageHeader />
       <Paper className={classes.paper}>
         <DataGrid getRowId={(row) => row._id} rows={rows} columns={columns} autoPageSize={true} checkboxSelection disableSelectionOnClick />
       </Paper>

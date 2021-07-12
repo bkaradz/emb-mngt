@@ -1,4 +1,4 @@
-import MainHeader from '../Header/MainHeader'
+import PageHeader from '../PageHeader/PageHeader'
 import { BiBuildings, BiUser } from 'react-icons/bi'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
@@ -54,7 +54,7 @@ function CustomerCreate(props) {
 
   return (
     <div className='main'>
-      <MainHeader
+      <PageHeader
         showSearch='false'
         nameCreateBtn='Save'
         nameImportBtn='Discard'

@@ -1,15 +1,11 @@
-import MainHeader from '../Header/MainHeader'
-// import { BiBuildings, BiUser } from 'react-icons/bi'
+import PageHeader from '../PageHeader/PageHeader'
 import React, { useEffect, useState } from 'react'
-// import axios from 'axios'
 import { useParams } from 'react-router-dom'
-// import { useParams, useHistory } from 'react-router-dom'
 import { Grid, TextField, Paper, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Avatar, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import { deepOrange } from '@material-ui/core/colors'
+import { deepOrange, lightBlue, grey } from '@material-ui/core/colors'
 import avatarImage from '../../../assets/avatar.png'
 import { useSelector } from 'react-redux'
-// import { Radio } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,11 +24,8 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     margin: theme.spacing(2),
-
+    marginTop: theme.spacing(1),
     display: 'flex',
-    // overflow: 'auto',
-    // flexDirection: 'row',
-    // width: '100%',
     height: '100%',
     elevation: 3,
   },
@@ -46,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   orange: {
     color: theme.palette.getContrastText(deepOrange[500]),
-    backgroundColor: deepOrange[500],
+    backgroundColor: lightBlue[500],
   },
 }))
 
@@ -88,7 +81,7 @@ function ContactView(props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
-  console.log(values)
+  // console.log(values)
 
   const handleInputChange = (e) => {
     // console.log(e.target)
@@ -99,7 +92,7 @@ function ContactView(props) {
 
   return (
     <Grid container className={classes.root} direction='column'>
-      <MainHeader />
+      <PageHeader />
       <form>
         <Paper className={classes.paper}>
           <Grid item xs={6}>
@@ -111,8 +104,8 @@ function ContactView(props) {
                 <FormControl>
                   <FormLabel>Customer Type</FormLabel>
                   <RadioGroup aria-label='Company or Individual' name='isCompany' value={values.isCompany} onChange={handleInputChange}>
-                    <FormControlLabel value='individual' control={<Radio />} label='Individual' />
-                    <FormControlLabel value='company' control={<Radio />} label='Company' />
+                    <FormControlLabel disabled value='individual' control={<Radio />} label='Individual' />
+                    <FormControlLabel disabled value='company' control={<Radio />} label='Company' />
                   </RadioGroup>
                 </FormControl>
               </Grid>
@@ -125,12 +118,22 @@ function ContactView(props) {
                   variant='filled'
                   size='small'
                   onChange={handleInputChange}
+                  disabled
                 />
               </Grid>
             </Grid>
 
-            <TextField value={values.name} id='name' name='name' label='Name' variant='filled' size='small' onChange={handleInputChange} />
-            <TextField value={values.email} id='email' name='email' label='Email' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField value={values.name} id='name' name='name' label='Name' variant='filled' size='small' onChange={handleInputChange} disabled />
+            <TextField
+              value={values.email}
+              id='email'
+              name='email'
+              label='Email'
+              variant='filled'
+              size='small'
+              onChange={handleInputChange}
+              disabled
+            />
             <TextField
               value={values.balance}
               id='balance'
@@ -139,9 +142,12 @@ function ContactView(props) {
               variant='filled'
               size='small'
               onChange={handleInputChange}
+              disabled
             />
             <Grid container justify='flex-start' alignItems='center'>
-              <Button variant='contained'>Edit</Button>
+              <Button variant='contained' disabled>
+                Edit
+              </Button>
             </Grid>
           </Grid>
           <Grid item xs={6}>
@@ -153,8 +159,18 @@ function ContactView(props) {
               variant='filled'
               size='small'
               onChange={handleInputChange}
+              disabled
             />
-            <TextField value={values.phone} id='phone' name='phone' label='Phone' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField
+              value={values.phone}
+              id='phone'
+              name='phone'
+              label='Phone'
+              variant='filled'
+              size='small'
+              onChange={handleInputChange}
+              disabled
+            />
             <TextField
               value={values.notes}
               id='notes'
@@ -165,6 +181,7 @@ function ContactView(props) {
               rows={2}
               size='small'
               onChange={handleInputChange}
+              disabled
             />
             <TextField
               value={values.address}
@@ -176,6 +193,7 @@ function ContactView(props) {
               rows={3}
               size='small'
               onChange={handleInputChange}
+              disabled
             />
             <Grid container justify='flex-start' alignItems='center'>
               <Button variant='contained'>Return</Button>
