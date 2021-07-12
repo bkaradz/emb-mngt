@@ -1,9 +1,8 @@
 import React from 'react'
-
 import MainPageBase from '../MainPageBase'
 
-function Messages() {
+function UserEdit() {
   return <MainPageBase></MainPageBase>
 }
 
-export default Messages
+export default UserEdit

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { AccountCircle, Mail as MailIcon, MenuOpen as MenuOpenIcon, Notifications as NotificationsIcon, Menu as MenuIcon } from '@material-ui/icons'
 import { IconButton, Menu, MenuItem, Badge } from '@material-ui/core'
-import Login from './Auth/Login'
+import Login from '../Auth/Login'
 import { useSelector, useDispatch } from 'react-redux'
-import { loginFailed } from '../store/features/auth/authSlice'
+import { loginFailed } from '../../store/features/auth/authSlice'
 
 const Header = ({ handleClick, bigNav }) => {
   const dispatch = useDispatch()

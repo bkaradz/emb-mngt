@@ -1,9 +1,8 @@
 import React from 'react'
-
 import MainPageBase from '../MainPageBase'
 
-function Messages() {
+function UserView() {
   return <MainPageBase></MainPageBase>
 }
 
-export default Messages
+export default UserView

@@ -1,28 +1,16 @@
 // import React from 'react'
 import React, { useEffect } from 'react'
-import PageHeader from '../PageHeader/PageHeader'
-import { IconButton, Paper, makeStyles } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import { Visibility as VisibilityIcon, Edit as EditIcon } from '@material-ui/icons'
 import { DataGrid } from '@material-ui/data-grid'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { getAllProducts } from '../../../store/features/products/productsSlice'
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-    height: '90%',
-    elevation: 3,
-  },
-}))
+import MainPageBase from '../MainPageBase'
 
 function Products() {
   const dispatch = useDispatch()
-  const classes = useStyles()
 
   const getData = async () => {
     try {
@@ -113,20 +101,17 @@ function Products() {
   ]
 
   return (
-    <div className='main'>
-      <PageHeader />
-      <Paper className={classes.paper}>
-        <DataGrid
-          size='small'
-          getRowId={(row) => row._id}
-          rows={rows}
-          columns={columns}
-          autoPageSize={true}
-          checkboxSelection
-          disableSelectionOnClick
-        />
-      </Paper>
-    </div>
+    <MainPageBase>
+      <DataGrid
+        size='small'
+        getRowId={(row) => row._id}
+        rows={rows}
+        columns={columns}
+        autoPageSize={true}
+        checkboxSelection
+        disableSelectionOnClick
+      />
+    </MainPageBase>
   )
 }
 

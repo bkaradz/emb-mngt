@@ -1,27 +1,16 @@
 import React, { useEffect } from 'react'
-import PageHeader from '../PageHeader/PageHeader'
-import { IconButton, Paper, makeStyles } from '@material-ui/core'
+
+import { IconButton } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { DataGrid } from '@material-ui/data-grid'
 import { NavLink } from 'react-router-dom'
 import { Visibility as VisibilityIcon, Edit as EditIcon } from '@material-ui/icons'
 import { getAllUsers } from '../../../store/features/users/usersSlice'
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-    height: '90%',
-    elevation: 3,
-  },
-}))
+import MainPageBase from '../MainPageBase'
 
 function Users() {
   const dispatch = useDispatch()
-  const classes = useStyles()
 
   const getData = async () => {
     try {
@@ -117,12 +106,9 @@ function Users() {
   ]
 
   return (
-    <div className='main'>
-      <PageHeader />
-      <Paper className={classes.paper}>
-        <DataGrid getRowId={(row) => row._id} rows={rows} columns={columns} autoPageSize={true} checkboxSelection disableSelectionOnClick />
-      </Paper>
-    </div>
+    <MainPageBase>
+      <DataGrid getRowId={(row) => row._id} rows={rows} columns={columns} autoPageSize={true} checkboxSelection disableSelectionOnClick />
+    </MainPageBase>
   )
 }
 

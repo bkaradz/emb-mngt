@@ -1,4 +1,3 @@
-import PageHeader from '../PageHeader/PageHeader'
 import CustomersList from './CustomersList'
 import CustomersCards from './CustomersCards'
 import axios from 'axios'
@@ -11,13 +10,6 @@ const Customers = () => {
   const customersData = useSelector((state) => state.entities.customers.customers)
   // const [customersData, setCustomersData] = useState(state)
   const [showList, setShowList] = useState(true)
-
-  const breadcrumb = {
-    link: [
-      { name: 'Home', url: '/' },
-      { name: 'Customers', url: '#' },
-    ],
-  }
 
   const getData = async () => {
     try {
@@ -35,25 +27,7 @@ const Customers = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const showListFn = (value) => {
-    setShowList(JSON.parse(value))
-  }
-
-  return (
-    <div className='main'>
-      <PageHeader
-        showSearch='true'
-        nameCreateBtn='Create'
-        nameImportBtn='Import'
-        showImportBtn='false'
-        showListOrCardItem='true'
-        showPagination='true'
-        showBreadcrumbs={breadcrumb}
-        showListFn={showListFn}
-      />
-      {showList ? <CustomersList customersData={customersData} /> : <CustomersCards customersData={customersData} />}
-    </div>
-  )
+  return <>{showList ? <CustomersList customersData={customersData} /> : <CustomersCards customersData={customersData} />}</>
 }
 
 export default Customers

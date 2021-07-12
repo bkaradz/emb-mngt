@@ -1,11 +1,11 @@
-import PageHeader from '../PageHeader/PageHeader'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Grid, TextField, Paper, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Avatar, Button } from '@material-ui/core'
+import { Grid, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Avatar, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import { deepOrange, lightBlue, grey } from '@material-ui/core/colors'
+import { deepOrange, lightBlue } from '@material-ui/core/colors'
 import avatarImage from '../../../assets/avatar.png'
 import { useSelector } from 'react-redux'
+import MainPageBase from '../MainPageBase'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,14 +21,7 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
-  paper: {
-    padding: theme.spacing(2),
-    margin: theme.spacing(2),
-    marginTop: theme.spacing(1),
-    display: 'flex',
-    height: '100%',
-    elevation: 3,
-  },
+
   large: {
     width: theme.spacing(10),
     height: theme.spacing(10),
@@ -41,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ContactEdit(props) {
+function CustomerEdit(props) {
   const classes = useStyles()
   const { id } = useParams()
 
@@ -77,7 +70,6 @@ function ContactEdit(props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
-  // console.log(values)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -86,10 +78,9 @@ function ContactEdit(props) {
   }
 
   return (
-    <Grid container className={classes.root} direction='column'>
-      <PageHeader />
-      <form>
-        <Paper className={classes.paper}>
+    <MainPageBase>
+      <form className={classes.root}>
+        <Grid container>
           <Grid item xs={6}>
             <Grid container justify='flex-start' alignItems='center'>
               <Grid item>
@@ -169,10 +160,10 @@ function ContactEdit(props) {
               <Button variant='contained'>Return</Button>
             </Grid>
           </Grid>
-        </Paper>
+        </Grid>
       </form>
-    </Grid>
+    </MainPageBase>
   )
 }
 
-export default ContactEdit
+export default CustomerEdit

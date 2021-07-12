@@ -14,7 +14,7 @@ var UsersSchema = new mongoose.Schema({
     required: true,
     default: 'other',
     enum: {
-      values: ['admin', 'sales', 'production', 'trimming', 'other'],
+      values: ['admin', 'sales', 'production', 'trimming'],
       message: '{VALUE} is not supported',
     },
   },

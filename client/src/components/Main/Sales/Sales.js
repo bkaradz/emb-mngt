@@ -1,10 +1,11 @@
 import React from 'react'
+import MainPageBase from '../MainPageBase'
 
 const Sales = () => {
   return (
-    <div className="main">
+    <MainPageBase>
       <h1>Sales</h1>
-    </div>
+    </MainPageBase>
   )
 }
 

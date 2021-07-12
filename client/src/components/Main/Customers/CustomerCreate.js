@@ -1,158 +1,149 @@
-import PageHeader from '../PageHeader/PageHeader'
-import { BiBuildings, BiUser } from 'react-icons/bi'
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { Grid, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Avatar, Button } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
+import { deepOrange, lightBlue } from '@material-ui/core/colors'
+import avatarImage from '../../../assets/avatar.png'
+
+import MainPageBase from '../MainPageBase'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    // display: 'flex',
+    flexDirection: 'column',
+    '& .MuiFormControl-root': {
+      width: '95%',
+      margin: theme.spacing(1),
+    },
+    '& .MuiButton-root': {
+      width: '95%',
+      margin: theme.spacing(1),
+    },
+  },
+
+  large: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+  },
+  orange: {
+    color: theme.palette.getContrastText(deepOrange[500]),
+    backgroundColor: lightBlue[500],
+  },
+}))
 
 function CustomerCreate(props) {
-  const [isCompany, setIsCompany] = useState('individual')
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
-  const [email, setEmail] = useState('')
-  const [address, setAddress] = useState('')
-  const [alert, setAlert] = useState({ message: '', type: '', show: false })
+  const classes = useStyles()
+  const { id } = useParams()
 
-  const breadcrumb = {
-    link: [
-      { name: 'Home', url: '/' },
-      { name: 'Customers', url: '/customer' },
-      { name: 'Create', url: '#' },
-    ],
+  const initialValues = {
+    isCompany: '',
+    vatOrBpNo: '',
+    name: '',
+    organization: '',
+    phone: '',
+    email: '',
+    address: '',
+    balance: '',
+    rating: '',
   }
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setAlert({ message: '', type: '', show: false })
-    }, 3000)
-    return () => clearTimeout(timeout)
-  }, [alert.show])
+  const [values, setValues] = useState(initialValues)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const contact = {
-      name,
-      isCompany,
-      phone: [phone],
-      email,
-      address,
-    }
-    try {
-      await axios.post('/customer', contact)
-      // console.log('Customer Created')
-      // Reset form
-      setIsCompany('individual')
-      setName('')
-      setPhone('')
-      setEmail('')
-      setAddress('')
-      setAlert({ message: 'Customer Created', type: 'alert-success', show: true })
-    } catch (err) {
-      console.error(err.message)
-      console.log('Server Error')
-      setAlert({ message: 'An Error Occurred', type: 'alert-danger', show: true })
-    }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+
+    setValues({ ...values, [name]: value })
   }
 
   return (
-    <div className='main'>
-      <PageHeader
-        showSearch='false'
-        nameCreateBtn='Save'
-        nameImportBtn='Discard'
-        showImportBtn='true'
-        showListOrCardItem='false'
-        showPagination='false'
-        showBreadcrumbs={breadcrumb}
-      />
-      <div className='main--content__create'>
-        <div className='container'>
-          <form className='pt-5' onSubmit={(e) => handleSubmit(e)}>
-            {alert.show && (
-              <div className={`alert ${alert.type}`} role='alert'>
-                {alert.message}
-              </div>
-            )}
-            {/* <img src={isCompany === 'company' ? <faBuilding /> : <faUser />} width='100px' className='img-thumbnail mb-3' alt='...'></img> */}
-            <span className='user__icons'>{isCompany === 'company' ? <BiBuildings /> : <BiUser />}</span>
-            <div className='form-check form-check-inline ms-3'>
-              <input
-                className='form-check-input'
-                type='radio'
-                name='companyOrIndividualRadioOptions'
-                id='individual'
-                value='individual'
-                defaultChecked={isCompany === 'individual'}
-                onClick={(e) => setIsCompany('individual')}
-              />
-              <label className='form-check-label' htmlFor='individual'>
-                Individual
-              </label>
-            </div>
-            <div className='form-check form-check-inline'>
-              <input
-                className='form-check-input'
-                type='radio'
-                name='companyOrIndividualRadioOptions'
-                id='company'
-                value='company'
-                defaultChecked={isCompany === 'company'}
-                onChange={(e) => setIsCompany('company')}
-              />
-              <label className='form-check-label' htmlFor='company'>
-                Company
-              </label>
-            </div>
-            <div className='mb-3'>
-              <label htmlFor='name' className='form-label'>
-                Name
-              </label>
-              <input
-                type='text'
-                className='form-control form-control-sm'
-                id='name'
-                aria-describedby='emailHelp'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor='phone' className='form-label'>
-                Phone
-              </label>
-              <input
-                type='text'
-                className='form-control form-control-sm'
-                id='phone'
-                aria-describedby='emailHelp'
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor='email' className='form-label'>
-                Email address
-              </label>
-              <input
-                type='email'
-                className='form-control form-control-sm'
-                id='email'
-                aria-describedby='emailHelp'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className='mb-3'>
-              <label htmlFor='address' className='form-label'>
-                Address
-              </label>
-              <textarea className='form-control' id='address' rows='3' value={address} onChange={(e) => setAddress(e.target.value)}></textarea>
-            </div>
-            <button type='submit' className='btn btn-primary'>
-              Save
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+    <MainPageBase>
+      <form className={classes.root}>
+        <Grid container>
+          <Grid item xs={6}>
+            <Grid container justify='flex-start' alignItems='center'>
+              <Grid item>
+                <Avatar alt='Brian Karadz' src={avatarImage} className={`${classes.orange} ${classes.large}`} />
+              </Grid>
+              <Grid item>
+                <FormControl>
+                  <FormLabel>Customer Type</FormLabel>
+                  <RadioGroup aria-label='Company or Individual' name='isCompany' value={values.isCompany} onChange={handleInputChange}>
+                    <FormControlLabel value='individual' control={<Radio />} label='Individual' />
+                    <FormControlLabel value='company' control={<Radio />} label='Company' />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid item>
+                <TextField
+                  value={values.rating}
+                  id='rating'
+                  name='rating'
+                  label='Rating'
+                  variant='filled'
+                  size='small'
+                  onChange={handleInputChange}
+                />
+              </Grid>
+            </Grid>
+
+            <TextField value={values.name} id='name' name='name' label='Name' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField value={values.email} id='email' name='email' label='Email' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField
+              value={values.balance}
+              id='balance'
+              name='balance'
+              label='Balance'
+              variant='filled'
+              size='small'
+              onChange={handleInputChange}
+            />
+            <Grid container justify='flex-start' alignItems='center'>
+              <Button variant='contained'>Edit</Button>
+            </Grid>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              value={values.vatOrBpNo}
+              id='vatOrBpNo'
+              name='vatOrBpNo'
+              label='Vat or Bp Number'
+              variant='filled'
+              size='small'
+              onChange={handleInputChange}
+            />
+            <TextField value={values.phone} id='phone' name='phone' label='Phone' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField
+              value={values.notes}
+              id='notes'
+              name='notes'
+              label='Notes'
+              variant='filled'
+              multiline
+              rows={2}
+              size='small'
+              onChange={handleInputChange}
+            />
+            <TextField
+              value={values.address}
+              id='address'
+              name='address'
+              label='Address'
+              variant='filled'
+              multiline
+              rows={3}
+              size='small'
+              onChange={handleInputChange}
+            />
+            <Grid container justify='flex-start' alignItems='center'>
+              <Button variant='contained'>Return</Button>
+            </Grid>
+          </Grid>
+        </Grid>
+      </form>
+    </MainPageBase>
   )
 }
 
