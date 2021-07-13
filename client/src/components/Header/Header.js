@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AccountCircle, Mail as MailIcon, MenuOpen as MenuOpenIcon, Notifications as NotificationsIcon, Menu as MenuIcon } from '@material-ui/icons'
-import { IconButton, Menu, MenuItem, Badge } from '@material-ui/core'
+import { IconButton, Menu, MenuItem, Badge, Typography } from '@material-ui/core'
 import Login from '../Auth/Login'
 import { useSelector, useDispatch } from 'react-redux'
 import { loginFailed } from '../../store/features/auth/authSlice'
@@ -37,6 +37,9 @@ const Header = ({ handleClick, bigNav }) => {
         <button className='nav-toggle' onClick={(e) => handleClick(e)}>
           {bigNav ? <MenuIcon /> : <MenuOpenIcon />}
         </button>
+        <Typography variant='h6' noWrap>
+          Material-UI
+        </Typography>
       </div>
       <div className='right-head'>
         <div>
@@ -46,6 +49,7 @@ const Header = ({ handleClick, bigNav }) => {
             </Badge>
           </IconButton>
         </div>
+
         <div>
           <IconButton>
             <Badge badgeContent={4} color='secondary'>

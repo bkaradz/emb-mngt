@@ -24,6 +24,11 @@ var productsSchema = new mongoose.Schema({
   title: {
     type: String,
   },
+  rating: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
   description: {
     type: String,
   },

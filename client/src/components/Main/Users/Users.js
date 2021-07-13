@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { IconButton } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
 import { DataGrid } from '@material-ui/data-grid'
 import { NavLink } from 'react-router-dom'
 import { Edit as EditIcon } from '@material-ui/icons'
@@ -12,19 +11,8 @@ import MainPageBase from '../MainPageBase'
 function Users() {
   const dispatch = useDispatch()
 
-  const getData = async () => {
-    try {
-      const resp = await axios.get('/api/users')
-
-      dispatch(getAllUsers(resp.data))
-    } catch (err) {
-      console.error(err.response.data)
-      // console.error(`Server Error: ${err.response.data}`)
-    }
-  }
-
   useEffect(() => {
-    getData()
+    dispatch(getAllUsers())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

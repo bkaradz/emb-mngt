@@ -7,8 +7,8 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const Joi = require('joi')
 
-// @route   POST api/users/create
-// @desc    Register user
+// @route   POST api/users
+// @desc    Create user
 // @access  Private
 // TODO make the route protected and access bu admin only
 router.post('/', async (req, res) => {
@@ -54,17 +54,17 @@ router.post('/', async (req, res) => {
 
     await user.save()
 
-    // Return jsonwebtoken
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    }
+    // // Return jsonwebtoken
+    // const payload = {
+    //   user: {
+    //     id: user.id,
+    //   },
+    // }
 
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRATION_TIME }, (err, token) => {
-      if (err) throw err
-      res.json({ token })
-    })
+    // jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRATION_TIME }, (err, token) => {
+    //   if (err) throw err
+    // })
+    res.json(user)
 
     console.log('User registered')
   } catch (err) {
