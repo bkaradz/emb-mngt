@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { DataGrid } from '@material-ui/data-grid'
 import { NavLink } from 'react-router-dom'
-import { Visibility as VisibilityIcon, Edit as EditIcon } from '@material-ui/icons'
+import { Edit as EditIcon } from '@material-ui/icons'
 import { getAllUsers } from '../../../store/features/users/usersSlice'
 import MainPageBase from '../MainPageBase'
 
@@ -69,23 +69,23 @@ function Users() {
       width: 150,
       editable: false,
     },
-    {
-      field: 'view',
-      headerName: 'View',
-      sortable: false,
-      width: 90,
-      disableClickEventBubbling: true,
-      renderCell: (params) => {
-        // console.log(params.id)
-        return (
-          <IconButton size='small'>
-            <NavLink exact to={`/product/view/${params.id}`}>
-              <VisibilityIcon fontSize='small' /> Show
-            </NavLink>
-          </IconButton>
-        )
-      },
-    },
+    // {
+    //   field: 'view',
+    //   headerName: 'View',
+    //   sortable: false,
+    //   width: 90,
+    //   disableClickEventBubbling: true,
+    //   renderCell: (params) => {
+    //     // console.log(params.id)
+    //     return (
+    //       <IconButton size='small'>
+    //         <NavLink exact to={`/product/view/${params.id}`}>
+    //           <VisibilityIcon fontSize='small' /> Show
+    //         </NavLink>
+    //       </IconButton>
+    //     )
+    //   },
+    // },
     {
       field: 'edit',
       headerName: 'Edit',
@@ -96,7 +96,7 @@ function Users() {
         // console.log(params.id)
         return (
           <IconButton size='small'>
-            <NavLink exact to={`/product/edit/${params.id}`}>
+            <NavLink exact to={`/settings/user/edit/${params.id}`}>
               <EditIcon fontSize='small' /> Edit
             </NavLink>
           </IconButton>

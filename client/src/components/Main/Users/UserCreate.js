@@ -2,6 +2,8 @@ import { Button, Grid, makeStyles, MenuItem, TextField } from '@material-ui/core
 import { deepOrange, lightBlue } from '@material-ui/core/colors'
 import React, { useState } from 'react'
 import MainPageBase from '../MainPageBase'
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
 
 const userRoles = [
   {
@@ -56,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 function UserCreate() {
   const classes = useStyles()
+  const dispatch = useDispatch()
 
   const initialValues = {
     name: '',
@@ -68,7 +71,42 @@ function UserCreate() {
 
   const [values, setValues] = useState(initialValues)
 
-  console.log(values)
+  // console.log(values)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    // const getData = async () => {
+    //   const credentials = {
+    //     email,
+    //     password,
+    //   }
+    //   // Register User (Auth token) and Load User
+    //   try {
+    //     const userAuthSucResponse = await axios.post('/api/auth', credentials)
+
+    //     console.log(userAuthSucResponse.data)
+    //     // setJwt(response.data.token)
+    //     console.log(userAuthSucResponse.data.token)
+    //     dispatch(userAuthSuccess(userAuthSucResponse.data.token))
+    //     // Add token to local storage
+    //     localStorage.setItem('token', userAuthSucResponse.data.token)
+    //     // Set axios auth token global header
+    //     setAuthToken(localStorage.token)
+    //     // Load User
+    //     const loadUserRes = await axios.get('/api/auth')
+    //     dispatch(loadUser(loadUserRes.data))
+    //   } catch (err) {
+    //     console.error(err.response)
+    //     console.error(err.response.data.errors[0].msg)
+    //     dispatch(userAuthFailed())
+    //     localStorage.removeItem('token')
+
+    //     dispatch(createAlert({ msg: err.response.data.errors[0].msg, type: 'error' }))
+    //   }
+    // }
+    // getData()
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -78,7 +116,7 @@ function UserCreate() {
 
   return (
     <MainPageBase>
-      <form className={classes.root}>
+      <form className={classes.root} onSubmit={(e) => handleSubmit(e)}>
         <Grid container>
           <TextField value={values.name} name='name' label='Name' variant='filled' size='small' type='text' onChange={handleInputChange} required />
           <TextField
@@ -144,7 +182,9 @@ function UserCreate() {
               <Button variant='contained'>Return</Button>
             </Grid>
             <Grid item xs={6}>
-              <Button variant='contained'>Edit</Button>
+              <Button variant='contained' type='submit'>
+                Create
+              </Button>
             </Grid>
           </Grid>
         </Grid>

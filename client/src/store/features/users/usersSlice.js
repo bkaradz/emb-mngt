@@ -1,4 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
+
+// First, create the thunk
+const getAllUsersThunk = createAsyncThunk('users/getAllUsers', async () => {
+  const response = await axios.get('/api/users')
+  return response.data
+})
 
 export const usersSlice = createSlice({
   name: 'users',
@@ -9,7 +16,7 @@ export const usersSlice = createSlice({
   },
 
   reducers: {
-    registerUser: (state, { payload }) => {
+    createUser: (state, { payload }) => {
       // Authenticate user & Get token
       state.jwt = payload
     },

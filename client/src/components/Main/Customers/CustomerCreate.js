@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { Grid, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Avatar, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { deepOrange, lightBlue } from '@material-ui/core/colors'
@@ -36,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 
 function CustomerCreate(props) {
   const classes = useStyles()
-  const { id } = useParams()
 
   const initialValues = {
     isCompany: '',

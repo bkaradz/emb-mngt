@@ -15,6 +15,7 @@ const Dashboard = (props) => {
 
   return (
     <MainPageBase>
+      <h1>Dashboard</h1>
       <Notification />
 
       <Button variant='contained' onClick={clickHandler}>

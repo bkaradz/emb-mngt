@@ -15,6 +15,7 @@ import CustomerView from './components/Main/Customers/CustomerView'
 import Products from './components/Main/Products/Products'
 import Users from './components/Main/Users/Users'
 import UserCreate from './components/Main/Users/UserCreate'
+import UserEdit from './components/Main/Users/UserEdit'
 
 import Messages from './components/Main/Messages/Messages'
 import Error from './components/Main/Error'
@@ -78,6 +79,7 @@ const App = () => {
           <Route exact path='/settings/user/create'>
             <UserCreate />
           </Route>
+          <Route path='/settings/user/edit/:id' children={<UserEdit />} />
           <Route exact path='/messages'>
             <Messages />
           </Route>
