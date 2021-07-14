@@ -7,10 +7,13 @@ export const alertsSlice = createSlice({
   },
 
   reducers: {
+    /**
+     * payload should be of the form {msg: "", type: ""}
+     * type => error, warning, info, success
+     */
     createAlert: (state, { payload }) => {
       const { msg, type } = payload
       const id = nanoid()
-
       state.alerts.push({ id, msg, type })
     },
     deleteAlert: (state, { payload }) => {

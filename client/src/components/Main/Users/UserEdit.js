@@ -141,10 +141,10 @@ function UserEdit() {
           />
           <Grid className={classes.buttonCentre} container align='center'>
             <Grid item xs={6}>
-              <Button variant='contained'>Return</Button>
+              <Button variant='contained' color='primary'>Save</Button>
             </Grid>
             <Grid item xs={6}>
-              <Button variant='contained'>Edit</Button>
+              <Button variant='contained'>Return</Button>
             </Grid>
           </Grid>
         </Grid>

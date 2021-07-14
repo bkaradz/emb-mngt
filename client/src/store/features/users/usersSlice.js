@@ -23,11 +23,6 @@ export const usersSlice = createSlice({
   },
 
   reducers: {
-    // createUser: (state, { payload }) => {
-    //   // Authenticate user & Get token
-    //   state.jwt = payload
-    // },
-
     deleteUser: (state, { payload }) => {
       state.isLoggedIn = payload
     },
@@ -54,7 +49,7 @@ export const usersSlice = createSlice({
     },
     [createUser.fulfilled]: (state, { payload }) => {
       console.log(payload)
-      state.users.unshift(payload)
+      state.users.push(payload)
       state.loading = false
       state.success = true
     },
