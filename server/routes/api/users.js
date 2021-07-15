@@ -9,7 +9,7 @@ const Joi = require('joi')
 
 // @route   POST api/users
 // @desc    Create user
-// @access  Private
+// @access  Public
 // TODO make the route protected and access bu admin only
 router.post('/', async (req, res) => {
   // Validation
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
     password2: Joi.ref('password'),
   })
 
-  const { error, value } = schema.validateAsync(req.body)
+  const { error, value } = await schema.validateAsync(req.body)
   // console.log(`error: ${error}, value: ${value}`)
   if (error !== undefined) {
     return res.status(400).json(error)
@@ -54,16 +54,6 @@ router.post('/', async (req, res) => {
 
     await user.save()
 
-    // // Return jsonwebtoken
-    // const payload = {
-    //   user: {
-    //     id: user.id,
-    //   },
-    // }
-
-    // jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRATION_TIME }, (err, token) => {
-    //   if (err) throw err
-    // })
     res.json(user)
 
     console.log('User registered')
@@ -73,10 +63,55 @@ router.post('/', async (req, res) => {
   }
 })
 
-// @route   DELETE api/users/edit/:id
-// @desc    Delete all users
+// @route   PUT api/users/:id
+// @desc    Edit user by id
 // @access  Private
-router.post('/delete/:id', auth, (req, res) => {})
+router.put('/:id', auth, async (req, res) => {
+  // Validation
+  const schema = Joi.object({
+    name: Joi.string().min(3).required(),
+    role: Joi.string().required().valid('admin', 'sales', 'production', 'trimming', 'other'),
+    email: Joi.string().email().required(),
+    mobile: Joi.string().required(),
+    password: Joi.string().min(6).required(),
+    password2: Joi.ref('password'),
+  })
+
+  try {
+    const { error, value } = await schema.validateAsync(req.body)
+
+    if (error !== undefined) {
+      return res.status(400).json(error)
+    }
+
+    // Destructor req.body
+    const { name, role, email, password, mobile } = req.body
+
+    // Create an array and trim
+    let mobileArr = mobile.split(',').map((phone) => phone.trim())
+
+    // Encrypt the password
+    const salt = await bcrypt.genSalt(10)
+    encryptPassword = await bcrypt.hash(password, salt)
+
+    const user = new Users({
+      name,
+      role,
+      email,
+      mobile: mobileArr,
+      password: encryptPassword,
+    })
+
+    const update = await Users.Update({ _id: req.params.id }, { $set: { user } })
+
+    console.log(update)
+
+    res.status(200).json(update)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('Sever Error')
+  }
+})
 
 // @route   GET api/users/
 // @desc    GET all users

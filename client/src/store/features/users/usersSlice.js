@@ -1,14 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-// First, create the thunk
+// Get all users thunk
 export const getAllUsers = createAsyncThunk('users/getAllUsers', async () => {
   const response = await axios.get('/api/users')
   return response.data
 })
-
+// Create user thunk
 export const createUser = createAsyncThunk('users/createUser', async (payload) => {
   const response = await axios.post('/api/users', payload)
+  return response.data
+})
+// Edit user thunk
+export const editUser = createAsyncThunk('users/createUser', async ({ id, user }) => {
+  const response = await axios.put(`/api/users/${id}`, user)
   return response.data
 })
 
@@ -27,7 +32,7 @@ export const usersSlice = createSlice({
       state.isLoggedIn = payload
     },
     viewUser: (state, { payload }) => {},
-    editUser: (state, { payload }) => {},
+    // editUser: (state, { payload }) => {},
   },
   extraReducers: {
     [getAllUsers.pending]: (state, { payload }) => {
@@ -59,6 +64,6 @@ export const usersSlice = createSlice({
   },
 })
 
-export const { deleteUser, viewUser, editUser } = usersSlice.actions
+export const { deleteUser, viewUser } = usersSlice.actions
 
 export default usersSlice.reducer

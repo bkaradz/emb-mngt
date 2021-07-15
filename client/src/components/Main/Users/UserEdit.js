@@ -1,7 +1,10 @@
 import { Button, Grid, makeStyles, MenuItem, TextField } from '@material-ui/core'
 import { deepOrange, lightBlue } from '@material-ui/core/colors'
+import { useParams, useHistory } from 'react-router-dom'
 import React, { useState } from 'react'
 import MainPageBase from '../MainPageBase'
+import { useDispatch, useSelector } from 'react-redux'
+import { editUser } from '../../../store/features/users/usersSlice'
 
 const userRoles = [
   {
@@ -56,6 +59,14 @@ const useStyles = makeStyles((theme) => ({
 
 function UserEdit() {
   const classes = useStyles()
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const { id } = useParams()
+  // console.log(id)
+
+  const { name, email, role, mobile } = useSelector((state) => state.entities.users.users.filter((user) => user._id === id))[0]
+  const selectedUser = { name, email, role, mobile: mobile.join(), password: '', password2: '' }
+  console.log(selectedUser)
 
   const initialValues = {
     name: '',
@@ -66,9 +77,9 @@ function UserEdit() {
     password2: '',
   }
 
-  const [values, setValues] = useState(initialValues)
+  const [values, setValues] = useState(selectedUser)
 
-  // console.log(values)
+  console.log(values)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -76,9 +87,22 @@ function UserEdit() {
     setValues({ ...values, [name]: value })
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log('Submit')
+    dispatch(editUser({ id, user: values }))
+    setValues(initialValues)
+    history.push('/settings/users')
+  }
+
+  const handleRedirect = (e) => {
+    e.preventDefault()
+    history.push('/settings/users')
+  }
+
   return (
     <MainPageBase>
-      <form className={classes.root}>
+      <form className={classes.root} onSubmit={(e) => handleSubmit(e)}>
         <Grid container>
           <TextField value={values.name} name='name' label='Name' variant='filled' size='small' type='text' onChange={handleInputChange} required />
           <TextField
@@ -141,10 +165,14 @@ function UserEdit() {
           />
           <Grid className={classes.buttonCentre} container align='center'>
             <Grid item xs={6}>
-              <Button variant='contained' color='primary'>Save</Button>
+              <Button variant='contained' color='primary' type='submit'>
+                Save
+              </Button>
             </Grid>
             <Grid item xs={6}>
-              <Button variant='contained'>Return</Button>
+              <Button variant='contained' onClick={handleRedirect}>
+                Return
+              </Button>
             </Grid>
           </Grid>
         </Grid>

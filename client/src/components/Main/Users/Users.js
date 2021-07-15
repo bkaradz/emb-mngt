@@ -57,23 +57,7 @@ function Users() {
       width: 150,
       editable: false,
     },
-    // {
-    //   field: 'view',
-    //   headerName: 'View',
-    //   sortable: false,
-    //   width: 90,
-    //   disableClickEventBubbling: true,
-    //   renderCell: (params) => {
-    //     // console.log(params.id)
-    //     return (
-    //       <IconButton size='small'>
-    //         <NavLink exact to={`/product/view/${params.id}`}>
-    //           <VisibilityIcon fontSize='small' /> Show
-    //         </NavLink>
-    //       </IconButton>
-    //     )
-    //   },
-    // },
+
     {
       field: 'edit',
       headerName: 'Edit',
