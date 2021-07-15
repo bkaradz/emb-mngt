@@ -119,7 +119,7 @@ router.put('/:id', auth, async (req, res) => {
       balance: req.body.balance,
     }
 
-    const update = await Customers.Update({ _id: req.params.id }, { $set: { customer } })
+    const update = await Customers.findByIdAndUpdate(req.params.id, { $set: { customer } })
 
     res.status(200).json(update)
   } catch (err) {
@@ -135,7 +135,7 @@ router.put('/:id', auth, async (req, res) => {
  */
 router.delete('/:id', auth, async (req, res) => {
   try {
-    const update = await Customers.Update({ _id: req.params.id }, { $set: { isDeleted: true } })
+    const update = await Customers.findByIdAndUpdate(req.params.id, { $set: { isDeleted: true } })
 
     res.status(200).json(update)
   } catch (err) {

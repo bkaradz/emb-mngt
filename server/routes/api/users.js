@@ -94,21 +94,48 @@ router.put('/:id', auth, async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     encryptPassword = await bcrypt.hash(password, salt)
 
-    const user = new Users({
+    const userUpdate = {
       name,
       role,
       email,
       mobile: mobileArr,
       password: encryptPassword,
-    })
+    }
 
-    const update = await Users.Update({ _id: req.params.id }, { $set: { user } })
+    // console.log(Users)
 
-    console.log(update)
+    // const update = await Users.findByIdAndUpdate(req.params.id, { $set: { userUpdate } })
+    const update = await Users.findByIdAndUpdate(req.params.id, userUpdate, { new: true })
+
+    // console.log(update)
 
     res.status(200).json(update)
   } catch (err) {
-    console.error(err.message)
+    console.error(err)
+    res.status(500).send('Sever Error')
+  }
+})
+
+// @route   DELETE api/users/:id
+// @desc    Edit user by id
+// @access  Private
+router.delete('/:id', auth, async (req, res) => {
+  // Validation
+
+  try {
+    const userUpdate = {
+      isDeleted: true,
+    }
+
+    // console.log(req.params.id)
+
+    const update = await Users.findByIdAndUpdate(req.params.id, userUpdate, { new: true })
+
+    // console.log(update)
+
+    res.status(200).json(update)
+  } catch (err) {
+    console.error(err)
     res.status(500).send('Sever Error')
   }
 })

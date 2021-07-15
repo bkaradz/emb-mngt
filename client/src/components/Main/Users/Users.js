@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 
-import { IconButton } from '@material-ui/core'
+import { Checkbox, IconButton } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { DataGrid } from '@material-ui/data-grid'
 import { NavLink } from 'react-router-dom'
 import { Edit as EditIcon } from '@material-ui/icons'
-import { getAllUsers } from '../../../store/features/users/usersSlice'
+import { deleteUser, getAllUsers } from '../../../store/features/users/usersSlice'
 import MainPageBase from '../MainPageBase'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 function Users() {
   const dispatch = useDispatch()
@@ -15,6 +16,13 @@ function Users() {
     dispatch(getAllUsers())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const handleDelete = (id) => {
+    // e.preventDefault()
+    // console.log(id)
+    dispatch(deleteUser({ id }))
+    dispatch(getAllUsers())
+  }
 
   const rows = useSelector((state) => state.entities.users.users)
 
@@ -52,10 +60,11 @@ function Users() {
     },
     {
       field: 'IsDeleted',
-      headerName: 'Deleted',
-      type: 'boolean',
+      headerName: 'Is Deleted',
       width: 150,
-      editable: false,
+      renderCell: (props) => {
+        return <Checkbox color='primary' disabled checked={props.row.isDeleted} />
+      },
     },
 
     {
@@ -71,6 +80,23 @@ function Users() {
             <NavLink exact to={`/settings/user/edit/${params.id}`}>
               <EditIcon fontSize='small' /> Edit
             </NavLink>
+          </IconButton>
+        )
+      },
+    },
+    {
+      field: 'delete',
+      headerName: 'Delete',
+      sortable: false,
+      width: 120,
+      disableClickEventBubbling: true,
+      renderCell: (params) => {
+        // console.log(params.id)
+        return (
+          <IconButton size='small' onClick={(e) => handleDelete(params.id)}>
+            {/* <NavLink exact to={`/settings/user/edit/${params.id}`}>
+            </NavLink> */}
+            <DeleteIcon fontSize='small' /> Delete
           </IconButton>
         )
       },

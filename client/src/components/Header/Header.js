@@ -4,6 +4,7 @@ import { IconButton, Menu, MenuItem, Badge, Typography } from '@material-ui/core
 import Login from '../Auth/Login'
 import { useSelector, useDispatch } from 'react-redux'
 import { loginFailed } from '../../store/features/auth/authSlice'
+// import { Redirect, useLocation } from 'react-router-dom'
 
 const Header = ({ handleClick, bigNav }) => {
   const dispatch = useDispatch()
@@ -12,6 +13,7 @@ const Header = ({ handleClick, bigNav }) => {
   // let _id = ''
   let showLogin = !useSelector((state) => state.auth.isLoggedIn)
   const user = useSelector((state) => state.auth.user)
+
   if (user) {
     name = user.name
     // _id = user._id
@@ -33,6 +35,7 @@ const Header = ({ handleClick, bigNav }) => {
   return (
     <div className='head'>
       {showLogin && <Login />}
+      {/* {showLogin && <Redirect to='/login' />} */}
       <div className='left-head'>
         <button className='nav-toggle' onClick={(e) => handleClick(e)}>
           {bigNav ? <MenuIcon /> : <MenuOpenIcon />}

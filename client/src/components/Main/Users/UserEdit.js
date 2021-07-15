@@ -66,7 +66,7 @@ function UserEdit() {
 
   const { name, email, role, mobile } = useSelector((state) => state.entities.users.users.filter((user) => user._id === id))[0]
   const selectedUser = { name, email, role, mobile: mobile.join(), password: '', password2: '' }
-  console.log(selectedUser)
+  // console.log(selectedUser)
 
   const initialValues = {
     name: '',
@@ -79,7 +79,7 @@ function UserEdit() {
 
   const [values, setValues] = useState(selectedUser)
 
-  console.log(values)
+  // console.log(values)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 
 import Header from './components/Header/Header'
-import Login from './components/Auth/Login'
+// import Login from './components/Auth/Login'
 import Nav from './components/Nav/Nav'
 import Sales from './components/Main/Sales/Sales'
 import Dashboard from './components/Main/Dashboard/Dashboard'
@@ -61,39 +61,34 @@ const App = () => {
         <Header handleClick={handleClick} bigNav={bigNav} />
         <Nav bigNav={bigNav} />
         <Switch>
-          <Route exact path='/'>
-            <Dashboard />
-          </Route>
-          <Route exact path='/login'>
-            <Login />
-          </Route>
-          <Route exact path='/customers'>
-            <Customers />
-          </Route>
-          <Route exact path='/products'>
-            <Products />
-          </Route>
-          <Route exact path='/settings/users'>
-            <Users />
-          </Route>
-          <Route exact path='/settings/user/create'>
-            <UserCreate />
-          </Route>
-          <Route path='/settings/user/edit/:id' children={<UserEdit />} />
-          <Route exact path='/messages'>
-            <Messages />
-          </Route>
-          <Route path='/customer/view/:id' children={<CustomerView />} />
-          <Route exact path='/customer/create'>
-            <CustomerCreate />
-          </Route>
-          <Route path='/customer/edit/:id' children={<CustomerEdit />} />
-          <Route exact path='/sales'>
-            <Sales />
-          </Route>
-          <Route exact path='*'>
-            <Error />
-          </Route>
+          {/* Dashboard Routes */}
+          <Route exact path='/' children={<Dashboard />} />
+
+          {/* Login Routes */}
+          {/* <Route exact path='/login' children={<Login />} /> */}
+
+          {/* Products Routes */}
+          <Route exact path='/products' children={<Products />} />
+
+          {/* Users Routes */}
+          <Route exact path='/settings/users' children={<Users />} />
+          <Route exact path='/settings/user/create' children={<UserCreate />} />
+          <Route exact path='/settings/user/edit/:id' children={<UserEdit />} />
+
+          {/* Customers Routes */}
+          <Route exact path='/customers' children={<Customers />} />
+          <Route exact path='/customer/view/:id' children={<CustomerView />} />
+          <Route exact path='/customer/edit/:id' children={<CustomerEdit />} />
+          <Route exact path='/customer/create' children={<CustomerCreate />} />
+
+          {/* Messages Routes */}
+          <Route exact path='/messages' children={<Messages />} />
+
+          {/* Sales Routes */}
+          <Route exact path='/sales' children={<Sales />} />
+
+          {/* Error Route */}
+          <Route exact path='*' children={<Error />} />
         </Switch>
       </div>
     </Router>
