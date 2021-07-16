@@ -4,11 +4,25 @@ import { IconButton, Menu, MenuItem, Badge, Typography } from '@material-ui/core
 import Login from '../Auth/Login'
 import { useSelector, useDispatch } from 'react-redux'
 import { loginFailed } from '../../store/features/auth/authSlice'
+import { useLocation } from 'react-router-dom'
 // import { Redirect, useLocation } from 'react-router-dom'
 
 const Header = ({ handleClick, bigNav }) => {
   const dispatch = useDispatch()
+  let location = useLocation().pathname
   const [anchorEl, setAnchorEl] = useState(null)
+  console.log(location)
+
+  console.log(useSelector((state) => state.ui.ui.uiStates[location]))
+
+  let title = useSelector((state) => state.ui.ui.uiStates[location])
+
+  // let titleText = title.headerTitle
+
+  // if (titleText) {
+  //   titleText = 'Undefined'
+  // }
+
   let name = ''
   // let _id = ''
   let showLogin = !useSelector((state) => state.auth.isLoggedIn)
@@ -41,7 +55,7 @@ const Header = ({ handleClick, bigNav }) => {
           {bigNav ? <MenuIcon /> : <MenuOpenIcon />}
         </button>
         <Typography variant='h6' noWrap>
-          Material-UI
+          {/* {Title.headerTitle} */}
         </Typography>
       </div>
       <div className='right-head'>

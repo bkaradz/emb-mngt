@@ -1,8 +1,9 @@
 // import React, { useState, useEffect } from 'react'
-// import { NavLink, useHistory } from 'react-router-dom'
+import { NavLink, useHistory, useLocation } from 'react-router-dom'
 import { emphasize, withStyles, makeStyles } from '@material-ui/core/styles'
 import { IconButton, Paper, Chip, Button, ButtonGroup, Box, Breadcrumbs } from '@material-ui/core'
 import { ViewModule as ViewModuleIcon, ViewList as ViewListIcon, Home as HomeIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons'
+import { useDispatch, useSelector } from 'react-redux'
 
 const StyledBreadcrumb = withStyles((theme) => ({
   root: {
@@ -33,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.grey[300],
     padding: theme.spacing(1),
     display: 'flex',
-    // overflow: 'auto',
     flexDirection: 'column',
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
@@ -43,7 +43,11 @@ const useStyles = makeStyles((theme) => ({
 
 const PageHeader = () => {
   const classes = useStyles()
-  // const history = useHistory()
+  const history = useHistory()
+  let location = useLocation().pathname
+  console.log(location)
+
+  console.log(useSelector((state) => state.ui.ui.uiStates[location]))
 
   const handleClick = (e) => {
     // const buttonState = e.target.innerHTML
@@ -64,9 +68,9 @@ const PageHeader = () => {
       <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
         <div>
           <Breadcrumbs aria-label='breadcrumb'>
-            <StyledBreadcrumb component='a' href='#' label='Home' icon={<HomeIcon fontSize='small' />} onClick={handleClick} />
-            <StyledBreadcrumb component='a' href='#' label='Catalog' onClick={handleClick} />
-            <StyledBreadcrumb label='Accessories' deleteIcon={<ExpandMoreIcon />} onClick={handleClick} onDelete={handleClick} />
+            <StyledBreadcrumb label='Home' href='#' onClick={handleClick} component='a' icon={<HomeIcon fontSize='small' />} />
+            <StyledBreadcrumb label='Catalog' href='#' onClick={handleClick} component='a' />
+            <StyledBreadcrumb label='Accessories' onClick={handleClick} onDelete={handleClick} deleteIcon={<ExpandMoreIcon />} />
           </Breadcrumbs>
         </div>
 

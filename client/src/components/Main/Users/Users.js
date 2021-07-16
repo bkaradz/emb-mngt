@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { Checkbox, IconButton } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { DataGrid } from '@material-ui/data-grid'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { Edit as EditIcon } from '@material-ui/icons'
 import { deleteUser, getAllUsers } from '../../../store/features/users/usersSlice'
 import MainPageBase from '../MainPageBase'
@@ -11,6 +11,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 function Users() {
   const dispatch = useDispatch()
+
+  console.log(useLocation().pathname)
 
   useEffect(() => {
     dispatch(getAllUsers())

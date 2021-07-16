@@ -9,7 +9,7 @@ const Customers = () => {
   const dispatch = useDispatch()
   const customersData = useSelector((state) => state.entities.customers.customers)
   // const [customersData, setCustomersData] = useState(state)
-  const [showList, setShowList] = useState(true)
+  const [showList, setShowList] = useState(false)
 
   const getData = async () => {
     try {
@@ -18,7 +18,6 @@ const Customers = () => {
       dispatch(getAllCustomers(resp.data))
     } catch (err) {
       console.error(err.response.data)
-      // console.error(`Server Error: ${err.response.data}`)
     }
   }
 

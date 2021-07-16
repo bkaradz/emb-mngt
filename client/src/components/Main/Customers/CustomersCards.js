@@ -1,49 +1,68 @@
-import React from 'react'
-// import { FaThLarge, FaThList, FaBuilding, FaEdit, FaUser } from 'react-icons/fa'
-import { BiBuildings, BiUser } from 'react-icons/bi'
+import { Button, Card, CardActions, CardContent, CardMedia, makeStyles, Typography, useTheme } from '@material-ui/core'
+import MainPageBase from '../MainPageBase'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 340,
+    maxHeight: 100,
+    display: 'flex',
+  },
+  cover: {
+    height: 90,
+    width: 90,
+    margin: theme.spacing(0.5),
+  },
+  title: {
+    fontSize: 15,
+    // margin: theme.spacing(0.5),
+    margin: theme.spacing(0),
+    marginTop: 0,
+    padding: theme.spacing(0),
+  },
+  pos: {
+    fontSize: 12,
+    // marginBottom: 12,
+  },
+  content: {
+    padding: theme.spacing(1),
+  },
+}))
 
 function CustomersCards({ customersData }) {
-  if (customersData === null) {
-    return (
-      <div className='main--content__Cards container-fluid'>
-        <h1>Loading...</h1>
-      </div>
-    )
-  }
+  const classes = useStyles()
   return (
-    <div className='main--content__Cards container-fluid'>
-      <div className='row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4'>
-        {customersData.map((customer) => {
-          const { _id, isCompany, name, email, phone, balance } = customer
-          return (
-            <div className='col text-end' key={_id}>
-              <div className='card mt-4' style={{ maxWidth: '450px' }}>
-                <div className='row g-0 d-flex justify-content-center align-items-center'>
-                  <div className='col-md-4 d-flex justify-content-center align-items-center '>
-                    <span className='user__icons'>{isCompany === 'company' ? <BiBuildings /> : <BiUser />}</span>
-                  </div>
-                  <div className='col-md-8'>
-                    <div className='card-body m-0 p-0 pe-3'>
-                      <h5 className='card-title'>{name}</h5>
-                      <div className='card-text'>
-                        <p className='p-0 m-0'>
-                          <small>{phone}</small>
-                        </p>
-                        <p className='p-0 m-0'>
-                          <small>{email}</small>
-                        </p>
-                        <p className='p-0 m-0 text-primary fw-bold fst-italic'>$ {balance}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-    </div>
+    <MainPageBase>
+      <Card className={classes.root} variant='outlined'>
+        <CardMedia
+          className={classes.cover}
+          image='https://material-ui.com/static/images/cards/contemplative-reptile.jpg'
+          title='Live from space album cover'
+        />
+        <CardContent className={classes.content}>
+          <Typography className={classes.title} color='textSecondary'>
+            Word of the Day
+          </Typography>
+          <Typography className={classes.pos} color='textSecondary'>
+            adjective
+          </Typography>
+          <Typography variant='body2' component='p'>
+            well meaning and kindly.
+          </Typography>
+        </CardContent>
+      </Card>
+    </MainPageBase>
   )
 }
 
 export default CustomersCards
+
+// {
+//   customersData.map((customer) => {
+//     const { _id, isCompany, name, email, phone, balance } = customer
+//     return (
+//       <div key={_id}>
+//         <p>{name}</p>
+//       </div>
+//     )
+//   })
+// }
