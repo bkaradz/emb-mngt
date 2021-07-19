@@ -79,7 +79,7 @@ function ProductView() {
           <Grid item xs={6}>
             <Grid container justify='flex-start' alignItems='center'>
               <Grid item>
-                <Avatar alt='Brian Karadz' src={avatarImage} className={`${classes.orange} ${classes.large}`} />
+                <Avatar variant='rounded' alt='Brian Karadz' src={avatarImage} className={`${classes.orange} ${classes.large}`} />
               </Grid>
 
               <Grid item>

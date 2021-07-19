@@ -81,6 +81,14 @@ function CustomersList({ customersData }) {
 
   const rows = customersData
 
+  // if (customersChunk[page] === undefined) {
+  //   return (
+  //     <MainPageBase>
+  //       <LinearProgress color='secondary' />
+  //     </MainPageBase>
+  //   )
+  // }
+
   return (
     <MainPageBase>
       <DataGrid

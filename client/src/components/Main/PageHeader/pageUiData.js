@@ -13,7 +13,7 @@ export const uiStates = {
     ],
     headerTitle: 'Messages',
     buttonShow: false,
-    buttons: [],
+    buttons: [{ name: 'Create', link: '/settings/user/create' }],
     listShow: false,
   },
   '/settings/users': {

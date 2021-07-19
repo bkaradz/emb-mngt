@@ -1,6 +1,6 @@
 // import React from 'react'
 import React, { useEffect } from 'react'
-import { IconButton } from '@material-ui/core'
+import { IconButton, LinearProgress } from '@material-ui/core'
 import { Visibility as VisibilityIcon, Edit as EditIcon } from '@material-ui/icons'
 import { DataGrid } from '@material-ui/data-grid'
 import { NavLink } from 'react-router-dom'
@@ -92,7 +92,7 @@ function Products() {
   if (isLoading) {
     return (
       <MainPageBase>
-        <h1>Loading...</h1>
+        <LinearProgress color='primary' />
       </MainPageBase>
     )
   }

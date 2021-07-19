@@ -4,6 +4,8 @@ import { emphasize, withStyles, makeStyles } from '@material-ui/core/styles'
 import { IconButton, Paper, Chip, Button, ButtonGroup, Box, Breadcrumbs } from '@material-ui/core'
 import { ViewModule as ViewModuleIcon, ViewList as ViewListIcon, Home as HomeIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
+import { changeShowListItem, getCurrentUiState } from '../../../store/features/ui/uiSlice'
+import { useEffect, useState } from 'react'
 
 const StyledBreadcrumb = withStyles((theme) => ({
   root: {
@@ -44,10 +46,24 @@ const useStyles = makeStyles((theme) => ({
 const PageHeader = () => {
   const classes = useStyles()
   const history = useHistory()
+  const dispatch = useDispatch()
   let location = useLocation().pathname
   console.log(location)
 
-  console.log(useSelector((state) => state.ui.ui.uiStates[location]))
+  useEffect(() => {
+    dispatch(getCurrentUiState(location))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location])
+
+  // console.log(useSelector((state) => state.ui.ui.uiStates[location]))
+
+  // const [showList, setShowList] = useState(true)
+
+  // const handleListClock = (value) => {
+  //   setShowList(value)
+  //   console.log('list')
+  //   dispatch(changeShowListItem(showList))
+  // }
 
   const handleClick = (e) => {
     // const buttonState = e.target.innerHTML
@@ -84,12 +100,12 @@ const PageHeader = () => {
 
         <Box display='flex' flexDirection='row' justify='space-between'>
           <div>
-            <IconButton>
+            <IconButton onClick={() => dispatch(changeShowListItem(true))}>
               <ViewListIcon />
             </IconButton>
           </div>
           <div>
-            <IconButton>
+            <IconButton onClick={() => dispatch(changeShowListItem(false))}>
               <ViewModuleIcon />
             </IconButton>
           </div>

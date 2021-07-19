@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AccountCircle, Mail as MailIcon, MenuOpen as MenuOpenIcon, Notifications as NotificationsIcon, Menu as MenuIcon } from '@material-ui/icons'
 import { IconButton, Menu, MenuItem, Badge, Typography } from '@material-ui/core'
 import Login from '../Auth/Login'
 import { useSelector, useDispatch } from 'react-redux'
 import { loginFailed } from '../../store/features/auth/authSlice'
 import { useLocation } from 'react-router-dom'
+import { getCurrentUiState } from '../../store/features/ui/uiSlice'
 // import { Redirect, useLocation } from 'react-router-dom'
 
 const Header = ({ handleClick, bigNav }) => {
@@ -13,9 +14,14 @@ const Header = ({ handleClick, bigNav }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   console.log(location)
 
-  console.log(useSelector((state) => state.ui.ui.uiStates[location]))
+  useEffect(() => {
+    dispatch(getCurrentUiState(location))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location])
 
-  let title = useSelector((state) => state.ui.ui.uiStates[location])
+  // console.log(useSelector((state) => state.ui.ui.uiStates[location]))
+
+  // let title = useSelector((state) => state.ui.ui.currentUI.headerTitle)
 
   // let titleText = title.headerTitle
 
@@ -30,8 +36,6 @@ const Header = ({ handleClick, bigNav }) => {
 
   if (user) {
     name = user.name
-    // _id = user._id
-    // console.log(_id)
   }
 
   const handleClicked = (event) => {
@@ -55,7 +59,7 @@ const Header = ({ handleClick, bigNav }) => {
           {bigNav ? <MenuIcon /> : <MenuOpenIcon />}
         </button>
         <Typography variant='h6' noWrap>
-          {/* {Title.headerTitle} */}
+          {/* {title} */}
         </Typography>
       </div>
       <div className='right-head'>

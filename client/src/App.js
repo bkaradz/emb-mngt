@@ -26,8 +26,7 @@ import Messages from './components/Main/Messages/Messages'
 import Error from './components/Main/Error'
 
 import { loadUser, userAuthFailed, userAuthSuccess } from './store/features/auth/authSlice'
-import { setAllUiStates } from './store/features/ui/uiSlice'
-import { uiStates } from './components/Main/PageHeader/pageUiData'
+import { getAllUiStates } from './store/features/ui/uiSlice'
 
 import { useDispatch } from 'react-redux'
 import setAuthToken from './utils/setAuthToken'
@@ -46,7 +45,7 @@ const App = () => {
         dispatch(loadUser(loadUserRes.data))
         dispatch(userAuthSuccess(localStorage.token))
         // Load UI states
-        dispatch(setAllUiStates(uiStates))
+        dispatch(getAllUiStates())
       } catch (err) {
         console.error(err.response.data.msg)
         dispatch(userAuthFailed())
