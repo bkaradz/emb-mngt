@@ -3,22 +3,28 @@ import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 
+// Main page components
 import Header from './components/Header/Header'
-// import Login from './components/Auth/Login'
 import Nav from './components/Nav/Nav'
 import Sales from './components/Main/Sales/Sales'
 import Dashboard from './components/Main/Dashboard/Dashboard'
+// Customers components
 import Customers from './components/Main/Customers/Customers'
 import CustomerCreate from './components/Main/Customers/CustomerCreate'
 import CustomerEdit from './components/Main/Customers/CustomerEdit'
 import CustomerView from './components/Main/Customers/CustomerView'
+// Products components
 import Products from './components/Main/Products/Products'
+import ProductView from './components/Main/Products/ProductView'
+import ProductEdit from './components/Main/Products/ProductEdit'
+// Users components
 import Users from './components/Main/Users/Users'
 import UserCreate from './components/Main/Users/UserCreate'
 import UserEdit from './components/Main/Users/UserEdit'
 
 import Messages from './components/Main/Messages/Messages'
 import Error from './components/Main/Error'
+
 import { loadUser, userAuthFailed, userAuthSuccess } from './store/features/auth/authSlice'
 import { setAllUiStates } from './store/features/ui/uiSlice'
 import { uiStates } from './components/Main/PageHeader/pageUiData'
@@ -73,6 +79,8 @@ const App = () => {
 
           {/* Products Routes */}
           <Route exact path='/products' children={<Products />} />
+          <Route exact path='/product/view/:id' children={<ProductView />} />
+          <Route exact path='/product/edit/:id' children={<ProductEdit />} />
 
           {/* Users Routes */}
           <Route exact path='/settings/users' children={<Users />} />

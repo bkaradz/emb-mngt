@@ -5,30 +5,19 @@ import { Visibility as VisibilityIcon, Edit as EditIcon } from '@material-ui/ico
 import { DataGrid } from '@material-ui/data-grid'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
 import { getAllProducts } from '../../../store/features/products/productsSlice'
 import MainPageBase from '../MainPageBase'
 
 function Products() {
   const dispatch = useDispatch()
 
-  const getData = async () => {
-    try {
-      const resp = await axios.get('/api/products')
-
-      dispatch(getAllProducts(resp.data))
-    } catch (err) {
-      console.error(err.response.data)
-      // console.error(`Server Error: ${err.response.data}`)
-    }
-  }
-
   useEffect(() => {
-    getData()
+    dispatch(getAllProducts())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const rows = useSelector((state) => state.entities.products.products)
+  const isLoading = useSelector((state) => state.entities.products.loading)
 
   const columns = [
     {
@@ -99,6 +88,14 @@ function Products() {
       },
     },
   ]
+
+  if (isLoading) {
+    return (
+      <MainPageBase>
+        <h1>Loading...</h1>
+      </MainPageBase>
+    )
+  }
 
   return (
     <MainPageBase>
