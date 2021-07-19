@@ -56,6 +56,12 @@ var productsSchema = new mongoose.Schema({
       return this.category === 'emb_logo'
     },
   },
+  units: {
+    type: Number,
+    required: function () {
+      return this.category !== 'emb_logo'
+    },
+  },
   isDeleted: {
     type: Boolean,
     required: true,

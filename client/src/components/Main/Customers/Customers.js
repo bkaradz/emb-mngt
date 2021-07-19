@@ -9,7 +9,7 @@ const Customers = () => {
   const dispatch = useDispatch()
   const customersData = useSelector((state) => state.entities.customers.customers)
   // const [customersData, setCustomersData] = useState(state)
-  const [showList, setShowList] = useState(false)
+  const [showList, setShowList] = useState(true)
 
   const getData = async () => {
     try {
