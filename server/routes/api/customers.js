@@ -22,6 +22,7 @@ const auth = require('../../middleware/auth')
 router.get('/', auth, async (req, res) => {
   try {
     const allCustomers = await Customers.find({ isDeleted: false }).sort({ name: 1 })
+
     res.status(200).json(allCustomers)
   } catch (err) {
     console.error(err.message)
@@ -53,17 +54,19 @@ router.post('/', auth, async (req, res) => {
   // Validation
   const schema = Joi.object({
     name: Joi.string().required(),
-    vatBpNo: Joi.string(),
+    // vatBpNo: Joi.string(),
     isCompany: Joi.string().required().valid('individual', 'company'),
-    email: Joi.string().email(),
+    // email: Joi.string().email(),
     phone: Joi.array().items(Joi.string().required()),
-    address: Joi.string().required(),
-    balance: Joi.number().required(),
+    // address: Joi.string(),
+    // balance: Joi.number(),
   })
 
   try {
     const { error, value } = await schema.validate(req.body)
+
     if (error !== undefined) {
+      console.log(error)
       return res.status(400).json(error)
     }
     const customer = new Customers({
@@ -78,7 +81,7 @@ router.post('/', auth, async (req, res) => {
     })
 
     const post = await customer.save()
-
+    console.log(post)
     res.status(200).json(post)
   } catch (err) {
     console.error(err.message)
@@ -95,12 +98,12 @@ router.put('/:id', auth, async (req, res) => {
   // Validation
   const schema = Joi.object({
     name: Joi.string().required(),
-    isCompany: Joi.string().required().valid('Individual', 'company'),
-    vatBpNo: Joi.string(),
+    isCompany: Joi.string().required().valid('individual', 'company'),
+    // vatBpNo: Joi.string(),
     email: Joi.string().email(),
     mobile: Joi.array().items(Joi.string().required()),
-    address: Joi.string().required(),
-    balance: Joi.number().required(),
+    // address: Joi.string(),
+    balance: Joi.number(),
   })
 
   try {

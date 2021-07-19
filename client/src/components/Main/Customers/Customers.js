@@ -1,6 +1,6 @@
 import CustomersList from './CustomersList'
 import CustomersCards from './CustomersCards'
-import axios from 'axios'
+// import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllCustomers } from '../../../store/features/customers/customersSlice'
@@ -8,21 +8,23 @@ import { getAllCustomers } from '../../../store/features/customers/customersSlic
 const Customers = () => {
   const dispatch = useDispatch()
   const customersData = useSelector((state) => state.entities.customers.customers)
-  // const [customersData, setCustomersData] = useState(state)
-  const [showList, setShowList] = useState(false)
+  const [showList, setShowList] = useState(true)
 
-  const getData = async () => {
-    try {
-      const resp = await axios.get('/api/customers')
+  // const getData = async () => {
+  //   try {
+  //     const resp = await axios.get('/api/customers')
+  //     dispatch(getAllCustomers(resp.data))
+  //   } catch (err) {
+  //     console.error(err.response.data)
+  //   }
+  // }
 
-      dispatch(getAllCustomers(resp.data))
-    } catch (err) {
-      console.error(err.response.data)
-    }
-  }
-
+  // useEffect(() => {
+  //   getData()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
   useEffect(() => {
-    getData()
+    dispatch(getAllCustomers())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

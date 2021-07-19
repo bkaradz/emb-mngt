@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
 function Notification() {
   const classes = useStyles()
   const allAlerts = useSelector((state) => state.ui.alerts)
+
+  // console.log(allAlerts)
   const dispatch = useDispatch()
 
   const removeAlert = (id) => {

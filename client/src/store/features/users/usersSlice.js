@@ -18,7 +18,6 @@ export const editUser = createAsyncThunk('users/editUser', async ({ id, user }, 
 })
 // Delete user thunk
 export const deleteUser = createAsyncThunk('users/deleteUser', async ({ id }, { getState, requestId }) => {
-  // console.log(id)
   const response = await axios.delete(`/api/users/${id}`)
   return response.data
 })
@@ -52,7 +51,7 @@ export const usersSlice = createSlice({
     },
     [getAllUsers.rejected]: (state, { payload }) => {
       state.error = true
-      state.user = []
+      state.users = []
     },
     [createUser.pending]: (state, { payload }) => {
       state.error = false

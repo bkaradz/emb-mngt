@@ -35,7 +35,7 @@ function Login({ setIsLoggedIn }) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [values, setValues] = React.useState()
+  const [values, setValues] = useState()
 
   const handleClickShowPassword = () => {
     setValues(!values)

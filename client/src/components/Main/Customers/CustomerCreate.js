@@ -3,8 +3,11 @@ import { Grid, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, 
 import { makeStyles } from '@material-ui/styles'
 import { deepOrange, lightBlue } from '@material-ui/core/colors'
 import avatarImage from '../../../assets/avatar.png'
-
+import { createCustomer } from '../../../store/features/customers/customersSlice'
 import MainPageBase from '../MainPageBase'
+import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import Notification from '../../Notification/Notification'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function CustomerCreate(props) {
+  const history = useHistory()
   const classes = useStyles()
+  const dispatch = useDispatch()
 
   const initialValues = {
     isCompany: '',
@@ -50,16 +55,34 @@ function CustomerCreate(props) {
 
   const [values, setValues] = useState(initialValues)
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    dispatch(createCustomer(values))
+    setValues(initialValues)
+  }
+
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    let { name, value } = e.target
+
+    if (name === 'phone') {
+      value = value.split(',').map((num) => num.trim())
+    }
 
     setValues({ ...values, [name]: value })
   }
 
+  const handleRedirect = (e) => {
+    e.preventDefault()
+
+    history.push('/customers')
+  }
+
   return (
     <MainPageBase>
-      <form className={classes.root}>
+      <form className={classes.root} onSubmit={(e) => handleSubmit(e)}>
         <Grid container>
+          <Notification />
           <Grid item xs={6}>
             <Grid container justify='flex-start' alignItems='center'>
               <Grid item>
@@ -68,7 +91,7 @@ function CustomerCreate(props) {
               <Grid item>
                 <FormControl>
                   <FormLabel>Customer Type</FormLabel>
-                  <RadioGroup aria-label='Company or Individual' name='isCompany' value={values.isCompany} onChange={handleInputChange}>
+                  <RadioGroup required aria-label='Company or Individual' name='isCompany' value={values.isCompany} onChange={handleInputChange}>
                     <FormControlLabel value='individual' control={<Radio />} label='Individual' />
                     <FormControlLabel value='company' control={<Radio />} label='Company' />
                   </RadioGroup>
@@ -87,8 +110,8 @@ function CustomerCreate(props) {
               </Grid>
             </Grid>
 
-            <TextField value={values.name} id='name' name='name' label='Name' variant='filled' size='small' onChange={handleInputChange} />
-            <TextField value={values.email} id='email' name='email' label='Email' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField required value={values.name} id='name' name='name' label='Name' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField value={values.email} name='email' label='Email' variant='filled' size='small' onChange={handleInputChange} />
             <TextField
               value={values.balance}
               id='balance'
@@ -99,7 +122,9 @@ function CustomerCreate(props) {
               onChange={handleInputChange}
             />
             <Grid container justify='flex-start' alignItems='center'>
-              <Button variant='contained'>Edit</Button>
+              <Button variant='contained' type='submit' color='primary'>
+                Save
+              </Button>
             </Grid>
           </Grid>
           <Grid item xs={6}>
@@ -112,7 +137,16 @@ function CustomerCreate(props) {
               size='small'
               onChange={handleInputChange}
             />
-            <TextField value={values.phone} id='phone' name='phone' label='Phone' variant='filled' size='small' onChange={handleInputChange} />
+            <TextField
+              required
+              value={values.phone}
+              id='phone'
+              name='phone'
+              label='Phone'
+              variant='filled'
+              size='small'
+              onChange={handleInputChange}
+            />
             <TextField
               value={values.notes}
               id='notes'
@@ -136,7 +170,9 @@ function CustomerCreate(props) {
               onChange={handleInputChange}
             />
             <Grid container justify='flex-start' alignItems='center'>
-              <Button variant='contained'>Return</Button>
+              <Button variant='contained' onClick={handleRedirect}>
+                Return
+              </Button>
             </Grid>
           </Grid>
         </Grid>

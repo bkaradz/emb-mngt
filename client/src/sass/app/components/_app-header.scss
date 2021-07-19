@@ -2,6 +2,9 @@
   grid-area: head;
   background-color: getColor('dark');
   color: getColor('white');
+  position: sticky;
+  top: 0;
+  z-index: 700;
   input {
     display: none;
   }

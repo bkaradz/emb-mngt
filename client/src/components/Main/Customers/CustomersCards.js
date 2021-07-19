@@ -1,15 +1,19 @@
-import { Button, Card, CardActions, CardContent, CardMedia, makeStyles, Typography, useTheme } from '@material-ui/core'
+import { Card, CardContent, CardMedia, Grid, makeStyles, TablePagination, Typography, Paper, LinearProgress } from '@material-ui/core'
 import MainPageBase from '../MainPageBase'
+import _ from 'lodash'
+import { useState } from 'react'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 340,
+    minWidth: 317,
+    minHeight: 100,
+    maxWidth: 317,
     maxHeight: 100,
     display: 'flex',
   },
   cover: {
-    height: 90,
-    width: 90,
+    minHeight: 90,
+    minWidth: 90,
     margin: theme.spacing(0.5),
   },
   title: {
@@ -18,40 +22,98 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0),
     marginTop: 0,
     padding: theme.spacing(0),
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
   pos: {
     fontSize: 12,
     // marginBottom: 12,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
   content: {
     padding: theme.spacing(1),
+  },
+  paper: {
+    marginTop: theme.spacing(2),
+    marginRight: theme.spacing(2),
   },
 }))
 
 function CustomersCards({ customersData }) {
   const classes = useStyles()
-  return (
-    <MainPageBase>
-      <Card className={classes.root} variant='outlined'>
-        <CardMedia
-          className={classes.cover}
-          image='https://material-ui.com/static/images/cards/contemplative-reptile.jpg'
-          title='Live from space album cover'
-        />
-        <CardContent className={classes.content}>
-          <Typography className={classes.title} color='textSecondary'>
-            Word of the Day
-          </Typography>
-          <Typography className={classes.pos} color='textSecondary'>
-            adjective
-          </Typography>
-          <Typography variant='body2' component='p'>
-            well meaning and kindly.
-          </Typography>
-        </CardContent>
-      </Card>
-    </MainPageBase>
-  )
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(30)
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event) => {
+    console.log(event.target.value)
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
+
+  let customersChunk = _.chunk(customersData, rowsPerPage) || []
+
+  if (customersChunk[page] === undefined) {
+    return (
+      <MainPageBase>
+        <LinearProgress color='secondary' />
+      </MainPageBase>
+    )
+  }
+  if (customersChunk[page]) {
+    return (
+      <MainPageBase>
+        <Grid container sx={{ flexGrow: 1 }} spacing={2}>
+          <Grid item xs={12}>
+            <Grid container spacing={1}>
+              {customersChunk[page].map((customer) => {
+                const { _id, name, phone, balance } = customer
+                return (
+                  <Grid item key={_id}>
+                    <Card className={classes.root} variant='outlined'>
+                      <CardMedia
+                        className={classes.cover}
+                        image='https://material-ui.com/static/images/cards/contemplative-reptile.jpg'
+                        title='Live from space album cover'
+                      />
+                      <CardContent className={classes.content}>
+                        <Typography className={classes.title} color='textSecondary'>
+                          {name}
+                        </Typography>
+                        <Typography className={classes.pos} color='textSecondary'>
+                          {phone}
+                        </Typography>
+                        <Typography variant='body2' component='p' color='primary'>
+                          $ {balance}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                )
+              })}
+            </Grid>
+            <Paper className={classes.paper}>
+              <TablePagination
+                component='div'
+                count={customersData.length}
+                page={page}
+                onChangePage={handleChangePage}
+                rowsPerPage={rowsPerPage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 40, 50]}
+              />
+            </Paper>
+          </Grid>
+        </Grid>
+      </MainPageBase>
+    )
+  }
 }
 
 export default CustomersCards
