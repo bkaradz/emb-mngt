@@ -142,4 +142,11 @@ export const uiStates = {
     buttons: [{ name: 'Create', link: '/settings/user/create' }],
     listShow: false,
   },
+  '/undefined': {
+    breadcrumbs: [{ title: 'Home', url: '/' }],
+    headerTitle: 'Undefined',
+    buttonShow: false,
+    buttons: [{ name: 'Create', link: '/settings/user/create' }],
+    listShow: false,
+  },
 }

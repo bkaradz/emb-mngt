@@ -1,11 +1,11 @@
 // import React, { useState, useEffect } from 'react'
-import { NavLink, useHistory, useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams, NavLink } from 'react-router-dom'
 import { emphasize, withStyles, makeStyles } from '@material-ui/core/styles'
 import { IconButton, Paper, Chip, Button, ButtonGroup, Box, Breadcrumbs } from '@material-ui/core'
 import { ViewModule as ViewModuleIcon, ViewList as ViewListIcon, Home as HomeIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeShowListItem, getCurrentUiState } from '../../../store/features/ui/uiSlice'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 const debug = false
 
@@ -48,16 +48,10 @@ const useStyles = makeStyles((theme) => ({
 const PageHeader = () => {
   const classes = useStyles()
   const { id } = useParams()
-  const history = useHistory()
-  const dispatch = useDispatch()
   let location = useLocation().pathname
-  // let location2 = useLocation()
-  // let id2 = `/${id}`
+  location = location.replace(`/${id}`, '')
+  const dispatch = useDispatch()
 
-  // if (debug) console.log(location)
-  // if (debug) console.log(location2)
-  // if (debug) console.log(id)
-  // if (debug) console.log(`/${id}`)
   if (debug) console.log(location.replace(`/${id}`, ''))
 
   useEffect(() => {
@@ -65,38 +59,34 @@ const PageHeader = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])
 
-  // console.log(useSelector((state) => state.ui.ui.uiStates[location]))
+  const breadcrumb = useSelector((state) => state.ui.ui.currentUI.breadcrumbs)
 
-  // const [showList, setShowList] = useState(true)
+  const crumbLength = breadcrumb.length
 
-  // const handleListClock = (value) => {
-  //   setShowList(value)
-  //   console.log('list')
-  //   dispatch(changeShowListItem(showList))
-  // }
-
-  const handleClick = (e) => {
-    // const buttonState = e.target.innerHTML
-    // if (buttonState.toLowerCase() === 'create') {
-    //   let editUrl = window.location.pathname
-    //   editUrl = editUrl.replace('contacts', 'contacts/create')
-    //   // history.push(editUrl)
-    // }
-    // if (buttonState.toLowerCase() === 'edit') {
-    //   let editUrl = window.location.pathname
-    //   editUrl = editUrl.replace('view', 'edit')
-    //   // history.push(editUrl)
-    // }
-  }
+  const handleClick = (e) => {}
 
   return (
     <Paper className={classes.paper}>
       <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
         <div>
           <Breadcrumbs aria-label='breadcrumb'>
-            <StyledBreadcrumb label='Home' href='#' onClick={handleClick} component='a' icon={<HomeIcon fontSize='small' />} />
+            {/* <StyledBreadcrumb label='Home' href='#' onClick={handleClick} component='a' icon={<HomeIcon fontSize='small' />} />
             <StyledBreadcrumb label='Catalog' href='#' onClick={handleClick} component='a' />
-            <StyledBreadcrumb label='Accessories' onClick={handleClick} onDelete={handleClick} deleteIcon={<ExpandMoreIcon />} />
+            <StyledBreadcrumb label='Accessories' onClick={handleClick} onDelete={handleClick} deleteIcon={<ExpandMoreIcon />} /> */}
+            {breadcrumb.map((crumb, index) => {
+              const { title, url } = crumb
+              let linkState = crumbLength - 1 === index
+              return (
+                // isActive={crumbLength === index}
+                <NavLink key={index} exact to={url} disabled={linkState}>
+                  {!index ? (
+                    <StyledBreadcrumb label={title} onClick={handleClick} icon={<HomeIcon fontSize='small' />} />
+                  ) : (
+                    <StyledBreadcrumb label={title} onClick={handleClick} />
+                  )}
+                </NavLink>
+              )
+            })}
           </Breadcrumbs>
         </div>
 
