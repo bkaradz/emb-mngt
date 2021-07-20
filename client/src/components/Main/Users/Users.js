@@ -9,10 +9,14 @@ import { deleteUser, getAllUsers } from '../../../store/features/users/usersSlic
 import MainPageBase from '../MainPageBase'
 import DeleteIcon from '@material-ui/icons/Delete'
 
+const debug = false
+
 function Users() {
   const dispatch = useDispatch()
 
-  console.log(useLocation().pathname)
+  let location = useLocation().pathname
+
+  if (debug) console.log(location)
 
   useEffect(() => {
     dispatch(getAllUsers())

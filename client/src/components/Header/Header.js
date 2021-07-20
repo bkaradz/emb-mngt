@@ -8,11 +8,13 @@ import { useLocation } from 'react-router-dom'
 import { getCurrentUiState } from '../../store/features/ui/uiSlice'
 // import { Redirect, useLocation } from 'react-router-dom'
 
+const debug = false
+
 const Header = ({ handleClick, bigNav }) => {
   const dispatch = useDispatch()
   let location = useLocation().pathname
   const [anchorEl, setAnchorEl] = useState(null)
-  console.log(location)
+  if (debug) console.log(location)
 
   useEffect(() => {
     dispatch(getCurrentUiState(location))
@@ -21,13 +23,13 @@ const Header = ({ handleClick, bigNav }) => {
 
   // console.log(useSelector((state) => state.ui.ui.uiStates[location]))
 
-  // let title = useSelector((state) => state.ui.ui.currentUI.headerTitle)
+  let title = useSelector((state) => state.ui.ui.currentUI.headerTitle)
 
   // let titleText = title.headerTitle
 
-  // if (titleText) {
-  //   titleText = 'Undefined'
-  // }
+  if (title === undefined) {
+    title = 'Undefined'
+  }
 
   let name = ''
   // let _id = ''

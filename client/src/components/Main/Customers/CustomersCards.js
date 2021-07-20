@@ -117,14 +117,3 @@ function CustomersCards({ customersData }) {
 }
 
 export default CustomersCards
-
-// {
-//   customersData.map((customer) => {
-//     const { _id, isCompany, name, email, phone, balance } = customer
-//     return (
-//       <div key={_id}>
-//         <p>{name}</p>
-//       </div>
-//     )
-//   })
-// }

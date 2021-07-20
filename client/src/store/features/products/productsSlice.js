@@ -19,7 +19,7 @@ export const productsSlice = createSlice({
   name: 'products',
   initialState: {
     products: [],
-    loading: false,
+    loading: true, // to change to false
     lastFetch: null,
     error: false,
     success: false,

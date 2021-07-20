@@ -6,23 +6,30 @@ import axios from 'axios'
 // Main page components
 import Header from './components/Header/Header'
 import Nav from './components/Nav/Nav'
-import Sales from './components/Main/Sales/Sales'
+// Dashboard components
 import Dashboard from './components/Main/Dashboard/Dashboard'
+// Messages components
+import Messages from './components/Main/Messages/Messages'
 // Customers components
 import Customers from './components/Main/Customers/Customers'
 import CustomerCreate from './components/Main/Customers/CustomerCreate'
 import CustomerEdit from './components/Main/Customers/CustomerEdit'
 import CustomerView from './components/Main/Customers/CustomerView'
+// Sales components
+import Sales from './components/Main/Sales/Sales'
 // Products components
 import Products from './components/Main/Products/Products'
 import ProductView from './components/Main/Products/ProductView'
 import ProductEdit from './components/Main/Products/ProductEdit'
+// Production components
+import Production from './components/Main/Production/Production'
+// Settings components
+import Settings from './components/Main/Settings/Settings'
 // Users components
 import Users from './components/Main/Users/Users'
 import UserCreate from './components/Main/Users/UserCreate'
 import UserEdit from './components/Main/Users/UserEdit'
-
-import Messages from './components/Main/Messages/Messages'
+// Error components
 import Error from './components/Main/Error'
 
 import { loadUser, userAuthFailed, userAuthSuccess } from './store/features/auth/authSlice'
@@ -70,21 +77,14 @@ const App = () => {
         <Header handleClick={handleClick} bigNav={bigNav} />
         <Nav bigNav={bigNav} />
         <Switch>
-          {/* Dashboard Routes */}
-          <Route exact path='/' children={<Dashboard />} />
-
           {/* Login Routes */}
           {/* <Route exact path='/login' children={<Login />} /> */}
 
-          {/* Products Routes */}
-          <Route exact path='/products' children={<Products />} />
-          <Route exact path='/product/view/:id' children={<ProductView />} />
-          <Route exact path='/product/edit/:id' children={<ProductEdit />} />
+          {/* Dashboard Routes */}
+          <Route exact path='/' children={<Dashboard />} />
 
-          {/* Users Routes */}
-          <Route exact path='/settings/users' children={<Users />} />
-          <Route exact path='/settings/user/create' children={<UserCreate />} />
-          <Route exact path='/settings/user/edit/:id' children={<UserEdit />} />
+          {/* Messages Routes */}
+          <Route exact path='/messages' children={<Messages />} />
 
           {/* Customers Routes */}
           <Route exact path='/customers' children={<Customers />} />
@@ -92,11 +92,24 @@ const App = () => {
           <Route exact path='/customer/edit/:id' children={<CustomerEdit />} />
           <Route exact path='/customer/create' children={<CustomerCreate />} />
 
-          {/* Messages Routes */}
-          <Route exact path='/messages' children={<Messages />} />
-
           {/* Sales Routes */}
           <Route exact path='/sales' children={<Sales />} />
+
+          {/* Products Routes */}
+          <Route exact path='/products' children={<Products />} />
+          <Route exact path='/product/view/:id' children={<ProductView />} />
+          <Route exact path='/product/edit/:id' children={<ProductEdit />} />
+
+          {/* Production Routes */}
+          <Route exact path='/production' children={<Production />} />
+
+          {/* Settings Routes */}
+          <Route exact path='/settings' children={<Settings />} />
+
+          {/* Users Routes */}
+          <Route exact path='/settings/users' children={<Users />} />
+          <Route exact path='/settings/user/create' children={<UserCreate />} />
+          <Route exact path='/settings/user/edit/:id' children={<UserEdit />} />
 
           {/* Error Route */}
           <Route exact path='*' children={<Error />} />

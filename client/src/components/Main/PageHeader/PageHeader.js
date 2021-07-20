@@ -1,11 +1,13 @@
 // import React, { useState, useEffect } from 'react'
-import { NavLink, useHistory, useLocation } from 'react-router-dom'
+import { NavLink, useHistory, useLocation, useParams } from 'react-router-dom'
 import { emphasize, withStyles, makeStyles } from '@material-ui/core/styles'
 import { IconButton, Paper, Chip, Button, ButtonGroup, Box, Breadcrumbs } from '@material-ui/core'
 import { ViewModule as ViewModuleIcon, ViewList as ViewListIcon, Home as HomeIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeShowListItem, getCurrentUiState } from '../../../store/features/ui/uiSlice'
 import { useEffect, useState } from 'react'
+
+const debug = false
 
 const StyledBreadcrumb = withStyles((theme) => ({
   root: {
@@ -45,10 +47,18 @@ const useStyles = makeStyles((theme) => ({
 
 const PageHeader = () => {
   const classes = useStyles()
+  const { id } = useParams()
   const history = useHistory()
   const dispatch = useDispatch()
   let location = useLocation().pathname
-  console.log(location)
+  // let location2 = useLocation()
+  // let id2 = `/${id}`
+
+  // if (debug) console.log(location)
+  // if (debug) console.log(location2)
+  // if (debug) console.log(id)
+  // if (debug) console.log(`/${id}`)
+  if (debug) console.log(location.replace(`/${id}`, ''))
 
   useEffect(() => {
     dispatch(getCurrentUiState(location))

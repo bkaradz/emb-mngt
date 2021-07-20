@@ -6,7 +6,7 @@ import avatarImage from '../../../assets/avatar.png'
 import { createCustomer } from '../../../store/features/customers/customersSlice'
 import MainPageBase from '../MainPageBase'
 import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Notification from '../../Notification/Notification'
 
 const useStyles = makeStyles((theme) => ({

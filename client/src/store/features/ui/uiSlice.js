@@ -31,6 +31,7 @@ export const uiSlice = createSlice({
     getCurrentUiState: (state, { payload }) => {
       state.currentUI = state.uiStates[payload]
     },
+    // Change from List View to Card View
     changeShowListItem: (state, { payload }) => {
       state.showListItems = payload
     },
@@ -48,6 +49,7 @@ export const uiSlice = createSlice({
       state.lastFetch = Date.now()
       state.error = false
       state.success = true
+      state.currentUI = {}
     },
     [getAllUiStates.rejected]: (state, { payload }) => {
       state.products = {}
