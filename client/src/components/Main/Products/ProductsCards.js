@@ -1,9 +1,7 @@
-import { Card, Paper, CardContent, CardMedia, Grid, TablePagination, Typography, makeStyles } from '@material-ui/core'
 import React, { useState } from 'react'
-// import { useDispatch } from 'react-redux'
-// import { getAllProducts } from '../../../store/features/products/productsSlice'
-import MainPageBase from '../MainPageBase'
 import _ from 'lodash'
+import { Card, Paper, CardContent, CardMedia, Grid, TablePagination, Typography, makeStyles } from '@material-ui/core'
+import MainPageBase from '../MainPageBase'
 
 const debug = false
 
@@ -46,22 +44,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ProductCards(productsData) {
+function ProductCards({ productsData }) {
   const classes = useStyles()
-  // const dispatch = useDispatch()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(30)
 
-  // useEffect(() => {
-  //   dispatch(getAllProducts())
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
-
-  // const productsData = useSelector((state) => state.entities.products.products)
-
   if (debug) console.log(productsData)
 
-  let productsChunk = _.chunk(productsData.productsData, rowsPerPage)
+  let productsChunk = _.chunk(productsData, rowsPerPage)
 
   if (debug) console.log(productsChunk)
 
@@ -109,7 +99,7 @@ function ProductCards(productsData) {
           <Paper className={classes.paper}>
             <TablePagination
               component='div'
-              count={productsData.productsData.length}
+              count={productsData.length}
               page={page}
               onChangePage={handleChangePage}
               rowsPerPage={rowsPerPage}

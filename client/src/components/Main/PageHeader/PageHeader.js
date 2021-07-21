@@ -1,11 +1,11 @@
 // import React, { useState, useEffect } from 'react'
-import { NavLink, useHistory, useLocation, useParams } from 'react-router-dom'
+import { NavLink, useLocation, useParams, useHistory } from 'react-router-dom'
 import { emphasize, withStyles, makeStyles } from '@material-ui/core/styles'
 import { IconButton, Paper, Chip, Button, ButtonGroup, Box, Breadcrumbs } from '@material-ui/core'
-import { ViewModule as ViewModuleIcon, ViewList as ViewListIcon, Home as HomeIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons'
+import { ViewModule as ViewModuleIcon, ViewList as ViewListIcon, Home as HomeIcon } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeShowListItem, getCurrentUiState } from '../../../store/features/ui/uiSlice'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 const debug = false
 
@@ -38,88 +38,99 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.grey[300],
     padding: theme.spacing(1),
     display: 'flex',
+
     flexDirection: 'column',
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
     elevation: 3,
   },
+  breadcrumbs: {
+    marginTop: theme.spacing(1.4),
+    marginBottom: theme.spacing(1.4),
+  },
 }))
 
 const PageHeader = () => {
+  const history = useHistory()
   const classes = useStyles()
   const { id } = useParams()
-  const history = useHistory()
-  const dispatch = useDispatch()
-  let location = useLocation().pathname
-  // let location2 = useLocation()
-  // let id2 = `/${id}`
 
-  // if (debug) console.log(location)
-  // if (debug) console.log(location2)
-  // if (debug) console.log(id)
-  // if (debug) console.log(`/${id}`)
+  const dispatch = useDispatch()
+  let location = useLocation().pathname.replace(`/${id}`, '')
+
   if (debug) console.log(location.replace(`/${id}`, ''))
+  if (debug) console.log(location)
 
   useEffect(() => {
     dispatch(getCurrentUiState(location))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])
 
-  // console.log(useSelector((state) => state.ui.ui.uiStates[location]))
+  const crumbLinks = useSelector((state) => state.ui.ui.currentUI.breadcrumbs)
+  const buttons = useSelector((state) => state.ui.ui.currentUI.buttons)
+  const showButton = useSelector((state) => state.ui.ui.currentUI.buttonShow)
+  const showList = useSelector((state) => state.ui.ui.currentUI.listShow)
 
-  // const [showList, setShowList] = useState(true)
+  if (debug) console.log(showButton)
+  if (debug) console.log(showList)
+  if (debug) console.log(crumbLinks)
 
-  // const handleListClock = (value) => {
-  //   setShowList(value)
-  //   console.log('list')
-  //   dispatch(changeShowListItem(showList))
-  // }
-
-  const handleClick = (e) => {
-    // const buttonState = e.target.innerHTML
-    // if (buttonState.toLowerCase() === 'create') {
-    //   let editUrl = window.location.pathname
-    //   editUrl = editUrl.replace('contacts', 'contacts/create')
-    //   // history.push(editUrl)
-    // }
-    // if (buttonState.toLowerCase() === 'edit') {
-    //   let editUrl = window.location.pathname
-    //   editUrl = editUrl.replace('view', 'edit')
-    //   // history.push(editUrl)
-    // }
+  const handleClick = ({ link, name }) => {
+    // e.preventDefault()
+    // console.log(e.target)
+    console.log(link)
+    console.log(name)
+    if (name === 'Create') {
+      history.push(link)
+    }
   }
 
   return (
     <Paper className={classes.paper}>
       <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
-        <div>
+        <div className={classes.breadcrumbs}>
           <Breadcrumbs aria-label='breadcrumb'>
-            <StyledBreadcrumb label='Home' href='#' onClick={handleClick} component='a' icon={<HomeIcon fontSize='small' />} />
-            <StyledBreadcrumb label='Catalog' href='#' onClick={handleClick} component='a' />
-            <StyledBreadcrumb label='Accessories' onClick={handleClick} onDelete={handleClick} deleteIcon={<ExpandMoreIcon />} />
+            {crumbLinks.map((crumb, index) => {
+              const { title, url } = crumb
+              return (
+                <NavLink key={index} exact to={url}>
+                  {!index ? (
+                    <StyledBreadcrumb label={title} onClick={handleClick} icon={<HomeIcon fontSize='small' />} />
+                  ) : (
+                    <StyledBreadcrumb label={title} onClick={handleClick} />
+                  )}
+                </NavLink>
+              )
+            })}
           </Breadcrumbs>
         </div>
 
         <div className={classes.root}>
-          <ButtonGroup variant='contained' size='small' aria-label='small contained primary button group'>
-            <Button>Create</Button>
-            <Button>Delete</Button>
-            <Button>Upload</Button>
+          <ButtonGroup variant='contained' size='small' aria-label='small contained primary button group' hidden={!showButton}>
+            {buttons.map((btn, index) => {
+              const { name, link } = btn
+              return (
+                <Button key={index} onClick={(e) => handleClick({ e, link, name })}>
+                  {name}
+                </Button>
+              )
+            })}
           </ButtonGroup>
         </div>
-
-        <Box display='flex' flexDirection='row' justify='space-between'>
-          <div>
-            <IconButton onClick={() => dispatch(changeShowListItem(true))}>
-              <ViewListIcon />
-            </IconButton>
-          </div>
-          <div>
-            <IconButton onClick={() => dispatch(changeShowListItem(false))}>
-              <ViewModuleIcon />
-            </IconButton>
-          </div>
-        </Box>
+        <div>
+          <Box display='flex' flexDirection='row' justify='space-between' hidden={!showList}>
+            <div>
+              <IconButton onClick={() => dispatch(changeShowListItem(true))}>
+                <ViewListIcon />
+              </IconButton>
+            </div>
+            <div>
+              <IconButton onClick={() => dispatch(changeShowListItem(false))}>
+                <ViewModuleIcon />
+              </IconButton>
+            </div>
+          </Box>
+        </div>
       </Box>
     </Paper>
   )

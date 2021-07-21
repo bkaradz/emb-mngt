@@ -3,7 +3,7 @@ export const uiStates = {
     breadcrumbs: [{ title: 'Home', url: '/' }],
     headerTitle: 'Dashboard',
     buttonShow: false,
-    buttons: [],
+    buttons: [{ name: 'Create', link: '/messages/create' }],
     listShow: false,
   },
   '/messages': {
@@ -23,7 +23,7 @@ export const uiStates = {
     ],
     headerTitle: 'Customers',
     buttonShow: true,
-    buttons: [{ name: 'Create', link: '/customers/create' }],
+    buttons: [{ name: 'Create', link: '/customer/create' }],
     listShow: true,
   },
   '/customer/view': {
@@ -34,7 +34,7 @@ export const uiStates = {
     ],
     headerTitle: 'View Customer',
     buttonShow: false,
-    buttons: [{ name: 'Create', link: '/customers/create' }],
+    buttons: [{ name: 'Create', link: '/customer/create' }],
     listShow: false,
   },
   '/customer/edit': {
@@ -45,18 +45,18 @@ export const uiStates = {
     ],
     headerTitle: 'Edit Customer',
     buttonShow: false,
-    buttons: [{ name: 'Create', link: '/customers/create' }],
+    buttons: [{ name: 'Create', link: '/customer/create' }],
     listShow: false,
   },
   '/customer/create': {
     breadcrumbs: [
       { title: 'Home', url: '/' },
       { title: 'Customers', url: '/customers' },
-      { title: 'Create', url: '/customers/create' },
+      { title: 'Create', url: '/customer/create' },
     ],
     headerTitle: 'Create Customer',
     buttonShow: false,
-    buttons: [{ name: 'Create', link: '/customers/create' }],
+    buttons: [{ name: 'Create', link: '/customer/create' }],
     listShow: false,
   },
   '/sales': {
@@ -75,9 +75,9 @@ export const uiStates = {
       { title: 'Products', url: '/products' },
     ],
     headerTitle: 'Products',
-    buttonShow: false,
+    buttonShow: true,
     buttons: [{ name: 'Create', link: '/product/create' }],
-    listShow: false,
+    listShow: true,
   },
   '/product/view': {
     breadcrumbs: [
@@ -138,6 +138,13 @@ export const uiStates = {
       { title: 'Users', url: '/settings/users' },
     ],
     headerTitle: 'Users Settings',
+    buttonShow: true,
+    buttons: [{ name: 'Create', link: '/settings/user/create' }],
+    listShow: false,
+  },
+  '/Undefined': {
+    breadcrumbs: [{ title: 'Home', url: '/' }],
+    headerTitle: 'Undefined',
     buttonShow: true,
     buttons: [{ name: 'Create', link: '/settings/user/create' }],
     listShow: false,

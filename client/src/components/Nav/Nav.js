@@ -5,9 +5,27 @@ import { links } from './nav-data'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
+const debug = false
+let menuItem = []
+
 const Nav = ({ bigNav }) => {
   const [activeUrl, setActiveUrl] = useState('')
   const [toggleMenu, setToggleMenu] = useState(false)
+
+  if (debug) console.log(activeUrl)
+  if (debug) console.log(toggleMenu)
+
+  menuItem.unshift(activeUrl)
+
+  if (menuItem.length > 2) {
+    menuItem.pop()
+  }
+
+  if (debug) console.log(menuItem)
+
+  if (menuItem[0] !== menuItem[1]) {
+    setToggleMenu(true)
+  }
 
   return (
     <div className='navbar-menu'>

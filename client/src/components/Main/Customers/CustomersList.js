@@ -5,6 +5,8 @@ import { IconButton } from '@material-ui/core'
 import MainPageBase from '../MainPageBase'
 
 function CustomersList({ customersData }) {
+  const rows = customersData
+
   const columns = [
     {
       field: '_id',
@@ -78,16 +80,6 @@ function CustomersList({ customersData }) {
       },
     },
   ]
-
-  const rows = customersData
-
-  // if (customersChunk[page] === undefined) {
-  //   return (
-  //     <MainPageBase>
-  //       <LinearProgress color='secondary' />
-  //     </MainPageBase>
-  //   )
-  // }
 
   return (
     <MainPageBase>

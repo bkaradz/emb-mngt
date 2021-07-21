@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getAllProducts } from '../../../store/features/products/productsSlice'
 import MainPageBase from '../MainPageBase'
 import { LinearProgress } from '@material-ui/core'
-// import { truncate } from 'lodash'
 
 const debug = false
 

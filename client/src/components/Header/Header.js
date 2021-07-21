@@ -61,7 +61,7 @@ const Header = ({ handleClick, bigNav }) => {
           {bigNav ? <MenuIcon /> : <MenuOpenIcon />}
         </button>
         <Typography variant='h6' noWrap>
-          {/* {title} */}
+          {title}
         </Typography>
       </div>
       <div className='right-head'>

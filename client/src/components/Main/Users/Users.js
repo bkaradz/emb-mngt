@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Checkbox, IconButton } from '@material-ui/core'
+import { Checkbox, IconButton, LinearProgress } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { DataGrid } from '@material-ui/data-grid'
 import { NavLink, useLocation } from 'react-router-dom'
@@ -31,6 +31,8 @@ function Users() {
   }
 
   const rows = useSelector((state) => state.entities.users.users)
+
+  const isLoading = useSelector((state) => state.entities.users.loading)
 
   const columns = [
     {
@@ -108,6 +110,14 @@ function Users() {
       },
     },
   ]
+
+  if (isLoading) {
+    return (
+      <MainPageBase>
+        <LinearProgress color='primary' />
+      </MainPageBase>
+    )
+  }
 
   return (
     <MainPageBase>

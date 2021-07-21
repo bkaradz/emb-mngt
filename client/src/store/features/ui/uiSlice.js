@@ -15,8 +15,8 @@ export const getAllUiStates = createAsyncThunk('uiStates/getAllUiStates', async 
 export const uiSlice = createSlice({
   name: 'uiStates',
   initialState: {
-    uiStates: {},
-    currentUI: {},
+    uiStates: uiStates,
+    currentUI: uiStates['/Undefined'],
     showListItems: true,
     loading: false,
     error: false,
@@ -29,7 +29,7 @@ export const uiSlice = createSlice({
      * type => error, warning, info, success
      */
     getCurrentUiState: (state, { payload }) => {
-      state.currentUI = state.uiStates[payload]
+      state.currentUI = state.uiStates[payload] || state.uiStates['/Undefined']
     },
     // Change from List View to Card View
     changeShowListItem: (state, { payload }) => {

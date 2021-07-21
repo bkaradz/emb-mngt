@@ -21,6 +21,7 @@ import Sales from './components/Main/Sales/Sales'
 import Products from './components/Main/Products/Products'
 import ProductView from './components/Main/Products/ProductView'
 import ProductEdit from './components/Main/Products/ProductEdit'
+import ProductCreate from './components/Main/Products/ProductCreate'
 // Production components
 import Production from './components/Main/Production/Production'
 // Settings components
@@ -33,7 +34,6 @@ import UserEdit from './components/Main/Users/UserEdit'
 import Error from './components/Main/Error'
 
 import { loadUser, userAuthFailed, userAuthSuccess } from './store/features/auth/authSlice'
-import { getAllUiStates } from './store/features/ui/uiSlice'
 
 import { useDispatch } from 'react-redux'
 import setAuthToken from './utils/setAuthToken'
@@ -51,8 +51,6 @@ const App = () => {
         const loadUserRes = await axios.get('/api/auth')
         dispatch(loadUser(loadUserRes.data))
         dispatch(userAuthSuccess(localStorage.token))
-        // Load UI states
-        dispatch(getAllUiStates())
       } catch (err) {
         console.error(err.response.data.msg)
         dispatch(userAuthFailed())
@@ -97,6 +95,7 @@ const App = () => {
 
           {/* Products Routes */}
           <Route exact path='/products' children={<Products />} />
+          <Route exact path='/product/create' children={<ProductCreate />} />
           <Route exact path='/product/view/:id' children={<ProductView />} />
           <Route exact path='/product/edit/:id' children={<ProductEdit />} />
 

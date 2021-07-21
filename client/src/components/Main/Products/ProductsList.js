@@ -1,22 +1,10 @@
-// import React from 'react'
-// import React, { useEffect } from 'react'
-import { IconButton } from '@material-ui/core'
-import { Visibility as VisibilityIcon, Edit as EditIcon } from '@material-ui/icons'
-import { DataGrid } from '@material-ui/data-grid'
 import { NavLink } from 'react-router-dom'
-// import { useDispatch } from 'react-redux'
-// import { getAllProducts } from '../../../store/features/products/productsSlice'
+import { DataGrid } from '@material-ui/data-grid'
+import { Visibility as VisibilityIcon, Edit as EditIcon } from '@material-ui/icons'
+import { IconButton } from '@material-ui/core'
 import MainPageBase from '../MainPageBase'
 
 function Products(productsData) {
-  // const dispatch = useDispatch()
-
-  // useEffect(() => {
-  //   dispatch(getAllProducts())
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
-
-  // const rows = useSelector((state) => state.entities.products.products)
   const rows = productsData.productsData
 
   const columns = [
