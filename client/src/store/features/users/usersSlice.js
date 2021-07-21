@@ -3,23 +3,51 @@ import axios from 'axios'
 
 // Get all users thunk
 export const getAllUsers = createAsyncThunk('users/getAllUsers', async () => {
-  const response = await axios.get('/api/users')
-  return response.data
+  try {
+    const response = await axios.get('/api/users')
+    return response.data
+  } catch (err) {
+    console.error(err.message)
+    console.log(err.message)
+    console.log(err.response.data)
+    return err.message
+  }
 })
 // Create user thunk
 export const createUser = createAsyncThunk('users/createUser', async (payload) => {
-  const response = await axios.post('/api/users', payload)
-  return response.data
+  try {
+    const response = await axios.post('/api/users', payload)
+    return response.data
+  } catch (err) {
+    console.error(err.message)
+    console.log(err.message)
+    console.log(err.response.data)
+    return err.message
+  }
 })
 // Edit user thunk
 export const editUser = createAsyncThunk('users/editUser', async ({ id, user }, { getState, requestId }) => {
-  const response = await axios.put(`/api/users/${id}`, user)
-  return response.data
+  try {
+    const response = await axios.put(`/api/users/${id}`, user)
+    return response.data
+  } catch (err) {
+    console.error(err.message)
+    console.log(err.message)
+    console.log(err.response.data)
+    return err.message
+  }
 })
 // Delete user thunk
 export const deleteUser = createAsyncThunk('users/deleteUser', async ({ id }, { getState, requestId }) => {
-  const response = await axios.delete(`/api/users/${id}`)
-  return response.data
+  try {
+    const response = await axios.delete(`/api/users/${id}`)
+    return response.data
+  } catch (err) {
+    console.error(err.message)
+    console.log(err.message)
+    console.log(err.response.data)
+    return err.message
+  }
 })
 
 export const usersSlice = createSlice({

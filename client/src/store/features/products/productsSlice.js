@@ -10,7 +10,6 @@ export const getAllProducts = createAsyncThunk('products/getAllProducts', async 
     console.error(err.message)
     console.log(err.message)
     console.log(err.response.data)
-    // dispatch(createAlert(err.message))
     return err.message
   }
 })

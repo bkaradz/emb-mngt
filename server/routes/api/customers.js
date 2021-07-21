@@ -56,7 +56,7 @@ router.post('/', auth, async (req, res) => {
     name: Joi.string().required(),
     // vatBpNo: Joi.string(),
     isCompany: Joi.string().required().valid('individual', 'company'),
-    // email: Joi.string().email(),
+    email: Joi.string().email(),
     phone: Joi.array().items(Joi.string().required()),
     // address: Joi.string(),
     // balance: Joi.number(),
@@ -70,14 +70,8 @@ router.post('/', auth, async (req, res) => {
       return res.status(400).json(error)
     }
     const customer = new Customers({
+      ...req.body,
       user_id: req.user.id,
-      name: req.body.name,
-      vatBpNo: req.body.vatBpNo,
-      isCompany: req.body.isCompany,
-      email: req.body.email,
-      phone: req.body.phone,
-      address: req.body.address,
-      balance: req.body.balance,
     })
 
     const post = await customer.save()

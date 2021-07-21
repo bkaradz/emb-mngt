@@ -8,6 +8,9 @@ import MainPageBase from '../MainPageBase'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import Notification from '../../Notification/Notification'
+import _ from 'lodash'
+
+const debug = false
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +61,15 @@ function CustomerCreate(props) {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    dispatch(createCustomer(values))
+    // const postValue = values.map((element) => console.log(element))
+
+    let postValues = _.pickBy(values, function (value, key) {
+      return !(value === '' || value === 0)
+    })
+
+    if (debug) console.log(postValues)
+
+    dispatch(createCustomer(postValues))
     setValues(initialValues)
   }
 

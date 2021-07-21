@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { uiStates } from '../../../components/Main/PageHeader/pageUiData'
-import { uiStates as initState } from '../../../components/Main/PageHeader/pageUiData'
 
 export const getAllUiStates = createAsyncThunk('uiStates/getAllUiStates', async () => {
   try {
@@ -16,13 +15,8 @@ export const getAllUiStates = createAsyncThunk('uiStates/getAllUiStates', async 
 export const uiSlice = createSlice({
   name: 'uiStates',
   initialState: {
-<<<<<<< HEAD
     uiStates: uiStates,
-    currentUI: uiStates['/Undefined'],
-=======
-    uiStates: initState,
-    currentUI: initState['/undefined'],
->>>>>>> f37055985efaf377c8df941b6cf918272f8cb0dc
+    currentUI: uiStates['/undefined'],
     showListItems: true,
     loading: false,
     error: false,
@@ -35,11 +29,7 @@ export const uiSlice = createSlice({
      * type => error, warning, info, success
      */
     getCurrentUiState: (state, { payload }) => {
-<<<<<<< HEAD
-      state.currentUI = state.uiStates[payload] || state.uiStates['/Undefined']
-=======
       state.currentUI = state.uiStates[payload] || state.uiStates['/undefined']
->>>>>>> f37055985efaf377c8df941b6cf918272f8cb0dc
     },
     // Change from List View to Card View
     changeShowListItem: (state, { payload }) => {
