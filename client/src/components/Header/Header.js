@@ -4,7 +4,7 @@ import { IconButton, Menu, MenuItem, Badge, Typography } from '@material-ui/core
 import Login from '../Auth/Login'
 import { useSelector, useDispatch } from 'react-redux'
 import { loginFailed } from '../../store/features/auth/authSlice'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { getCurrentUiState } from '../../store/features/ui/uiSlice'
 // import { Redirect, useLocation } from 'react-router-dom'
 
@@ -12,7 +12,9 @@ const debug = false
 
 const Header = ({ handleClick, bigNav }) => {
   const dispatch = useDispatch()
+  const { id } = useParams()
   let location = useLocation().pathname
+  location = location.replace(`/${id}`, '')
   const [anchorEl, setAnchorEl] = useState(null)
   if (debug) console.log(location)
 
@@ -27,9 +29,9 @@ const Header = ({ handleClick, bigNav }) => {
 
   // let titleText = title.headerTitle
 
-  if (title === undefined) {
-    title = 'Undefined'
-  }
+  // if (title === undefined) {
+  //   title = 'Undefined'
+  // }
 
   let name = ''
   // let _id = ''

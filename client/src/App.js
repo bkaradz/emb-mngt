@@ -37,6 +37,7 @@ import { loadUser, userAuthFailed, userAuthSuccess } from './store/features/auth
 
 import { useDispatch } from 'react-redux'
 import setAuthToken from './utils/setAuthToken'
+import { getCurrentUiState } from './store/features/ui/uiSlice'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -47,6 +48,9 @@ const App = () => {
   useEffect(() => {
     const getData = async () => {
       try {
+        dispatch(getCurrentUiState('/'))
+        // Load UI states
+        // dispatch(getAllUiStates())
         // Load User
         const loadUserRes = await axios.get('/api/auth')
         dispatch(loadUser(loadUserRes.data))

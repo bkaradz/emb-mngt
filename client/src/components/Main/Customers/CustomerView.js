@@ -112,16 +112,7 @@ function ContactView(props) {
             </Grid>
 
             <TextField value={values.name} id='name' name='name' label='Name' variant='filled' size='small' onChange={handleInputChange} disabled />
-            <TextField
-              value={values.email}
-              id='email'
-              name='email'
-              label='Email'
-              variant='filled'
-              size='small'
-              onChange={handleInputChange}
-              disabled
-            />
+            <TextField value={values.email} name='email' label='Email' variant='filled' size='small' onChange={handleInputChange} disabled />
             <TextField
               value={values.balance}
               id='balance'
