@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
+const debug = false
+
 // Get all customers thunk
 export const getAllCustomers = createAsyncThunk('customers/getAllCustomers', async () => {
   try {
@@ -16,12 +18,12 @@ export const getAllCustomers = createAsyncThunk('customers/getAllCustomers', asy
 // Create customers thunk
 export const createCustomer = createAsyncThunk('users/createCustomer', async (payload) => {
   try {
-    console.log(payload)
+    if (debug) console.log(payload)
     const response = await axios.post('/api/customers', payload)
-    console.log(response.data)
+    if (debug) console.log(response.data)
     return response.data
   } catch (err) {
-    console.error(err.message)
+    console.error(err)
     throw Error(err.message)
   }
 })
@@ -90,6 +92,7 @@ export const customersSlice = createSlice({
       state.success = true
     },
     [createCustomer.rejected]: (state, { payload }) => {
+      console.log(payload)
       state.error = true
     },
   },

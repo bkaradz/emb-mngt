@@ -54,20 +54,20 @@ router.post('/', auth, async (req, res) => {
   // Validation
   const schema = Joi.object({
     name: Joi.string().required(),
-    // vatBpNo: Joi.string(),
+    vatBpNo: Joi.string(),
     isCompany: Joi.string().required().valid('individual', 'company'),
     email: Joi.string().email(),
     phone: Joi.array().items(Joi.string().required()),
-    // address: Joi.string(),
-    // balance: Joi.number(),
+    address: Joi.string(),
+    balance: Joi.number(),
   })
 
   try {
     const { error, value } = await schema.validate(req.body)
 
     if (error !== undefined) {
-      console.log(error)
-      return res.status(400).json(error)
+      console.error(error.details[0].message)
+      return res.status(400).json(error.details[0].message)
     }
     const customer = new Customers({
       ...req.body,
@@ -93,10 +93,10 @@ router.put('/:id', auth, async (req, res) => {
   const schema = Joi.object({
     name: Joi.string().required(),
     isCompany: Joi.string().required().valid('individual', 'company'),
-    // vatBpNo: Joi.string(),
+    vatBpNo: Joi.string(),
     email: Joi.string().email(),
     mobile: Joi.array().items(Joi.string().required()),
-    // address: Joi.string(),
+    address: Joi.string(),
     balance: Joi.number(),
   })
 
@@ -107,13 +107,7 @@ router.put('/:id', auth, async (req, res) => {
       return res.status(400).json(error)
     }
     const customer = {
-      name: req.body.name,
-      vatBpNo: req.body.vatBpNo,
-      isCompany: req.body.isCompany,
-      email: req.body.email,
-      phone: req.body.phone,
-      address: req.body.address,
-      balance: req.body.balance,
+      ...req.body,
     }
 
     const update = await Customers.findByIdAndUpdate(req.params.id, { $set: { customer } })

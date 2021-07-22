@@ -75,7 +75,7 @@ function Login({ setIsLoggedIn }) {
         console.error(err.response.data.errors[0].msg)
         dispatch(userAuthFailed())
         localStorage.removeItem('token')
-
+        // TODO => normalize errors to be standard at the back end
         dispatch(createAlert({ msg: err.response.data.errors[0].msg, type: 'error' }))
       }
     }

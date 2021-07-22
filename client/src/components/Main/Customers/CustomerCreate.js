@@ -100,9 +100,9 @@ function CustomerCreate(props) {
                 <Avatar alt='Brian Karadz' src={avatarImage} className={`${classes.orange} ${classes.large}`} />
               </Grid>
               <Grid item>
-                <FormControl>
+                <FormControl required>
                   <FormLabel>Customer Type</FormLabel>
-                  <RadioGroup required aria-label='Company or Individual' name='isCompany' value={values.isCompany} onChange={handleInputChange}>
+                  <RadioGroup aria-label='Company or Individual' name='isCompany' value={values.isCompany} onChange={handleInputChange}>
                     <FormControlLabel value='individual' control={<Radio />} label='Individual' />
                     <FormControlLabel value='company' control={<Radio />} label='Company' />
                   </RadioGroup>
