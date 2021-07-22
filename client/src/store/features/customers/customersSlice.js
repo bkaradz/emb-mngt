@@ -1,13 +1,16 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const debug = false
 
 // Get all customers thunk
-export const getAllCustomers = createAsyncThunk('customers/getAllCustomers', async () => {
+export const getAllCustomers = createAsyncThunk('customers/getAllCustomers', async (payload, thunkAPI) => {
+  console.log(thunkAPI)
   try {
     const response = await axios.get('/api/customers')
-    // console.log(response.data)
+
+    if (debug) console.log(response.data)
+
     return response.data
   } catch (err) {
     console.error(err.message)
@@ -16,15 +19,32 @@ export const getAllCustomers = createAsyncThunk('customers/getAllCustomers', asy
 })
 
 // Create customers thunk
-export const createCustomer = createAsyncThunk('users/createCustomer', async (payload) => {
+export const createCustomer = createAsyncThunk('users/createCustomer', async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+  if (debug) console.log(payload)
+
+  let ui = getState().ui.alerts
+
   try {
     if (debug) console.log(payload)
     const response = await axios.post('/api/customers', payload)
+
     if (debug) console.log(response.data)
-    return response.data
+
+    // dispatch(createAlert({ msg: 'Customer created', type: 'success' }))
+    // return response.data
+    const id = nanoid()
+
+    return fulfillWithValue({ ui, payload: response.data, alert: { id, msg: 'Customer created', type: 'success' } })
   } catch (err) {
-    console.error(err)
-    throw Error(err.message)
+    if (!err.response) {
+      console.log(err)
+      throw Error(err.message)
+    }
+    console.log(err)
+    // dispatch(createAlert({ msg: err.response.data, type: 'error' }))
+    const id = nanoid()
+
+    return rejectWithValue({ ui, id, msg: err.response.data, type: 'error' })
   }
 })
 
@@ -54,7 +74,12 @@ export const customersSlice = createSlice({
       state.customers.push(payload)
     },
     deleteCustomer: (state, { payload }) => {
-      state.customers = state.customers.filter((alert) => {
+      state.customers = state.customers.filter((customer) => {
+        return payload.id !== customer.id
+      })
+    },
+    deleteAlertMessages: (state, { payload }) => {
+      state.customers = state.alertMessages.filter((alert) => {
         return payload.id !== alert.id
       })
     },
@@ -87,13 +112,17 @@ export const customersSlice = createSlice({
       state.lastFetch = null
     },
     [createCustomer.fulfilled]: (state, { payload }) => {
-      state.customers.push(payload)
+      console.log(payload)
+      console.log(state)
+      state.customers.push(payload.payload)
       state.loading = false
       state.success = true
+      // payload.ui.alerts.push(payload.alert)
     },
     [createCustomer.rejected]: (state, { payload }) => {
       console.log(payload)
       state.error = true
+      // state.ui.alerts.push(payload)
     },
   },
 })

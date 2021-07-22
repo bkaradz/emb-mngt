@@ -6,9 +6,11 @@ import avatarImage from '../../../assets/avatar.png'
 import { createCustomer } from '../../../store/features/customers/customersSlice'
 import MainPageBase from '../MainPageBase'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Notification from '../../Notification/Notification'
 import _ from 'lodash'
+import { createAlert } from '../../../store/features/alerts/alertsSlice'
+import { deleteAlertMessages } from '../../../store/features/customers/customersSlice'
 
 const debug = false
 
@@ -88,6 +90,10 @@ function CustomerCreate(props) {
 
     history.push('/customers')
   }
+
+  // const alert = useSelector((state) => state.entities.alertMessages[0])
+  // dispatch(createAlert(alert))
+  // dispatch(deleteAlertMessages(alert.id))
 
   return (
     <MainPageBase>
