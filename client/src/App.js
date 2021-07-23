@@ -17,6 +17,7 @@ import CustomerEdit from './components/Main/Customers/CustomerEdit'
 import CustomerView from './components/Main/Customers/CustomerView'
 // Sales components
 import Sales from './components/Main/Sales/Sales'
+import SalesQuotation from './components/Main/Sales/SalesQuotation'
 // Products components
 import Products from './components/Main/Products/Products'
 import ProductView from './components/Main/Products/ProductView'
@@ -96,6 +97,7 @@ const App = () => {
 
           {/* Sales Routes */}
           <Route exact path='/sales' children={<Sales />} />
+          <Route exact path='/sales/quotation' children={<SalesQuotation />} />
 
           {/* Products Routes */}
           <Route exact path='/products' children={<Products />} />
