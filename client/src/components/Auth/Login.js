@@ -11,6 +11,8 @@ import { userAuthSuccess, userAuthFailed, loadUser } from '../../store/features/
 import setAuthToken from '../../utils/setAuthToken'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 
+const debug = false
+
 const useStyles = makeStyles((theme) => ({
   backDrop: {
     backdropFilter: 'blur(5px)',
@@ -58,9 +60,9 @@ function Login({ setIsLoggedIn }) {
       try {
         const userAuthSucResponse = await axios.post('/api/auth', credentials)
 
-        console.log(userAuthSucResponse.data)
+        if (debug) console.log(userAuthSucResponse.data)
         // setJwt(response.data.token)
-        console.log(userAuthSucResponse.data.token)
+        if (debug) console.log(userAuthSucResponse.data.token)
         dispatch(userAuthSuccess(userAuthSucResponse.data.token))
         // Add token to local storage
         localStorage.setItem('token', userAuthSucResponse.data.token)

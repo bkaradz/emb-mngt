@@ -20,14 +20,18 @@ import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/styles'
 import { deepOrange, lightBlue } from '@material-ui/core/colors'
 import _ from 'lodash'
-import Autocomplete from '@material-ui/lab/Autocomplete'
-import parse from 'autosuggest-highlight/parse'
-import match from 'autosuggest-highlight/match'
+// import Autocomplete from '@material-ui/lab/Autocomplete'
+// import parse from 'autosuggest-highlight/parse'
+// import match from 'autosuggest-highlight/match'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCustomers } from '../../../store/features/customers/customersSlice'
 import { getAllProducts } from '../../../store/features/products/productsSlice'
 
 const debug = false
+
+let invoiceSubtotal = 0
+let invoiceTaxes = 0
+let invoiceTotal = 0
 
 let date = new Date()
 if (debug) console.log(date)
@@ -105,10 +109,15 @@ function SalesQuotation() {
   /**
    * Business Logic for order Line
    */
-  const products = useSelector((state) => state.entities.products.products)
-  console.log(products)
+  const addFields = (products) => {
+    return products.map((product) => ({ ...product, position: '', unit_price: '', sum: '', qty: '' }))
+  }
+  let products = useSelector((state) => state.entities.products.products)
 
-  function ccyFormat(num) {
+  products = addFields(products)
+  // console.log(products)
+
+  function ccyFormat(num = 0) {
     return `$ ${num.toFixed(2)}`
   }
 
@@ -121,9 +130,6 @@ function SalesQuotation() {
     return { desc, qty, unit, price }
   }
 
-  // const rows = [createRow('Paperclips (Box)', 100, 1.15), createRow('Paper (Case)', 10, 45.99), createRow('Waste Basket', 2, 17.99)]
-  // const rows = []
-  // const products = [
   //   {
   //     rating: 0,
   //     category: 'emb_logo',
@@ -137,72 +143,35 @@ function SalesQuotation() {
   //     date: '2021-07-25T17:15:11.085Z',
   //     __v: 0,
   //   },
-  //   {
-  //     rating: 0,
-  //     category: 'emb_logo',
-  //     isDeleted: false,
-  //     _id: '60fd9c1f146ad70e95825c53',
-  //     user_id: '60c2616045278b396ac313a2',
-  //     name: 'CHEF THENJIE FRONT LEFT.EMB',
-  //     title: '',
-  //     stitches: 1491,
-  //     productID: '100-000-0002',
-  //     date: '2021-07-25T17:15:11.086Z',
-  //     __v: 0,
-  //   },
-  //   {
-  //     rating: 0,
-  //     category: 'emb_logo',
-  //     isDeleted: false,
-  //     _id: '60fd9c1f146ad70e95825c54',
-  //     user_id: '60c2616045278b396ac313a2',
-  //     name: 'ZIMPARKS HAT RIGHT SIDE ANDULAR TRADING.EMB',
-  //     title: 'NORMAL',
-  //     stitches: 2651,
-  //     productID: '100-000-0003',
-  //     date: '2021-07-25T17:15:11.087Z',
-  //     __v: 0,
-  //   },
-  //   {
-  //     rating: 0,
-  //     category: 'emb_logo',
-  //     isDeleted: false,
-  //     _id: '60fd9c1f146ad70e95825c55',
-  //     user_id: '60c2616045278b396ac313a2',
-  //     name: 'ZIMPARKS HAT FRONT ANDULAR TRADING.EMB',
-  //     title: 'ZIMPARKS FRONT NEW NEW ANDULAR TRADING',
-  //     stitches: 7461,
-  //     productID: '100-000-0004',
-  //     date: '2021-07-25T17:15:11.087Z',
-  //     __v: 0,
-  //   },
-  //   {
-  //     rating: 0,
-  //     category: 'emb_logo',
-  //     isDeleted: false,
-  //     _id: '60fd9c1f146ad70e95825c56',
-  //     user_id: '60c2616045278b396ac313a2',
-  //     name: 'IFAW INTERNATIONAL FUND FOR ANIMAL WELFARE ANDULAR TRADING.EMB',
-  //     title: 'NORMAL',
-  //     stitches: 2975,
-  //     productID: '100-000-0005',
-  //     date: '2021-07-25T17:15:11.087Z',
-  //     __v: 0,
-  //   },
-  // ]
 
   const [rows, setRows] = useState(products)
+
+  const handleQtyChange = ({ id, e }) => {
+    const { name, value } = e.target
+
+    setRows(
+      rows.map((product) => {
+        let unit_price = (parseInt(value) * parseInt(product.stitches)) / 1000
+        let sum = unit_price * value
+        invoiceSubtotal = rows.map(({ sum }) => sum).reduce((sum, i) => sum + i, 0)
+        console.log(invoiceSubtotal)
+        invoiceTaxes = TAX_RATE * invoiceSubtotal
+        invoiceTotal = invoiceTaxes + invoiceSubtotal
+        return product._id === id ? { ...product, [name]: value, unit_price, sum } : product
+      })
+    )
+  }
 
   // Tax rate Change here
   const TAX_RATE = 0.0
 
-  function subtotal(items) {
-    return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0)
-  }
+  // function subtotal(items) {
+  //   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0)
+  // }
 
-  const invoiceSubtotal = subtotal(rows)
-  const invoiceTaxes = TAX_RATE * invoiceSubtotal
-  const invoiceTotal = invoiceTaxes + invoiceSubtotal
+  // const invoiceSubtotal = subtotal(rows)
+  // const invoiceTaxes = TAX_RATE * invoiceSubtotal
+  // const invoiceTotal = invoiceTaxes + invoiceSubtotal
 
   /**
    * End Business Logic for order Line
@@ -262,7 +231,7 @@ function SalesQuotation() {
             <Typography className={classes.soNumber} variant='h3' component='h2'>
               SO 0000008
             </Typography>
-            <Autocomplete
+            {/* <Autocomplete
               id='highlights-demo'
               size='small'
               options={customers}
@@ -282,7 +251,7 @@ function SalesQuotation() {
                   </div>
                 )
               }}
-            />
+            /> */}
           </Grid>
           <Grid item xs={6}>
             <TextField
@@ -318,7 +287,7 @@ function SalesQuotation() {
                 shrink: true,
               }}
             />
-            <Autocomplete
+            {/* <Autocomplete
               id='pricelist'
               size='small'
               options={pricelist}
@@ -338,7 +307,7 @@ function SalesQuotation() {
                   </div>
                 )
               }}
-            />
+            /> */}
           </Grid>
           <Grid item xs={12}>
             <TableContainer component={Paper}>
@@ -362,34 +331,34 @@ function SalesQuotation() {
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => {
-                    const { _id, name, stitches, productID } = row
+                    const { _id, name, stitches, productID, qty, sum, position, unit_price } = row
                     return (
                       <TableRow key={_id}>
                         <TableCell>{productID}</TableCell>
                         <TableCell>{name}</TableCell>
                         <TableCell align='right'>
-                          <Input className={classes.input} type='text' />
+                          <Input value={qty} className={classes.input} type='text' name='qty' onChange={(e) => handleQtyChange({ id: _id, e })} />
                         </TableCell>
                         <TableCell align='right'>{stitches}</TableCell>
-                        <TableCell align='right'>position</TableCell>
-                        <TableCell align='right'>Unit Price</TableCell>
-                        <TableCell align='right'>{10}</TableCell>
+                        <TableCell align='right'>{position}</TableCell>
+                        <TableCell align='right'>{unit_price}</TableCell>
+                        <TableCell align='right'>{sum}</TableCell>
                       </TableRow>
                     )
                   })}
                   <TableRow>
                     <TableCell rowSpan={3} colSpan={4}></TableCell>
                     <TableCell colSpan={2}>Subtotal</TableCell>
-                    <TableCell align='right'>{ccyFormat(invoiceSubtotal)}</TableCell>
+                    <TableCell align='right'>{invoiceSubtotal}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Tax</TableCell>
                     <TableCell align='right'>{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-                    <TableCell align='right'>{ccyFormat(invoiceTaxes)}</TableCell>
+                    <TableCell align='right'>{invoiceTaxes}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell colSpan={2}>Total</TableCell>
-                    <TableCell align='right'>{ccyFormat(invoiceTotal)}</TableCell>
+                    <TableCell align='right'>{invoiceTotal}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
