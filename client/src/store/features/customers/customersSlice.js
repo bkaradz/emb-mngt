@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { createAlert } from '../alerts/alertsSlice'
 
 const debug = false
 
 // Get all customers thunk
 export const getAllCustomers = createAsyncThunk('customers/getAllCustomers', async (payload, thunkAPI) => {
-  console.log(thunkAPI)
+  if (debug) console.log(thunkAPI)
   try {
     const response = await axios.get('/api/customers')
 
@@ -19,7 +20,7 @@ export const getAllCustomers = createAsyncThunk('customers/getAllCustomers', asy
 })
 
 // Create customers thunk
-export const createCustomer = createAsyncThunk('users/createCustomer', async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+export const createCustomer = createAsyncThunk('users/createCustomer', async (payload, { rejectWithValue, fulfillWithValue, getState, dispatch }) => {
   if (debug) console.log(payload)
 
   let ui = getState().ui.alerts
@@ -30,7 +31,7 @@ export const createCustomer = createAsyncThunk('users/createCustomer', async (pa
 
     if (debug) console.log(response.data)
 
-    // dispatch(createAlert({ msg: 'Customer created', type: 'success' }))
+    dispatch(createAlert({ msg: 'Customer created', type: 'success' }))
     // return response.data
     const id = nanoid()
 
@@ -40,11 +41,11 @@ export const createCustomer = createAsyncThunk('users/createCustomer', async (pa
       console.log(err)
       throw Error(err.message)
     }
-    console.log(err)
-    // dispatch(createAlert({ msg: err.response.data, type: 'error' }))
+    if (debug) console.log(err)
+    dispatch(createAlert({ msg: err.response.data, type: 'error' }))
     const id = nanoid()
 
-    return rejectWithValue({ ui, id, msg: err.response.data, type: 'error' })
+    return rejectWithValue({ ui, alert: { id, msg: err.response.data, type: 'error' } })
   }
 })
 
@@ -59,11 +60,6 @@ export const customersSlice = createSlice({
   },
 
   reducers: {
-    // getAllCustomers: (state, { payload }) => {
-    //   // console.log(payload)
-    //   state.customers = []
-    //   state.customers = payload
-    // },
     getCustomerById: (state, { payload }) => {
       state.customers.push(payload)
     },
@@ -76,11 +72,6 @@ export const customersSlice = createSlice({
     deleteCustomer: (state, { payload }) => {
       state.customers = state.customers.filter((customer) => {
         return payload.id !== customer.id
-      })
-    },
-    deleteAlertMessages: (state, { payload }) => {
-      state.customers = state.alertMessages.filter((alert) => {
-        return payload.id !== alert.id
       })
     },
     uploadCustomers: (state, { payload }) => {
@@ -117,12 +108,14 @@ export const customersSlice = createSlice({
       state.customers.push(payload.payload)
       state.loading = false
       state.success = true
-      // payload.ui.alerts.push(payload.alert)
+      // let newAlerts = [...payload.ui.alerts, payload.alert]
+      // payload.ui.alerts = newAlerts
     },
     [createCustomer.rejected]: (state, { payload }) => {
       console.log(payload)
       state.error = true
-      // state.ui.alerts.push(payload)
+      // let newAlerts = [...payload.ui.alerts, payload.alert]
+      // payload.ui.alerts = newAlerts
     },
   },
 })

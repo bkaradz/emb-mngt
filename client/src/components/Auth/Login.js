@@ -1,4 +1,3 @@
-// Bootstrap removed
 import React, { useState } from 'react'
 import { Paper, Button, TextField, Dialog, Typography, makeStyles, InputAdornment, IconButton } from '@material-ui/core'
 import Notification from '../Notification/Notification'

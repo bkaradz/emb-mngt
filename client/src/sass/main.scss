@@ -3,18 +3,21 @@
 */
 
 // Bootstrap
-@import './vars';
-@import './custom-bootstrap';
 @import 'bootstrap/scss/bootstrap';
+
+// Local variables Files
+@import './vars';
 
 // App Layout
 @import './app/components/app-nav';
 @import './app/components/app-header';
-// @import './app/components/app-sidebar';
-// @import './app/components/app-sidebar-mini';
-// @import './app/components/app-title';
 
-// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+// Fonts
+@import '~@fontsource/roboto/300.css';
+@import '~@fontsource/roboto/400.css';
+@import '~@fontsource/roboto/500.css';
+@import '~@fontsource/roboto/700.css';
+
 * {
   margin: 0;
   padding: 0;
@@ -22,7 +25,7 @@
   list-style-type: none;
   text-decoration: none;
   // font-size: 16px;
-  // font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto';
   a {
     text-decoration: none;
   }
@@ -92,4 +95,8 @@ svg {
 
 body.modal-open .bg {
   filter: blur(6px);
+}
+
+.d-none {
+  display: none;
 }
