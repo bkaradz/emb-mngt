@@ -20,9 +20,9 @@ import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/styles'
 import { deepOrange, lightBlue } from '@material-ui/core/colors'
 import _ from 'lodash'
-// import Autocomplete from '@material-ui/lab/Autocomplete'
-// import parse from 'autosuggest-highlight/parse'
-// import match from 'autosuggest-highlight/match'
+import Autocomplete from '@material-ui/lab/Autocomplete'
+import parse from 'autosuggest-highlight/parse'
+import match from 'autosuggest-highlight/match'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCustomers } from '../../../store/features/customers/customersSlice'
 import { getAllProducts } from '../../../store/features/products/productsSlice'
@@ -194,16 +194,16 @@ function SalesQuotation() {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    // const postValue = values.map((element) => console.log(element))
+    // // const postValue = values.map((element) => console.log(element))
 
-    let postValues = _.pickBy(values, function (value, key) {
-      return !(value === '' || value === 0)
-    })
+    // let postValues = _.pickBy(values, function (value, key) {
+    //   return !(value === '' || value === 0)
+    // })
 
-    if (debug) console.log(postValues)
+    // if (debug) console.log(postValues)
 
-    // dispatch(createCustomer(postValues))
-    setValues(initialValues)
+    // // dispatch(createCustomer(postValues))
+    // setValues(initialValues)
   }
 
   // const handleInputChange = (e) => {
@@ -231,7 +231,7 @@ function SalesQuotation() {
             <Typography className={classes.soNumber} variant='h3' component='h2'>
               SO 0000008
             </Typography>
-            {/* <Autocomplete
+            <Autocomplete
               id='highlights-demo'
               size='small'
               options={customers}
@@ -251,7 +251,7 @@ function SalesQuotation() {
                   </div>
                 )
               }}
-            /> */}
+            />
           </Grid>
           <Grid item xs={6}>
             <TextField
@@ -287,7 +287,7 @@ function SalesQuotation() {
                 shrink: true,
               }}
             />
-            {/* <Autocomplete
+            <Autocomplete
               id='pricelist'
               size='small'
               options={pricelist}
@@ -307,7 +307,7 @@ function SalesQuotation() {
                   </div>
                 )
               }}
-            /> */}
+            />
           </Grid>
           <Grid item xs={12}>
             <TableContainer component={Paper}>
