@@ -183,8 +183,14 @@ function SalesQuotation() {
    * End Business Logic for order Line
    */
 
+  // const [orderLine, setOrderLine] = useState([])
+  // const [customerName, setCustomerName] = useState({})
+
+  // console.log(orderLine)
+  // console.log(customerName)
+
   const initialValues = {
-    customer_id: { name: '' },
+    customer_id: {},
     pricelist_id: '',
     order_number: '',
     comments: '',
@@ -194,9 +200,7 @@ function SalesQuotation() {
     total: '',
     order_line: [],
   }
-
   const [values, setValues] = useState(initialValues)
-
   console.log(values)
 
   const handleSubmit = (e) => {
@@ -247,10 +251,10 @@ function SalesQuotation() {
               }}
               // onChange={handleInputChange}
               onChange={(e, value) => {
-                if (debug) console.log(value)
+                console.log(value)
                 setValues({ ...values, customer_id: value })
               }}
-              // getOptionSelected={(option, value) => option._id === value._id}
+              getOptionSelected={(option, value) => option.name === value.name}
               renderInput={(params) => <TextField {...params} label='Customer' margin='normal' size='small' required placeholder='Choose Customer' />}
               renderOption={(option, { inputValue }) => {
                 const matches = match(option.name, inputValue)
@@ -267,34 +271,43 @@ function SalesQuotation() {
                 )
               }}
             />
+
             <Autocomplete
+              id='products'
+              size='small'
               multiple
-              id='checkboxes-tags-demo'
+              autoHighlight
+              // value={values.customer_id.name}
               options={products}
-              disableCloseOnSelect
-              getOptionLabel={(option) => option.name}
+              getOptionLabel={(option) => {
+                if (debug) console.log(option)
+                return `${option.stitches} - ${option.name}`
+              }}
               // onChange={handleInputChange}
-              renderOption={(option, { selected }) => (
-                <React.Fragment>
-                  <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
-                  {option.stitches} - {option.name}
-                </React.Fragment>
-              )}
-              // style={{ width: 500 }}
-              renderInput={(params) => {
+              onChange={(e, value) => {
+                if (debug) console.log(value)
+                setValues({ ...values, order_line: value })
+              }}
+              getOptionSelected={(option, value) => option.name === value.name}
+              renderInput={(params) => <TextField {...params} label='Products' margin='normal' size='small' required placeholder='Choose Products' />}
+              renderOption={(option, { inputValue }) => {
+                const matches = match(`${option.stitches} - ${option.name}`, inputValue)
+                const parts = parse(`${option.stitches} - ${option.name}`, matches)
+
                 return (
-                  <>
-                    <TextField {...params} variant='outlined' label='Products' placeholder='Add Products' />
-                    <Button variant='contained' color='primary' onClick={addSelectedProduct}>
-                      Add Selected Products
-                    </Button>
-                  </>
+                  <div>
+                    {parts.map((part, index) => {
+                      console.log(part)
+                      return (
+                        <span key={index} style={{ fontWeight: part.highlight ? 700 : 400 }}>
+                          {part.text}
+                        </span>
+                      )
+                    })}
+                  </div>
                 )
               }}
             />
-            {/* <Button variant='contained' color='primary' onClick={addSelectedProduct}>
-              Add Selected Products
-            </Button> */}
           </Grid>
           <Grid item xs={6}>
             <TextField
