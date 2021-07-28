@@ -11,6 +11,7 @@ import {
   TableCell,
   Paper,
   Input,
+  Checkbox,
 } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 // import { useDispatch } from 'react-redux'
@@ -26,6 +27,11 @@ import match from 'autosuggest-highlight/match'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCustomers } from '../../../store/features/customers/customersSlice'
 import { getAllProducts } from '../../../store/features/products/productsSlice'
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
+import CheckBoxIcon from '@material-ui/icons/CheckBox'
+
+const icon = <CheckBoxOutlineBlankIcon fontSize='small' />
+const checkedIcon = <CheckBoxIcon fontSize='small' />
 
 const debug = false
 
@@ -83,8 +89,8 @@ const useStyles = makeStyles((theme) => ({
   soNumber: {
     marginRight: theme.spacing(2),
     marginLeft: theme.spacing(2),
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(6),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
   orange: {
     color: theme.palette.getContrastText(deepOrange[500]),
@@ -178,18 +184,20 @@ function SalesQuotation() {
    */
 
   const initialValues = {
-    isCompany: '',
-    vatOrBpNo: '',
-    name: '',
-    organization: '',
-    phone: '',
-    email: '',
-    address: '',
-    balance: '',
-    rating: '',
+    customer_id: { name: '' },
+    pricelist_id: '',
+    order_number: '',
+    comments: '',
+    order_date: date,
+    quote_expiry_date: oneWeek,
+    required_date: oneWeek,
+    total: '',
+    order_line: [],
   }
 
   const [values, setValues] = useState(initialValues)
+
+  console.log(values)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -206,15 +214,10 @@ function SalesQuotation() {
     // setValues(initialValues)
   }
 
-  // const handleInputChange = (e) => {
-  //   let { name, value } = e.target
-
-  //   if (name === 'phone') {
-  //     value = value.split(',').map((num) => num.trim())
-  //   }
-
-  //   setValues({ ...values, [name]: value })
-  // }
+  const handleInputChange = (e) => {
+    let { name, value } = e.target
+    setValues({ ...values, [name]: value })
+  }
 
   const handleRedirect = (e) => {
     e.preventDefault()
@@ -222,21 +225,33 @@ function SalesQuotation() {
     history.push('/customers')
   }
 
+  const addSelectedProduct = () => {}
+
   return (
     <MainPageBase>
       <form className={classes.root} onSubmit={(e) => handleSubmit(e)}>
         <Grid container>
           <Notification />
           <Grid item xs={6}>
-            <Typography className={classes.soNumber} variant='h3' component='h2'>
-              SO 0000008
+            <Typography className={classes.soNumber} variant='h4' component='h4'>
+              SO 00000008
             </Typography>
             <Autocomplete
-              id='highlights-demo'
+              id='customers'
               size='small'
+              // value={values.customer_id.name}
               options={customers}
-              getOptionLabel={(option) => option.name}
-              renderInput={(params) => <TextField {...params} label='Customer' margin='normal' size='small' required />}
+              getOptionLabel={(option) => {
+                if (debug) console.log(option)
+                return option.name
+              }}
+              // onChange={handleInputChange}
+              onChange={(e, value) => {
+                if (debug) console.log(value)
+                setValues({ ...values, customer_id: value })
+              }}
+              // getOptionSelected={(option, value) => option._id === value._id}
+              renderInput={(params) => <TextField {...params} label='Customer' margin='normal' size='small' required placeholder='Choose Customer' />}
               renderOption={(option, { inputValue }) => {
                 const matches = match(option.name, inputValue)
                 const parts = parse(option.name, matches)
@@ -252,14 +267,44 @@ function SalesQuotation() {
                 )
               }}
             />
+            <Autocomplete
+              multiple
+              id='checkboxes-tags-demo'
+              options={products}
+              disableCloseOnSelect
+              getOptionLabel={(option) => option.name}
+              // onChange={handleInputChange}
+              renderOption={(option, { selected }) => (
+                <React.Fragment>
+                  <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
+                  {option.stitches} - {option.name}
+                </React.Fragment>
+              )}
+              // style={{ width: 500 }}
+              renderInput={(params) => {
+                return (
+                  <>
+                    <TextField {...params} variant='outlined' label='Products' placeholder='Add Products' />
+                    <Button variant='contained' color='primary' onClick={addSelectedProduct}>
+                      Add Selected Products
+                    </Button>
+                  </>
+                )
+              }}
+            />
+            {/* <Button variant='contained' color='primary' onClick={addSelectedProduct}>
+              Add Selected Products
+            </Button> */}
           </Grid>
           <Grid item xs={6}>
             <TextField
               id='order-date'
+              value={values.order_date}
+              onChange={handleInputChange}
               size='small'
               label='Order Date'
               type='datetime-local'
-              defaultValue={date}
+              // defaultValue={date}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -267,10 +312,12 @@ function SalesQuotation() {
             />
             <TextField
               id='expiry-date'
+              value={values.quote_expiry_date}
+              onChange={handleInputChange}
               size='small'
               label='Expiry Date'
               type='datetime-local'
-              defaultValue={oneWeek}
+              // defaultValue={oneWeek}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -278,10 +325,12 @@ function SalesQuotation() {
             />
             <TextField
               id='required-date'
+              value={values.required_date}
+              onChange={handleInputChange}
               size='small'
               label='Required Date'
               type='datetime-local'
-              defaultValue={oneWeek}
+              // defaultValue={oneWeek}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -330,7 +379,7 @@ function SalesQuotation() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => {
+                  {values.order_line.map((row) => {
                     const { _id, name, stitches, productID, qty, sum, position, unit_price } = row
                     return (
                       <TableRow key={_id}>

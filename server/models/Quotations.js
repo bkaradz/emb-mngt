@@ -14,6 +14,10 @@ var quotationsSchema = new mongoose.Schema({
     index: true,
     ref: 'Customers',
   },
+  pricelist_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Pricelist',
+  },
   order_number: {
     type: String,
     required: true,
