@@ -116,14 +116,14 @@ function SalesQuotation() {
    * Business Logic for order Line
    */
   const addFields = (products) => {
-    return products.map((product) => ({ ...product, position: '', unit_price: '', sum: '', qty: '' }))
+    return products.map((product) => ({ ...product, position: '', unit_price: 0, sum: 0, qty: 0 }))
   }
   let products = useSelector((state) => state.entities.products.products)
 
-  products = addFields(products)
+  // products = addFields(products)
   // console.log(products)
 
-  function ccyFormat(num = 0) {
+  function ccyFormat(num) {
     return `$ ${num.toFixed(2)}`
   }
 
@@ -150,22 +150,42 @@ function SalesQuotation() {
   //     __v: 0,
   //   },
 
-  const [rows, setRows] = useState(products)
+  // const [rows, setRows] = useState(products)
 
   const handleQtyChange = ({ id, e }) => {
     const { name, value } = e.target
+    console.log(`name: ${name}, value: ${value}, id: ${id}`)
+    setValues({
+      ...values,
+      order_line: values.order_line.map(
+        (product) => {
+          console.log(product)
+          if (product._id === id) {
+            console.log('true')
+            let unit_price = (parseInt(value) * parseInt(product.stitches)) / 1000
+            let sum = unit_price * value
+            // invoiceSubtotal = values.order_line.map(({ sum }) => sum).reduce((sum, i) => sum + i, 0)
+            // // console.log(invoiceSubtotal)
+            // invoiceTaxes = TAX_RATE * invoiceSubtotal
+            // invoiceTotal = invoiceTaxes + invoiceSubtotal
+            // return product._id === id ? { ...product, [name]: value, unit_price, sum } : product
+            console.log({ ...product, [name]: value })
+            return { ...product, [name]: value, unit_price, sum }
+          }
+          console.log('false')
+          return product
+        }
 
-    setRows(
-      rows.map((product) => {
-        let unit_price = (parseInt(value) * parseInt(product.stitches)) / 1000
-        let sum = unit_price * value
-        invoiceSubtotal = rows.map(({ sum }) => sum).reduce((sum, i) => sum + i, 0)
-        console.log(invoiceSubtotal)
-        invoiceTaxes = TAX_RATE * invoiceSubtotal
-        invoiceTotal = invoiceTaxes + invoiceSubtotal
-        return product._id === id ? { ...product, [name]: value, unit_price, sum } : product
-      })
-    )
+        // (product) => (product._id === id ? { ...product, [name]: value } : product)
+        // let unit_price = (parseInt(value) * parseInt(product.stitches)) / 1000
+        // let sum = unit_price * value
+        // invoiceSubtotal = rows.map(({ sum }) => sum).reduce((sum, i) => sum + i, 0)
+        // console.log(invoiceSubtotal)
+        // invoiceTaxes = TAX_RATE * invoiceSubtotal
+        // invoiceTotal = invoiceTaxes + invoiceSubtotal
+        // return product._id === id ? { ...product, [name]: value, unit_price, sum } : product
+      ),
+    })
   }
 
   // Tax rate Change here
@@ -229,7 +249,11 @@ function SalesQuotation() {
     history.push('/customers')
   }
 
-  const addSelectedProduct = () => {}
+  const addSelectedProduct = (e, value) => {
+    if (debug) console.log(value)
+    value = addFields(value)
+    setValues({ ...values, order_line: value })
+  }
 
   return (
     <MainPageBase>
@@ -285,8 +309,7 @@ function SalesQuotation() {
               }}
               // onChange={handleInputChange}
               onChange={(e, value) => {
-                if (debug) console.log(value)
-                setValues({ ...values, order_line: value })
+                addSelectedProduct(e, value)
               }}
               getOptionSelected={(option, value) => option.name === value.name}
               renderInput={(params) => <TextField {...params} label='Products' margin='normal' size='small' required placeholder='Choose Products' />}
@@ -297,7 +320,7 @@ function SalesQuotation() {
                 return (
                   <div>
                     {parts.map((part, index) => {
-                      console.log(part)
+                      if (debug) console.log(part)
                       return (
                         <span key={index} style={{ fontWeight: part.highlight ? 700 : 400 }}>
                           {part.text}
@@ -394,33 +417,38 @@ function SalesQuotation() {
                 <TableBody>
                   {values.order_line.map((row) => {
                     const { _id, name, stitches, productID, qty, sum, position, unit_price } = row
+                    invoiceSubtotal = values.order_line.map(({ sum }) => sum).reduce((sum, i) => sum + i, 0)
+                    // console.log(invoiceSubtotal)
+                    invoiceTaxes = TAX_RATE * invoiceSubtotal
+                    invoiceTotal = invoiceTaxes + invoiceSubtotal
+                    console.log(qty)
                     return (
                       <TableRow key={_id}>
                         <TableCell>{productID}</TableCell>
                         <TableCell>{name}</TableCell>
                         <TableCell align='right'>
-                          <Input value={qty} className={classes.input} type='text' name='qty' onChange={(e) => handleQtyChange({ id: _id, e })} />
+                          <Input type='number' value={qty} className={classes.input} name='qty' onChange={(e) => handleQtyChange({ id: _id, e })} />
                         </TableCell>
                         <TableCell align='right'>{stitches}</TableCell>
                         <TableCell align='right'>{position}</TableCell>
-                        <TableCell align='right'>{unit_price}</TableCell>
-                        <TableCell align='right'>{sum}</TableCell>
+                        <TableCell align='right'>{ccyFormat(unit_price)}</TableCell>
+                        <TableCell align='right'>{ccyFormat(sum)}</TableCell>
                       </TableRow>
                     )
                   })}
                   <TableRow>
                     <TableCell rowSpan={3} colSpan={4}></TableCell>
                     <TableCell colSpan={2}>Subtotal</TableCell>
-                    <TableCell align='right'>{invoiceSubtotal}</TableCell>
+                    <TableCell align='right'>{ccyFormat(invoiceSubtotal)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Tax</TableCell>
                     <TableCell align='right'>{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-                    <TableCell align='right'>{invoiceTaxes}</TableCell>
+                    <TableCell align='right'>{ccyFormat(invoiceTaxes)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell colSpan={2}>Total</TableCell>
-                    <TableCell align='right'>{invoiceTotal}</TableCell>
+                    <TableCell align='right'>{ccyFormat(invoiceTotal)}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
