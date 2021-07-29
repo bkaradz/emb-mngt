@@ -69,6 +69,17 @@ export const uiStates = {
     buttons: [{ name: 'Create', link: '/sales/create' }],
     listShow: false,
   },
+  '/sales/quotation': {
+    breadcrumbs: [
+      { title: 'Home', url: '/' },
+      { title: 'Sales', url: '/sales' },
+      { title: 'Quotation', url: '/sales/quotation' },
+    ],
+    headerTitle: 'Sales Quotation',
+    buttonShow: false,
+    buttons: [{ name: 'Create', link: '/sales/create' }],
+    listShow: false,
+  },
   '/products': {
     breadcrumbs: [
       { title: 'Home', url: '/' },
@@ -125,7 +136,7 @@ export const uiStates = {
   '/settings': {
     breadcrumbs: [
       { title: 'Home', url: '/' },
-      { title: 'Users', url: '/settings' },
+      { title: 'Settings', url: '/settings' },
     ],
     headerTitle: 'Settings',
     buttonShow: true,
@@ -135,11 +146,35 @@ export const uiStates = {
   '/settings/users': {
     breadcrumbs: [
       { title: 'Home', url: '/' },
+      { title: 'Settings', url: '/settings' },
       { title: 'Users', url: '/settings/users' },
     ],
     headerTitle: 'Users Settings',
     buttonShow: true,
     buttons: [{ name: 'Create', link: '/settings/user/create' }],
+    listShow: false,
+  },
+  '/settings/pricelist': {
+    breadcrumbs: [
+      { title: 'Home', url: '/' },
+      { title: 'Settings', url: '/settings' },
+      { title: 'Pricelist', url: '/settings/pricelist' },
+    ],
+    headerTitle: 'Pricelist Settings',
+    buttonShow: true,
+    buttons: [{ name: 'Create', link: '/settings/pricelist/create' }],
+    listShow: false,
+  },
+  '/settings/pricelist/create': {
+    breadcrumbs: [
+      { title: 'Home', url: '/' },
+      { title: 'Settings', url: '/settings' },
+      { title: 'Pricelist', url: '/settings/pricelist' },
+      { title: 'Create', url: '/settings/pricelist/create' },
+    ],
+    headerTitle: 'Create Pricelist',
+    buttonShow: false,
+    buttons: [{ name: 'Create', link: '/settings/pricelist/create' }],
     listShow: false,
   },
   '/undefined': {

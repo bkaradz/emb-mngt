@@ -124,8 +124,8 @@ export const links = [
       {
         id: 71,
         icon: <LocalOfferIcon />,
-        url: '/settings/price_list',
-        text: 'Price List',
+        url: '/settings/pricelist',
+        text: 'Pricelist',
         children: [],
       },
     ],

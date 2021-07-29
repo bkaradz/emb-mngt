@@ -27,6 +27,8 @@ import ProductCreate from './components/Main/Products/ProductCreate'
 import Production from './components/Main/Production/Production'
 // Settings components
 import Settings from './components/Main/Settings/Settings'
+import Pricelist from './components/Main/Settings/Pricelist'
+import PricelistCreate from './components/Main/Settings/PricelistCreate'
 // Users components
 import Users from './components/Main/Users/Users'
 import UserCreate from './components/Main/Users/UserCreate'
@@ -110,6 +112,8 @@ const App = () => {
 
           {/* Settings Routes */}
           <Route exact path='/settings' children={<Settings />} />
+          <Route exact path='/settings/pricelist' children={<Pricelist />} />
+          <Route exact path='/settings/pricelist/create' children={<PricelistCreate />} />
 
           {/* Users Routes */}
           <Route exact path='/settings/users' children={<Users />} />

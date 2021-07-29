@@ -176,7 +176,7 @@ function SalesQuotation() {
   const handleRedirect = (e) => {
     e.preventDefault()
 
-    history.push('/customers')
+    history.push('/sales')
   }
 
   const addSelectedProduct = (e, value) => {
