@@ -11,7 +11,6 @@ import {
   TableCell,
   Paper,
   Input,
-  Checkbox,
 } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 // import { useDispatch } from 'react-redux'
@@ -27,11 +26,6 @@ import match from 'autosuggest-highlight/match'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCustomers } from '../../../store/features/customers/customersSlice'
 import { getAllProducts } from '../../../store/features/products/productsSlice'
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
-import CheckBoxIcon from '@material-ui/icons/CheckBox'
-
-const icon = <CheckBoxOutlineBlankIcon fontSize='small' />
-const checkedIcon = <CheckBoxIcon fontSize='small' />
 
 const debug = false
 
@@ -115,99 +109,46 @@ function SalesQuotation() {
   /**
    * Business Logic for order Line
    */
-  const addFields = (products) => {
-    return products.map((product) => ({ ...product, position: '', unit_price: 0, sum: 0, qty: 0 }))
+  const addFields = (product) => {
+    return { ...product, position: '', unit_price: 0, sum: 0, qty: 0 }
   }
-  let products = useSelector((state) => state.entities.products.products)
 
-  // products = addFields(products)
-  // console.log(products)
+  let products = useSelector((state) => state.entities.products.products)
 
   function ccyFormat(num) {
     return `$ ${num.toFixed(2)}`
   }
-
-  function priceRow(qty, unit) {
-    return qty * unit
-  }
-
-  function createRow(desc, qty, unit) {
-    const price = priceRow(qty, unit)
-    return { desc, qty, unit, price }
-  }
-
-  //   {
-  //     rating: 0,
-  //     category: 'emb_logo',
-  //     isDeleted: false,
-  //     _id: '60fd9c1f146ad70e95825c52',
-  //     user_id: '60c2616045278b396ac313a2',
-  //     name: 'PAGIWA NURSERY SCHOOL.EMB',
-  //     title: 'ACTION AID',
-  //     stitches: 8302,
-  //     productID: '100-000-0001',
-  //     date: '2021-07-25T17:15:11.085Z',
-  //     __v: 0,
-  //   },
-
-  // const [rows, setRows] = useState(products)
 
   const handleQtyChange = ({ id, e }) => {
     const { name, value } = e.target
     console.log(`name: ${name}, value: ${value}, id: ${id}`)
     setValues({
       ...values,
-      order_line: values.order_line.map(
-        (product) => {
-          console.log(product)
-          if (product._id === id) {
-            console.log('true')
-            let unit_price = (parseInt(value) * parseInt(product.stitches)) / 1000
-            let sum = unit_price * value
-            // invoiceSubtotal = values.order_line.map(({ sum }) => sum).reduce((sum, i) => sum + i, 0)
-            // // console.log(invoiceSubtotal)
-            // invoiceTaxes = TAX_RATE * invoiceSubtotal
-            // invoiceTotal = invoiceTaxes + invoiceSubtotal
-            // return product._id === id ? { ...product, [name]: value, unit_price, sum } : product
-            console.log({ ...product, [name]: value })
-            return { ...product, [name]: value, unit_price, sum }
-          }
-          console.log('false')
-          return product
-        }
+      order_line: values.order_line.map((product) => {
+        if (debug) console.log(product)
+        if (debug) console.log(_.size(product))
 
-        // (product) => (product._id === id ? { ...product, [name]: value } : product)
-        // let unit_price = (parseInt(value) * parseInt(product.stitches)) / 1000
-        // let sum = unit_price * value
-        // invoiceSubtotal = rows.map(({ sum }) => sum).reduce((sum, i) => sum + i, 0)
-        // console.log(invoiceSubtotal)
-        // invoiceTaxes = TAX_RATE * invoiceSubtotal
-        // invoiceTotal = invoiceTaxes + invoiceSubtotal
-        // return product._id === id ? { ...product, [name]: value, unit_price, sum } : product
-      ),
+        if (product._id === id) {
+          if (debug) console.log('true')
+          let unit_price = (parseInt(value) * parseInt(product.stitches)) / 1000
+          let sum = unit_price * value
+
+          if (debug) console.log({ ...product, [name]: value })
+
+          return { ...product, [name]: value, unit_price, sum }
+        }
+        if (debug) console.log('false')
+        return product
+      }),
     })
   }
 
   // Tax rate Change here
   const TAX_RATE = 0.0
 
-  // function subtotal(items) {
-  //   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0)
-  // }
-
-  // const invoiceSubtotal = subtotal(rows)
-  // const invoiceTaxes = TAX_RATE * invoiceSubtotal
-  // const invoiceTotal = invoiceTaxes + invoiceSubtotal
-
   /**
    * End Business Logic for order Line
    */
-
-  // const [orderLine, setOrderLine] = useState([])
-  // const [customerName, setCustomerName] = useState({})
-
-  // console.log(orderLine)
-  // console.log(customerName)
 
   const initialValues = {
     customer_id: {},
@@ -221,21 +162,10 @@ function SalesQuotation() {
     order_line: [],
   }
   const [values, setValues] = useState(initialValues)
-  console.log(values)
+  if (debug) console.log(values)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
-    // // const postValue = values.map((element) => console.log(element))
-
-    // let postValues = _.pickBy(values, function (value, key) {
-    //   return !(value === '' || value === 0)
-    // })
-
-    // if (debug) console.log(postValues)
-
-    // // dispatch(createCustomer(postValues))
-    // setValues(initialValues)
   }
 
   const handleInputChange = (e) => {
@@ -251,7 +181,8 @@ function SalesQuotation() {
 
   const addSelectedProduct = (e, value) => {
     if (debug) console.log(value)
-    value = addFields(value)
+    value = value.map((v) => (_.size(v) === 15 ? v : addFields(v)))
+    // value = addFields(value)
     setValues({ ...values, order_line: value })
   }
 
@@ -273,9 +204,9 @@ function SalesQuotation() {
                 if (debug) console.log(option)
                 return option.name
               }}
-              // onChange={handleInputChange}
+              // onChange
               onChange={(e, value) => {
-                console.log(value)
+                if (debug) console.log(value)
                 setValues({ ...values, customer_id: value })
               }}
               getOptionSelected={(option, value) => option.name === value.name}
@@ -300,14 +231,15 @@ function SalesQuotation() {
               id='products'
               size='small'
               multiple
+              filterSelectedOptions
               autoHighlight
-              // value={values.customer_id.name}
+              value={values.order_line}
               options={products}
               getOptionLabel={(option) => {
                 if (debug) console.log(option)
                 return `${option.stitches} - ${option.name}`
               }}
-              // onChange={handleInputChange}
+              // onChange
               onChange={(e, value) => {
                 addSelectedProduct(e, value)
               }}
@@ -340,7 +272,6 @@ function SalesQuotation() {
               size='small'
               label='Order Date'
               type='datetime-local'
-              // defaultValue={date}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -353,7 +284,6 @@ function SalesQuotation() {
               size='small'
               label='Expiry Date'
               type='datetime-local'
-              // defaultValue={oneWeek}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -366,7 +296,6 @@ function SalesQuotation() {
               size='small'
               label='Required Date'
               type='datetime-local'
-              // defaultValue={oneWeek}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -418,10 +347,9 @@ function SalesQuotation() {
                   {values.order_line.map((row) => {
                     const { _id, name, stitches, productID, qty, sum, position, unit_price } = row
                     invoiceSubtotal = values.order_line.map(({ sum }) => sum).reduce((sum, i) => sum + i, 0)
-                    // console.log(invoiceSubtotal)
                     invoiceTaxes = TAX_RATE * invoiceSubtotal
                     invoiceTotal = invoiceTaxes + invoiceSubtotal
-                    console.log(qty)
+                    if (debug) console.log(qty)
                     return (
                       <TableRow key={_id}>
                         <TableCell>{productID}</TableCell>
