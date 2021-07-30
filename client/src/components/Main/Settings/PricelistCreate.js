@@ -1,4 +1,17 @@
-import { Button, Grid, Table, TableBody, TableContainer, TableHead, TableRow, TextField, Typography, TableCell, Paper } from '@material-ui/core'
+import {
+  Button,
+  Grid,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+  TableCell,
+  Paper,
+  IconButton,
+} from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 // import { useDispatch } from 'react-redux'
 import Notification from '../../Notification/Notification'
@@ -13,6 +26,8 @@ import match from 'autosuggest-highlight/match'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCustomers } from '../../../store/features/customers/customersSlice'
 import { getAllProducts } from '../../../store/features/products/productsSlice'
+import DeleteIcon from '@material-ui/icons/Delete'
+import { nanoid } from '@reduxjs/toolkit'
 
 const debug = false
 
@@ -108,8 +123,13 @@ function PricelistCreate() {
   }
 
   const handleTableAdd = () => {
-    setPricelistTable([...pricelistTable, values])
+    const id = nanoid()
+    setPricelistTable([...pricelistTable, { ...values, id }])
     setValues(initialValues)
+  }
+
+  const handleDelete = (id) => {
+    console.log(id)
   }
 
   return (
@@ -128,6 +148,7 @@ function PricelistCreate() {
               <Autocomplete
                 name='type'
                 size='small'
+                // value={values.type}
                 options={emb_type}
                 getOptionLabel={(option) => option.type}
                 onChange={(e, value) => {
@@ -221,15 +242,19 @@ function PricelistCreate() {
                 </TableHead>
                 <TableBody>
                   {pricelistTable.map((row, index) => {
-                    const { type, max_qty, stch_per_thus, min_price } = row
+                    const { id, type, max_qty, stch_per_thus, min_price } = row
 
                     return (
-                      <TableRow key={index}>
+                      <TableRow key={id}>
                         <TableCell>{type}</TableCell>
                         <TableCell>{max_qty}</TableCell>
                         <TableCell align='right'>{stch_per_thus}</TableCell>
                         <TableCell align='right'>{min_price}</TableCell>
-                        <TableCell align='right'>Delete</TableCell>
+                        <TableCell align='right'>
+                          <IconButton size='small' onClick={handleDelete(id)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
                     )
                   })}
