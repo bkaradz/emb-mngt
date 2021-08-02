@@ -79,6 +79,7 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
           itemSize={(index) => getChildSize(itemData[index])}
           overscanCount={5}
           itemCount={itemCount}
+          role='listbox'
         >
           {renderRow}
         </VariableSizeList>
@@ -116,7 +117,6 @@ export default function Virtualize({ props }) {
 
   return (
     <Autocomplete
-      id='virtualize-demo'
       size='small'
       // style={{ width: 300 }}
       value={values}
@@ -128,8 +128,7 @@ export default function Virtualize({ props }) {
       renderGroup={renderGroup}
       options={LIST}
       getOptionLabel={(option) => {
-        if (debug) console.log(option)
-        return `${option.stitches} - ${option.name}`
+        return `${option.stitches} ${option.name}`
       }}
       onChange={(e, value) => {
         handleOnChange(e, value)
@@ -137,8 +136,8 @@ export default function Virtualize({ props }) {
       getOptionSelected={(option, value) => option.name === value.name}
       renderInput={(params) => <TextField {...params} label='Products' margin='normal' size='small' required placeholder='Choose Products' />}
       renderOption={(option, { inputValue }) => {
-        const matches = match(`${option.stitches} - ${option.name}`, inputValue)
-        const parts = parse(`${option.stitches} - ${option.name}`, matches)
+        const matches = match(`${option.stitches} ${option.name}`, inputValue)
+        const parts = parse(`${option.stitches} ${option.name}`, matches)
 
         return (
           <Typography noWrap>

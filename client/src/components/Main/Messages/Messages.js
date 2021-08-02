@@ -1,33 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import MainPageBase from '../MainPageBase'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllProducts } from '../../../store/features/products/productsSlice'
-import VirtualAuto from '../VirtualAuto'
+import VirtualAutoCustomers from '../VirtualAutoCustomers'
+import { getAllCustomers } from '../../../store/features/customers/customersSlice'
 
 const debug = false
 
 export default function Virtualize() {
   const dispatch = useDispatch()
-  const [values, setValues] = useState([])
-  if (debug) console.log(values)
+
+  const initialValues = {
+    customer_id: null,
+    pricelist_id: '',
+    order_number: '',
+    comments: '',
+    total: '',
+    order_line: [],
+  }
+
+  const [values, setValues] = useState(initialValues)
+
+  console.log(values)
 
   useEffect(() => {
-    dispatch(getAllProducts())
+    dispatch(getAllCustomers())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  let PRODUCTS = useSelector((state) => state.entities.products.products)
-  if (debug) console.log(PRODUCTS)
+  const CUSTOMERS = useSelector((state) => state.entities.customers.customers)
+  if (debug) console.log(CUSTOMERS)
 
-  const handleOnChange = (e, value) => {
-    setValues(value)
+  const addSelectedCustomer = (e, value) => {
+    setValues({ ...values, customer_id: value })
   }
-
-  const filter = `${'option.stitches'} - ${'option.name'}`
 
   return (
     <MainPageBase>
-      <VirtualAuto props={{ LIST: PRODUCTS, values, handleOnChange: handleOnChange, filterOptions: filter }} />
+      <VirtualAutoCustomers props={{ LIST: CUSTOMERS, values, handleOnChange: addSelectedCustomer }} />
     </MainPageBase>
   )
 }

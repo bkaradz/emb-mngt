@@ -26,7 +26,8 @@ import match from 'autosuggest-highlight/match'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCustomers } from '../../../store/features/customers/customersSlice'
 import { getAllProducts } from '../../../store/features/products/productsSlice'
-import VirtualAuto from '../VirtualAuto'
+import VirtualAutoProducts from '../VirtualAutoProducts'
+import VirtualAutoCustomers from '../VirtualAutoCustomers'
 
 const debug = false
 
@@ -104,8 +105,8 @@ function SalesQuotation() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const customers = useSelector((state) => state.entities.customers.customers)
-  if (debug) console.log(customers)
+  const CUSTOMERS = useSelector((state) => state.entities.customers.customers)
+  if (debug) console.log(CUSTOMERS)
 
   /**
    * Business Logic for order Line
@@ -152,7 +153,7 @@ function SalesQuotation() {
    */
 
   const initialValues = {
-    customer_id: {},
+    customer_id: null,
     pricelist_id: '',
     order_number: '',
     comments: '',
@@ -187,6 +188,10 @@ function SalesQuotation() {
     setValues({ ...values, order_line: value })
   }
 
+  const addSelectedCustomer = (e, value) => {
+    setValues({ ...values, customer_id: value })
+  }
+
   return (
     <MainPageBase>
       <form className={classes.root} onSubmit={(e) => handleSubmit(e)}>
@@ -196,37 +201,9 @@ function SalesQuotation() {
             <Typography className={classes.soNumber} variant='h4' component='h4'>
               SO 00000008
             </Typography>
-            <Autocomplete
-              id='customers'
-              size='small'
-              // value={values.customer_id.name}
-              options={customers}
-              getOptionLabel={(option) => {
-                if (debug) console.log(option)
-                return option.name
-              }}
-              // onChange
-              onChange={(e, value) => {
-                if (debug) console.log(value)
-                setValues({ ...values, customer_id: value })
-              }}
-              getOptionSelected={(option, value) => option.name === value.name}
-              renderInput={(params) => <TextField {...params} label='Customer' margin='normal' size='small' required placeholder='Choose Customer' />}
-              renderOption={(option, { inputValue }) => {
-                const matches = match(option.name, inputValue)
-                const parts = parse(option.name, matches)
 
-                return (
-                  <div>
-                    {parts.map((part, index) => (
-                      <span key={index} style={{ fontWeight: part.highlight ? 700 : 400 }}>
-                        {part.text}
-                      </span>
-                    ))}
-                  </div>
-                )
-              }}
-            />
+            <VirtualAutoCustomers props={{ LIST: CUSTOMERS, values, handleOnChange: addSelectedCustomer }} />
+
             <Autocomplete
               id='pricelist'
               size='small'
@@ -288,7 +265,7 @@ function SalesQuotation() {
             />
           </Grid>
           <Grid item xs={12}>
-            <VirtualAuto props={{ LIST: products, values: values.order_line, handleOnChange: addSelectedProduct }} />
+            <VirtualAutoProducts props={{ LIST: products, values: values.order_line, handleOnChange: addSelectedProduct }} />
 
             <TableContainer component={Paper}>
               <Table className={classes.table} aria-label='spanning table' size='small'>
