@@ -26,6 +26,7 @@ import match from 'autosuggest-highlight/match'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCustomers } from '../../../store/features/customers/customersSlice'
 import { getAllProducts } from '../../../store/features/products/productsSlice'
+import VirtualAuto from '../VirtualAuto'
 
 const debug = false
 
@@ -226,39 +227,23 @@ function SalesQuotation() {
                 )
               }}
             />
-
             <Autocomplete
-              id='products'
+              id='pricelist'
               size='small'
-              multiple
-              filterSelectedOptions
-              autoHighlight
-              value={values.order_line}
-              options={products}
-              getOptionLabel={(option) => {
-                if (debug) console.log(option)
-                return `${option.stitches} - ${option.name}`
-              }}
-              // onChange
-              onChange={(e, value) => {
-                addSelectedProduct(e, value)
-              }}
-              getOptionSelected={(option, value) => option.name === value.name}
-              renderInput={(params) => <TextField {...params} label='Products' margin='normal' size='small' required placeholder='Choose Products' />}
+              options={pricelist}
+              getOptionLabel={(option) => option.pricelist}
+              renderInput={(params) => <TextField {...params} label='Pricelist' margin='normal' size='small' required />}
               renderOption={(option, { inputValue }) => {
-                const matches = match(`${option.stitches} - ${option.name}`, inputValue)
-                const parts = parse(`${option.stitches} - ${option.name}`, matches)
+                const matches = match(option.pricelist, inputValue)
+                const parts = parse(option.pricelist, matches)
 
                 return (
                   <div>
-                    {parts.map((part, index) => {
-                      if (debug) console.log(part)
-                      return (
-                        <span key={index} style={{ fontWeight: part.highlight ? 700 : 400 }}>
-                          {part.text}
-                        </span>
-                      )
-                    })}
+                    {parts.map((part, index) => (
+                      <span key={index} style={{ fontWeight: part.highlight ? 700 : 400 }}>
+                        {part.text}
+                      </span>
+                    ))}
                   </div>
                 )
               }}
@@ -301,29 +286,10 @@ function SalesQuotation() {
                 shrink: true,
               }}
             />
-            <Autocomplete
-              id='pricelist'
-              size='small'
-              options={pricelist}
-              getOptionLabel={(option) => option.pricelist}
-              renderInput={(params) => <TextField {...params} label='Pricelist' margin='normal' size='small' required />}
-              renderOption={(option, { inputValue }) => {
-                const matches = match(option.pricelist, inputValue)
-                const parts = parse(option.pricelist, matches)
-
-                return (
-                  <div>
-                    {parts.map((part, index) => (
-                      <span key={index} style={{ fontWeight: part.highlight ? 700 : 400 }}>
-                        {part.text}
-                      </span>
-                    ))}
-                  </div>
-                )
-              }}
-            />
           </Grid>
           <Grid item xs={12}>
+            <VirtualAuto props={{ LIST: products, values: values.order_line, handleOnChange: addSelectedProduct }} />
+
             <TableContainer component={Paper}>
               <Table className={classes.table} aria-label='spanning table' size='small'>
                 <TableHead>
