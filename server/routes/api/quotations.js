@@ -7,8 +7,8 @@ const _ = require('lodash')
 const auth = require('../../middleware/auth')
 
 /**
- *    @route   POST api/products
- *    @desc    Create product
+ *    @route   POST api/sales/quotations
+ *    @desc    Create quotation
  *    @access  Private
  */
 router.post('/', auth, async (req, res) => {
@@ -52,3 +52,5 @@ router.post('/', auth, async (req, res) => {
     res.status(500).send('Sever Error')
   }
 })
+
+module.exports = router

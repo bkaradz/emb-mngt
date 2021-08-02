@@ -10,7 +10,7 @@ const Joi = require('joi')
 // @route   POST api/users
 // @desc    Create user
 // @access  Public
-// TODO make the route protected and access bu admin only
+// TODO make the route protected and access buy admin only
 router.post('/', async (req, res) => {
   // Validation
   const schema = Joi.object({

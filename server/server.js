@@ -20,6 +20,8 @@ app.use('/api/orders', require('./routes/api/orders'))
 app.use('/api/users', require('./routes/api/users'))
 app.use('/api/auth', require('./routes/api/auth'))
 app.use('/api/products', require('./routes/api/products'))
+app.use('/api/settings/', require('./routes/api/pricelists'))
+app.use('/api/sales/', require('./routes/api/quotations'))
 
 // Define Ports
 const port = process.env.PORT || 4000

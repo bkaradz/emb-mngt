@@ -31,12 +31,7 @@ import { nanoid } from '@reduxjs/toolkit'
 
 const debug = false
 
-const emb_type = [
-  { type: 'Flat', id: 'flat' },
-  { type: 'Applique', id: 'applique' },
-  { type: 'Cap Front', id: 'cap_front' },
-  { type: 'Name Tags', id: 'name_tags' },
-]
+const emb_type = [{ embroidery_type: 'Flat' }, { embroidery_type: 'Applique' }, { embroidery_type: 'Cap_Front' }, { embroidery_type: 'Name_Tags' }]
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,16 +90,18 @@ function PricelistCreate() {
   if (debug) console.log(customers)
 
   const [pricelistTable, setPricelistTable] = useState([])
-  console.log(pricelistTable)
+  if (debug) console.log('Price List', pricelistTable)
+
+  const [init, setInit] = useState('Flat')
 
   const initialValues = {
-    type: '',
+    embroidery_type: init,
     max_qty: '',
-    stch_per_thus: '',
+    price_per_thus_stitches: '',
     min_price: '',
   }
   const [values, setValues] = useState(initialValues)
-  console.log(values)
+  if (debug) console.log('Input', values)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -112,14 +109,22 @@ function PricelistCreate() {
 
   const handleInputChange = (e) => {
     let { name, value } = e.target
-    console.log(`name: ${name}, value: ${value}`)
+    if (debug) console.log(`name: ${name}, value: ${value}`)
+    if (name === 'embroidery_type') {
+      setInit(value)
+    }
+    if (name === 'max_qty' || name === 'price_per_thus_stitches' || name === 'min_price') {
+      if (value < 0) {
+        value = 0
+      }
+    }
     setValues({ ...values, [name]: value })
   }
 
   const handleRedirect = (e) => {
     e.preventDefault()
 
-    history.push('/sales')
+    history.push('/settings/pricelist')
   }
 
   const handleTableAdd = () => {
@@ -128,8 +133,9 @@ function PricelistCreate() {
     setValues(initialValues)
   }
 
-  const handleDelete = (id) => {
-    console.log(id)
+  const handleDelete = (e, id) => {
+    e.preventDefault()
+    setPricelistTable(pricelistTable.filter((price) => price.id !== id))
   }
 
   return (
@@ -146,26 +152,32 @@ function PricelistCreate() {
             <Grid item xs={1}></Grid>
             <Grid item xs={2}>
               <Autocomplete
-                name='type'
+                name='embroidery_type'
                 size='small'
-                // value={values.type}
+                value={values}
                 options={emb_type}
-                getOptionLabel={(option) => option.type}
+                getOptionLabel={(option) => {
+                  // Gets its input from Values
+                  if (debug) console.log(option)
+                  return option.embroidery_type
+                }}
                 onChange={(e, value) => {
                   if (debug) console.log(value)
-                  let type = ''
+                  let embroidery_type = ''
                   try {
-                    type = value.type
+                    embroidery_type = value.embroidery_type
+                    setInit(embroidery_type)
                   } catch (error) {
-                    type = ''
+                    embroidery_type = init
                   }
-                  setValues({ ...values, type })
+                  setValues({ ...values, embroidery_type })
                 }}
+                getOptionSelected={(option, value) => option.embroidery_type === value.embroidery_type}
                 renderInput={(params) => <TextField {...params} label='Embroidery Type' margin='normal' size='small' required />}
                 renderOption={(option, { inputValue }) => {
-                  const matches = match(option.type, inputValue)
-                  const parts = parse(option.type, matches)
-
+                  const matches = match(option.embroidery_type, inputValue)
+                  const parts = parse(option.embroidery_type, matches)
+                  if (debug) console.log(parts, matches, option, inputValue)
                   return (
                     <div>
                       {parts.map((part, index) => (
@@ -194,11 +206,11 @@ function PricelistCreate() {
             </Grid>
             <Grid item xs={2}>
               <TextField
-                name='stch_per_thus'
-                value={values.stch_per_thus}
+                name='price_per_thus_stitches'
+                value={values.price_per_thus_stitches}
                 onChange={handleInputChange}
                 size='small'
-                label='Stitches/1000'
+                label='Price/1000st'
                 type='number'
                 className={classes.textField}
                 InputLabelProps={{
@@ -242,16 +254,16 @@ function PricelistCreate() {
                 </TableHead>
                 <TableBody>
                   {pricelistTable.map((row, index) => {
-                    const { id, type, max_qty, stch_per_thus, min_price } = row
+                    const { id, embroidery_type, max_qty, stch_per_thus, min_price } = row
 
                     return (
                       <TableRow key={id}>
-                        <TableCell>{type}</TableCell>
+                        <TableCell>{embroidery_type}</TableCell>
                         <TableCell>{max_qty}</TableCell>
                         <TableCell align='right'>{stch_per_thus}</TableCell>
                         <TableCell align='right'>{min_price}</TableCell>
                         <TableCell align='right'>
-                          <IconButton size='small' onClick={handleDelete(id)}>
+                          <IconButton size='small' onClick={(e) => handleDelete(e, id)}>
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>

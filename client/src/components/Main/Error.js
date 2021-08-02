@@ -19,7 +19,7 @@ const Error = () => {
       {/* <Grid display='flex' justify='center' alignItems='center'> */}
       <Grid className={classes.root} align='center'>
         <Typography variant='h1' component='h2' color='error'>
-          Error Page Found
+          Error: Page Not Found
         </Typography>
         {/* <h1></h1> */}
       </Grid>
