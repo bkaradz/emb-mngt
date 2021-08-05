@@ -3,12 +3,14 @@ const cors = require('cors')
 const helmet = require('helmet')
 require('dotenv').config()
 const connectDB = require('./config/db')
-// const config = require('config')
+const config = require('config')
 
 const app = express()
 
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
 console.log(`app: ${app.get('env')}`)
+console.log(`Application name: ${config.get('name')}`)
+console.log(`Application secrets: ${config.get('JWT_SECRET')}`)
 
 // Connect Database
 connectDB()

@@ -7,6 +7,7 @@ const Joi = require('joi')
 const { body, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
+const config = require('config')
 
 /**
  * @route   POST api/auth
@@ -53,7 +54,7 @@ router.post(
       }
 
       // TODO Change expiration time in production
-      jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRATION_TIME }, (err, token) => {
+      jwt.sign(payload, config.get('JWT_SECRET'), { expiresIn: config.get('EXPIRATION_TIME') }, (err, token) => {
         if (err) throw err
         return res.json({ token })
       })

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
-require('dotenv').config()
+const config = require('config')
 
 const connectDB = async () => {
   try {
-    const db = process.env.DB_LINK
+    const db = config.get('DB_LINK')
     const options = {
       useNewUrlParser: true,
       useUnifiedTopology: true,

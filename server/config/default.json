@@ -1,3 +1,6 @@
 { 
-  
+  "name": "Emb Admin App - Default",
+  "DB_LINK":"mongodb://localhost:27017/development",
+  "_comment1": "JWT_SECRET to be added to custom-environmental-variables",
+  "EXPIRATION_TIME":"7d"
 }

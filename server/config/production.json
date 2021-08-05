@@ -1,0 +1,6 @@
+{ 
+  "name": "Emb Admin App - Production",
+  "DB_LINK":"mongodb://localhost:27017/production",
+  "_comment1": "JWT_SECRET to be added to export or set environment",
+  "EXPIRATION_TIME":"7d"
+}
