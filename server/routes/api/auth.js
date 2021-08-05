@@ -6,7 +6,6 @@ const bcrypt = require('bcryptjs')
 const Joi = require('joi')
 const { body, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
-require('dotenv').config()
 const config = require('config')
 
 /**
@@ -21,12 +20,12 @@ router.post(
     body('password').isString().notEmpty().isLength({ min: 6, max: 50 }).withMessage('Please include a valid password with 6 or more characters'),
   ],
   async (req, res) => {
+    // Validate
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
+    }
     try {
-      // Validate
-      const errors = validationResult(req)
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() })
-      }
       // Destructor req.body
       const { email, password } = req.body
 

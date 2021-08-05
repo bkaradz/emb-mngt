@@ -4,141 +4,165 @@ const Users = require('../../models/Users')
 const auth = require('../../middleware/auth')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-require('dotenv').config()
 const Joi = require('joi')
+const { body, validationResult, param } = require('express-validator')
 
 // @route   POST api/users
 // @desc    Create user
 // @access  Public
 // TODO make the route protected and access buy admin only
-router.post('/', async (req, res) => {
-  // Validation
-  const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-    role: Joi.string().required().valid('admin', 'sales', 'production', 'trimming', 'other'),
-    email: Joi.string().email().required(),
-    mobile: Joi.string().required(),
-    password: Joi.string().min(6).required(),
-    password2: Joi.ref('password'),
-  })
-
-  const { error, value } = await schema.validateAsync(req.body)
-  // console.log(`error: ${error}, value: ${value}`)
-  if (error !== undefined) {
-    return res.status(400).json(error)
-  }
-  try {
-    // Destructor req.body
-    const { name, role, email, password, mobile } = req.body
-
-    // Check if user exist
-    const oldUser = await Users.findOne({ email })
-    if (oldUser) {
-      return res.status(400).json({ error: [{ msg: 'User already exists' }] })
+router.post(
+  '/',
+  [
+    body('name').isString().notEmpty().withMessage('Please enter a valid name'),
+    body('role').isString().notEmpty().withMessage('Please enter a valid role'),
+    body('email').isEmail().notEmpty().withMessage('Please include a valid email'),
+    body('mobile').isString().notEmpty().withMessage('Please enter a valid phone number'),
+    body('password').isString().notEmpty().withMessage('Please enter a valid password'),
+    body('password2').custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('Password confirmation does not match password')
+      }
+      // Indicates the success of this synchronous custom validator
+      return true
+    }),
+  ],
+  async (req, res) => {
+    // Validate
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
     }
+    try {
+      // Destructor req.body
+      const { name, role, email, password, mobile } = req.body
 
-    // Create an array and trim
-    let mobileArr = mobile.split(',').map((phone) => phone.trim())
+      // Check if user exist
+      const oldUser = await Users.findOne({ email })
+      if (oldUser) {
+        return res.status(400).json({ error: [{ msg: 'User already exists' }] })
+      }
 
-    // Encrypt the password
-    const salt = await bcrypt.genSalt(10)
-    encryptPassword = await bcrypt.hash(password, salt)
+      // Create an array and trim
+      let mobileArr = mobile.split(',').map((phone) => phone.trim())
 
-    const user = new Users({
-      name,
-      role,
-      email,
-      mobile: mobileArr,
-      password: encryptPassword,
-    })
+      // Encrypt the password
+      const salt = await bcrypt.genSalt(10)
+      encryptPassword = await bcrypt.hash(password, salt)
 
-    await user.save()
+      const user = new Users({
+        name,
+        role,
+        email,
+        mobile: mobileArr,
+        password: encryptPassword,
+      })
 
-    res.json(user)
+      await user.save()
 
-    console.log('User registered')
-  } catch (err) {
-    console.error(err.message)
-    res.status(500).send('Sever Error')
+      res.json(user)
+
+      console.log('User registered')
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).send('Sever Error')
+    }
   }
-})
+)
 
 // @route   PUT api/users/:id
 // @desc    Edit user by id
 // @access  Private
-router.put('/:id', auth, async (req, res) => {
-  // Validation
-  const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-    role: Joi.string().required().valid('admin', 'sales', 'production', 'trimming', 'other'),
-    email: Joi.string().email().required(),
-    mobile: Joi.string().required(),
-    password: Joi.string().min(6).required(),
-    password2: Joi.ref('password'),
-  })
-
-  try {
-    const { error, value } = await schema.validateAsync(req.body)
-
-    if (error !== undefined) {
-      return res.status(400).json(error)
+router.put(
+  '/:id',
+  [
+    body('name').isString().notEmpty().withMessage('Please enter a valid name'),
+    body('role').isString().notEmpty().withMessage('Please enter a valid role'),
+    body('email').isEmail().notEmpty().withMessage('Please include a valid email'),
+    body('mobile').isString().notEmpty().withMessage('Please enter a valid phone number'),
+    body('password').isString().notEmpty().withMessage('Please enter a valid password'),
+    body('password2').custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('Password confirmation does not match password')
+      }
+      // Indicates the success of this synchronous custom validator
+      return true
+    }),
+  ],
+  auth,
+  async (req, res) => {
+    // Validate
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
     }
 
-    // Destructor req.body
-    const { name, role, email, password, mobile } = req.body
+    try {
+      // Destructor req.body
+      const { name, role, email, password, mobile } = req.body
 
-    // Create an array and trim
-    let mobileArr = mobile.split(',').map((phone) => phone.trim())
+      // Create an array and trim
+      let mobileArr = mobile.split(',').map((phone) => phone.trim())
 
-    // Encrypt the password
-    const salt = await bcrypt.genSalt(10)
-    encryptPassword = await bcrypt.hash(password, salt)
+      // Encrypt the password
+      const salt = await bcrypt.genSalt(10)
+      encryptPassword = await bcrypt.hash(password, salt)
 
-    const userUpdate = {
-      name,
-      role,
-      email,
-      mobile: mobileArr,
-      password: encryptPassword,
+      const userUpdate = {
+        name,
+        role,
+        email,
+        mobile: mobileArr,
+        password: encryptPassword,
+      }
+
+      // console.log(Users)
+
+      // const update = await Users.findByIdAndUpdate(req.params.id, { $set: { userUpdate } })
+      const update = await Users.findByIdAndUpdate(req.params.id, userUpdate, { new: true })
+
+      // console.log(update)
+
+      res.status(200).json(update)
+    } catch (err) {
+      console.error(err)
+      res.status(500).send('Sever Error')
     }
-
-    // console.log(Users)
-
-    // const update = await Users.findByIdAndUpdate(req.params.id, { $set: { userUpdate } })
-    const update = await Users.findByIdAndUpdate(req.params.id, userUpdate, { new: true })
-
-    // console.log(update)
-
-    res.status(200).json(update)
-  } catch (err) {
-    console.error(err)
-    res.status(500).send('Sever Error')
   }
-})
+)
 
 // @route   DELETE api/users/:id
 // @desc    Edit user by id
 // @access  Private
-router.delete('/:id', auth, async (req, res) => {
-  // Validation
+router.delete(
+  '/:id',
+  [
+    auth,
+    param('id').customSanitizer((value) => {
+      return ObjectId(value)
+    }),
+  ],
+  async (req, res) => {
+    // Validation
 
-  try {
-    const userUpdate = {
-      isDeleted: true,
+    try {
+      const userUpdate = {
+        isDeleted: true,
+      }
+
+      // console.log(req.params.id)
+
+      const update = await Users.findByIdAndUpdate(req.params.id, userUpdate, { new: true })
+
+      // console.log(update)
+
+      res.status(200).json(update)
+    } catch (err) {
+      console.error(err)
+      res.status(500).send('Sever Error')
     }
-
-    // console.log(req.params.id)
-
-    const update = await Users.findByIdAndUpdate(req.params.id, userUpdate, { new: true })
-
-    // console.log(update)
-
-    res.status(200).json(update)
-  } catch (err) {
-    console.error(err)
-    res.status(500).send('Sever Error')
   }
-})
+)
 
 // @route   GET api/users/
 // @desc    GET all users

@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const Pricelists = require('../../models/Pricelists')
 const auth = require('../../middleware/auth')
-require('dotenv').config()
 const Joi = require('joi')
 
 /*

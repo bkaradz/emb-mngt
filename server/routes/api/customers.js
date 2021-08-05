@@ -1,5 +1,4 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const router = express.Router()
 const Joi = require('joi')
 const Customers = require('../../models/Customers')
@@ -7,11 +6,8 @@ const csv = require('csvtojson')
 
 // File upload
 const multer = require('multer')
-
 let storage = multer.memoryStorage()
-
 var upload = multer({ storage: storage })
-
 const auth = require('../../middleware/auth')
 
 /**
