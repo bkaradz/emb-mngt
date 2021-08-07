@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken')
 const Joi = require('joi')
 const { body, validationResult, param } = require('express-validator')
 
+const debug = false
+
 // @route   POST api/users
 // @desc    Create user
 // @access  Public
@@ -62,7 +64,7 @@ router.post(
 
       res.json(user)
 
-      console.log('User registered')
+      if (debug) console.log('User registered')
     } catch (err) {
       console.error(err.message)
       res.status(500).send('Sever Error')

@@ -4,12 +4,14 @@ const helmet = require('helmet')
 const connectDB = require('./config/db')
 const config = require('config')
 
+const debug = false
+
 const app = express()
 
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
+if (debug) console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
 console.log(`app: ${app.get('env')}`)
-console.log(`Application name: ${config.get('name')}`)
-console.log(`Application secrets: ${config.get('JWT_SECRET')}`)
+if (debug) console.log(`Application name: ${config.get('name')}`)
+if (debug) console.log(`Application secrets: ${config.get('JWT_SECRET')}`)
 
 // Connect Database
 connectDB()
