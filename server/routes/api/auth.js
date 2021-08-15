@@ -37,6 +37,11 @@ router.post(
         return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] })
       }
 
+      // If user is deleted
+      if (user.isDeleted === true) {
+        return res.status(401).json({ errors: [{ msg: 'User is not authorized' }] })
+      }
+
       // Match password
       const isMatch = await bcrypt.compare(password, user.password)
 
@@ -49,6 +54,8 @@ router.post(
       const payload = {
         user: {
           id: user.id,
+          role: user.role,
+          isDeleted: user.isDeleted,
         },
       }
 

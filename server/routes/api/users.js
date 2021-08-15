@@ -45,6 +45,16 @@ router.post(
         return res.status(400).json({ error: [{ msg: 'User already exists' }] })
       }
 
+      /**
+       * Check if users are more than one,
+       * if true check if current user is not admin,
+       * if true block access to create users for non Admin
+       */
+      // const allUser = await Users.find()
+      // if (allUser.length >= 1 && req.user.role !== 'admin' && req.user.isDeleted !== true) {
+      //   return res.status(401).json({ error: [{ msg: 'You are not allowed to add users' }] })
+      // }
+
       // Create an array and trim
       let mobileArr = mobile.split(',').map((phone) => phone.trim())
 
@@ -59,6 +69,8 @@ router.post(
         mobile: mobileArr,
         password: encryptPassword,
       })
+
+      // console.log(user)
 
       await user.save()
 
@@ -171,7 +183,19 @@ router.delete(
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const allUsers = await Users.find().sort({ name: 1 }).select('-password')
+    /**
+     * Check if users are more than one,
+     * if true check if current user is not admin,
+     * if true block access to create users for non Admin
+     */
+    const allUser = await Users.find()
+    if (allUser.length >= 1 && req.user.role !== 'admin' && req.user.isDeleted !== true) {
+      const currentUser = await Users.findOne({ _id: req.user.id }).select('-password')
+      // console.log(currentUser)
+      return res.status(200).json(currentUser)
+    }
+    // const allUsers = await Users.find().sort({ name: 1 }).select('-password')
+    const allUsers = await Users.find().sort({ name: 1 })
     res.status(200).json(allUsers)
   } catch (err) {
     console.error(err.message)
